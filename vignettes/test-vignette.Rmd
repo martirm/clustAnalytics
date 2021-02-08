@@ -1,0 +1,25 @@
+---
+title: "test-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{test-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rewire)
+```
+
+To showcase the randomization process, we apply it to the karate club graph, with the default settings (positive weights with no upper bound, which suits this graph):
+```{r}
+data(karate, package="igraphdata")
+rewireCpp(karate)
+```

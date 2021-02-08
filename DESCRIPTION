@@ -1,0 +1,23 @@
+Package: clustAnalytics
+Encoding: UTF-8
+Type: Package
+Title: Cluster evaluation on graphs
+Version: 0.1
+Date: 2021-02-08
+Author: Martí Renedo Mirambell
+Maintainer: Martí Renedo Mirambell <marti.renedo@gmail.com>
+Description: This package evaluates the stability and significance of clusters on igraph graphs.
+    Supports weighted and unweighted graphs.
+License: GPL-3
+Imports: 
+    Rcpp (>= 1.0.1), 
+    igraph
+LinkingTo: Rcpp
+RoxygenNote: 7.1.0
+Suggests: 
+    igraphdata,
+    knitr,
+    testthat,
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
