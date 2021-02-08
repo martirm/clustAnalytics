@@ -11,7 +11,8 @@ Description: This package evaluates the stability and significance of clusters o
 License: GPL-3
 Imports: 
     Rcpp (>= 1.0.1), 
-    igraph
+    igraph,
+    mcclust
 LinkingTo: Rcpp
 RoxygenNote: 7.1.0
 Suggests: 

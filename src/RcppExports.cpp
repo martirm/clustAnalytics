@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // TPR_coms_Rcpp
 NumericVector TPR_coms_Rcpp(const IntegerVector& triangles, const IntegerVector& com);
-RcppExport SEXP _rewire_TPR_coms_Rcpp(SEXP trianglesSEXP, SEXP comSEXP) {
+RcppExport SEXP _clustAnalytics_TPR_coms_Rcpp(SEXP trianglesSEXP, SEXP comSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // triangle_participation_ratio_Rcpp
 double triangle_participation_ratio_Rcpp(const NumericMatrix& EdgeList);
-RcppExport SEXP _rewire_triangle_participation_ratio_Rcpp(SEXP EdgeListSEXP) {
+RcppExport SEXP _clustAnalytics_triangle_participation_ratio_Rcpp(SEXP EdgeListSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,7 @@ END_RCPP
 }
 // count_labels
 IntegerVector count_labels(const IntegerVector& c);
-RcppExport SEXP _rewire_count_labels(SEXP cSEXP) {
+RcppExport SEXP _clustAnalytics_count_labels(SEXP cSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -41,7 +41,7 @@ END_RCPP
 }
 // mutual_information_Cpp
 double mutual_information_Cpp(const IntegerVector& c1, const IntegerVector& c2, const IntegerVector& a, const IntegerVector& b);
-RcppExport SEXP _rewire_mutual_information_Cpp(SEXP c1SEXP, SEXP c2SEXP, SEXP aSEXP, SEXP bSEXP) {
+RcppExport SEXP _clustAnalytics_mutual_information_Cpp(SEXP c1SEXP, SEXP c2SEXP, SEXP aSEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,7 +55,7 @@ END_RCPP
 }
 // rcpp_hello_world
 List rcpp_hello_world();
-RcppExport SEXP _rewire_rcpp_hello_world() {
+RcppExport SEXP _clustAnalytics_rcpp_hello_world() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -65,7 +65,7 @@ END_RCPP
 }
 // randomize
 NumericMatrix randomize(NumericMatrix EdgeList, double Q, std::string weight_sel, double lower_bound, double upper_bound);
-RcppExport SEXP _rewire_randomize(SEXP EdgeListSEXP, SEXP QSEXP, SEXP weight_selSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
+RcppExport SEXP _clustAnalytics_randomize(SEXP EdgeListSEXP, SEXP QSEXP, SEXP weight_selSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,7 +80,7 @@ END_RCPP
 }
 // cluster_auxiliary_values_Rcpp
 NumericMatrix cluster_auxiliary_values_Rcpp(const NumericMatrix& EdgeList, const IntegerVector& memb);
-RcppExport SEXP _rewire_cluster_auxiliary_values_Rcpp(SEXP EdgeListSEXP, SEXP membSEXP) {
+RcppExport SEXP _clustAnalytics_cluster_auxiliary_values_Rcpp(SEXP EdgeListSEXP, SEXP membSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -92,7 +92,7 @@ END_RCPP
 }
 // density_ratio_Rcpp
 double density_ratio_Rcpp(const NumericMatrix& aux_vals);
-RcppExport SEXP _rewire_density_ratio_Rcpp(SEXP aux_valsSEXP) {
+RcppExport SEXP _clustAnalytics_density_ratio_Rcpp(SEXP aux_valsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -103,7 +103,7 @@ END_RCPP
 }
 // local_density_ratio_Rcpp
 NumericVector local_density_ratio_Rcpp(const NumericMatrix& aux_vals);
-RcppExport SEXP _rewire_local_density_ratio_Rcpp(SEXP aux_valsSEXP) {
+RcppExport SEXP _clustAnalytics_local_density_ratio_Rcpp(SEXP aux_valsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -114,7 +114,7 @@ END_RCPP
 }
 // FOMD_Rcpp
 NumericVector FOMD_Rcpp(const NumericMatrix& EdgeList, const IntegerVector& memb);
-RcppExport SEXP _rewire_FOMD_Rcpp(SEXP EdgeListSEXP, SEXP membSEXP) {
+RcppExport SEXP _clustAnalytics_FOMD_Rcpp(SEXP EdgeListSEXP, SEXP membSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -126,7 +126,7 @@ END_RCPP
 }
 // out_degree_fractions_Rcpp
 NumericMatrix out_degree_fractions_Rcpp(const NumericMatrix& EdgeList, const IntegerVector& memb);
-RcppExport SEXP _rewire_out_degree_fractions_Rcpp(SEXP EdgeListSEXP, SEXP membSEXP) {
+RcppExport SEXP _clustAnalytics_out_degree_fractions_Rcpp(SEXP EdgeListSEXP, SEXP membSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -138,7 +138,7 @@ END_RCPP
 }
 // clustering_coefficient_Rcpp
 double clustering_coefficient_Rcpp(const NumericMatrix& EdgeList, double lower_bound, double upper_bound);
-RcppExport SEXP _rewire_clustering_coefficient_Rcpp(SEXP EdgeListSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
+RcppExport SEXP _clustAnalytics_clustering_coefficient_Rcpp(SEXP EdgeListSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -151,7 +151,7 @@ END_RCPP
 }
 // transitivity_Rcpp
 double transitivity_Rcpp(const NumericMatrix& EdgeList, double lower_bound, double upper_bound);
-RcppExport SEXP _rewire_transitivity_Rcpp(SEXP EdgeListSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
+RcppExport SEXP _clustAnalytics_transitivity_Rcpp(SEXP EdgeListSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -164,23 +164,23 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rewire_TPR_coms_Rcpp", (DL_FUNC) &_rewire_TPR_coms_Rcpp, 2},
-    {"_rewire_triangle_participation_ratio_Rcpp", (DL_FUNC) &_rewire_triangle_participation_ratio_Rcpp, 1},
-    {"_rewire_count_labels", (DL_FUNC) &_rewire_count_labels, 1},
-    {"_rewire_mutual_information_Cpp", (DL_FUNC) &_rewire_mutual_information_Cpp, 4},
-    {"_rewire_rcpp_hello_world", (DL_FUNC) &_rewire_rcpp_hello_world, 0},
-    {"_rewire_randomize", (DL_FUNC) &_rewire_randomize, 5},
-    {"_rewire_cluster_auxiliary_values_Rcpp", (DL_FUNC) &_rewire_cluster_auxiliary_values_Rcpp, 2},
-    {"_rewire_density_ratio_Rcpp", (DL_FUNC) &_rewire_density_ratio_Rcpp, 1},
-    {"_rewire_local_density_ratio_Rcpp", (DL_FUNC) &_rewire_local_density_ratio_Rcpp, 1},
-    {"_rewire_FOMD_Rcpp", (DL_FUNC) &_rewire_FOMD_Rcpp, 2},
-    {"_rewire_out_degree_fractions_Rcpp", (DL_FUNC) &_rewire_out_degree_fractions_Rcpp, 2},
-    {"_rewire_clustering_coefficient_Rcpp", (DL_FUNC) &_rewire_clustering_coefficient_Rcpp, 3},
-    {"_rewire_transitivity_Rcpp", (DL_FUNC) &_rewire_transitivity_Rcpp, 3},
+    {"_clustAnalytics_TPR_coms_Rcpp", (DL_FUNC) &_clustAnalytics_TPR_coms_Rcpp, 2},
+    {"_clustAnalytics_triangle_participation_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_triangle_participation_ratio_Rcpp, 1},
+    {"_clustAnalytics_count_labels", (DL_FUNC) &_clustAnalytics_count_labels, 1},
+    {"_clustAnalytics_mutual_information_Cpp", (DL_FUNC) &_clustAnalytics_mutual_information_Cpp, 4},
+    {"_clustAnalytics_rcpp_hello_world", (DL_FUNC) &_clustAnalytics_rcpp_hello_world, 0},
+    {"_clustAnalytics_randomize", (DL_FUNC) &_clustAnalytics_randomize, 5},
+    {"_clustAnalytics_cluster_auxiliary_values_Rcpp", (DL_FUNC) &_clustAnalytics_cluster_auxiliary_values_Rcpp, 2},
+    {"_clustAnalytics_density_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_density_ratio_Rcpp, 1},
+    {"_clustAnalytics_local_density_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_local_density_ratio_Rcpp, 1},
+    {"_clustAnalytics_FOMD_Rcpp", (DL_FUNC) &_clustAnalytics_FOMD_Rcpp, 2},
+    {"_clustAnalytics_out_degree_fractions_Rcpp", (DL_FUNC) &_clustAnalytics_out_degree_fractions_Rcpp, 2},
+    {"_clustAnalytics_clustering_coefficient_Rcpp", (DL_FUNC) &_clustAnalytics_clustering_coefficient_Rcpp, 3},
+    {"_clustAnalytics_transitivity_Rcpp", (DL_FUNC) &_clustAnalytics_transitivity_Rcpp, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_rewire(DllInfo *dll) {
+RcppExport void R_init_clustAnalytics(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

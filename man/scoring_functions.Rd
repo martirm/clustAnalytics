@@ -10,7 +10,8 @@ scoring_functions(
   ignore_NA = TRUE,
   no_clustering_coef = TRUE,
   type = "local",
-  weighted = TRUE
+  weighted = TRUE,
+  w_max = NULL
 )
 }
 \arguments{

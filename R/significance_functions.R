@@ -50,7 +50,7 @@ evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef
         v <- as.vector(as.matrix(scores))
         names(v) <- names(scores)
         if (ground_truth){
-            v <- c(v, vi.dist(mem, gt_clustering))
+            v <- c(v, mcclust::vi.dist(mem, gt_clustering))
             names(v)[length(v)] <- "VIdist_to_GT"
         }
         return(v)
@@ -175,7 +175,14 @@ percentile_matrix <- function(M, l){
 }
 
 
+clust_alg_list <- c(cluster_louvain, cluster_label_prop, cluster_walktrap)
+names(clust_alg_list) <- c("Louvain", "label prop", "Walktrap")
 
+#' Computes scoring functions of a graph clustering
+#' 
+#' Computes the scoring functions for both the graph and multiple randomized samples 
+#' generated using a switching model
+#' @export
 evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_coef=FALSE, 
                                     ground_truth=FALSE, gt_clustering=NULL, table_style=4,
                                     ignore_degenerate_cl=TRUE,

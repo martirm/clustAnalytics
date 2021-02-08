@@ -2,54 +2,54 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 TPR_coms_Rcpp <- function(triangles, com) {
-    .Call('_rewire_TPR_coms_Rcpp', PACKAGE = 'rewire', triangles, com)
+    .Call('_clustAnalytics_TPR_coms_Rcpp', PACKAGE = 'clustAnalytics', triangles, com)
 }
 
 triangle_participation_ratio_Rcpp <- function(EdgeList) {
-    .Call('_rewire_triangle_participation_ratio_Rcpp', PACKAGE = 'rewire', EdgeList)
+    .Call('_clustAnalytics_triangle_participation_ratio_Rcpp', PACKAGE = 'clustAnalytics', EdgeList)
 }
 
 count_labels <- function(c) {
-    .Call('_rewire_count_labels', PACKAGE = 'rewire', c)
+    .Call('_clustAnalytics_count_labels', PACKAGE = 'clustAnalytics', c)
 }
 
 mutual_information_Cpp <- function(c1, c2, a, b) {
-    .Call('_rewire_mutual_information_Cpp', PACKAGE = 'rewire', c1, c2, a, b)
+    .Call('_clustAnalytics_mutual_information_Cpp', PACKAGE = 'clustAnalytics', c1, c2, a, b)
 }
 
 rcpp_hello_world <- function() {
-    .Call('_rewire_rcpp_hello_world', PACKAGE = 'rewire')
+    .Call('_clustAnalytics_rcpp_hello_world', PACKAGE = 'clustAnalytics')
 }
 
 randomize <- function(EdgeList, Q, weight_sel = "const_var", lower_bound = 0, upper_bound = -1) {
-    .Call('_rewire_randomize', PACKAGE = 'rewire', EdgeList, Q, weight_sel, lower_bound, upper_bound)
+    .Call('_clustAnalytics_randomize', PACKAGE = 'clustAnalytics', EdgeList, Q, weight_sel, lower_bound, upper_bound)
 }
 
 cluster_auxiliary_values_Rcpp <- function(EdgeList, memb) {
-    .Call('_rewire_cluster_auxiliary_values_Rcpp', PACKAGE = 'rewire', EdgeList, memb)
+    .Call('_clustAnalytics_cluster_auxiliary_values_Rcpp', PACKAGE = 'clustAnalytics', EdgeList, memb)
 }
 
 density_ratio_Rcpp <- function(aux_vals) {
-    .Call('_rewire_density_ratio_Rcpp', PACKAGE = 'rewire', aux_vals)
+    .Call('_clustAnalytics_density_ratio_Rcpp', PACKAGE = 'clustAnalytics', aux_vals)
 }
 
 local_density_ratio_Rcpp <- function(aux_vals) {
-    .Call('_rewire_local_density_ratio_Rcpp', PACKAGE = 'rewire', aux_vals)
+    .Call('_clustAnalytics_local_density_ratio_Rcpp', PACKAGE = 'clustAnalytics', aux_vals)
 }
 
 FOMD_Rcpp <- function(EdgeList, memb) {
-    .Call('_rewire_FOMD_Rcpp', PACKAGE = 'rewire', EdgeList, memb)
+    .Call('_clustAnalytics_FOMD_Rcpp', PACKAGE = 'clustAnalytics', EdgeList, memb)
 }
 
 out_degree_fractions_Rcpp <- function(EdgeList, memb) {
-    .Call('_rewire_out_degree_fractions_Rcpp', PACKAGE = 'rewire', EdgeList, memb)
+    .Call('_clustAnalytics_out_degree_fractions_Rcpp', PACKAGE = 'clustAnalytics', EdgeList, memb)
 }
 
 clustering_coefficient_Rcpp <- function(EdgeList, lower_bound = 0, upper_bound = 1) {
-    .Call('_rewire_clustering_coefficient_Rcpp', PACKAGE = 'rewire', EdgeList, lower_bound, upper_bound)
+    .Call('_clustAnalytics_clustering_coefficient_Rcpp', PACKAGE = 'clustAnalytics', EdgeList, lower_bound, upper_bound)
 }
 
 transitivity_Rcpp <- function(EdgeList, lower_bound = 0, upper_bound = 1) {
-    .Call('_rewire_transitivity_Rcpp', PACKAGE = 'rewire', EdgeList, lower_bound, upper_bound)
+    .Call('_clustAnalytics_transitivity_Rcpp', PACKAGE = 'clustAnalytics', EdgeList, lower_bound, upper_bound)
 }
 
