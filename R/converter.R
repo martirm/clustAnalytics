@@ -33,6 +33,15 @@ rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bou
     else
         rewired_edgelist <- randomize(edgelist, Q, weight_sel, lower_bound, upper_bound)
     rewired_g <- edgelist_to_igraph(rewired_edgelist)
+    
+    # isolated vertices could be lost when creating back the new graph from the edge list
+    # we add them back here
+    missing_vertices <- gorder(g) - gorder(rewired_g) 
+    if (missing_vertices > 0){
+        rewired_g <- add_vertices(rewired_g, missing_vertices)
+    }
+    
+    
     if (!is.null(vertex_names))
         V(rewired_g)$name <- vertex_names
     return ( rewired_g )
