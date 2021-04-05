@@ -1,7 +1,7 @@
 #ifndef SVECTOR_HPP // include guard
 #define SVECTOR_HPP
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <random>
 #include <Rcpp.h>
@@ -14,7 +14,7 @@ class SVector{
      * std::sample function might have linear running time, which would be a problem (look into this)
      */
         std::vector<T> v;
-        std::map<T, int> m;
+        std::unordered_map<T, int> m;
         int l;
         std::mt19937 generator;
         std::uniform_int_distribution<int> distribution;
