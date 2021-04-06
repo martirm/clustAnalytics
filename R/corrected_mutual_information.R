@@ -17,7 +17,11 @@
 #' @param normalized If true, computes the normalized version of the corrected mutual information.
 #' 
 #' @export
-reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE){
+reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
+                                       alternative_approximation=FALSE){
+    # alternative_approximation=TRUE uses equation 28 to approximate RMI instead
+    # of the approximation in equation 29 (both on Newman's 2020 paper defining 
+    # the RMI)
     
     n <- length(c1)
     if (length(c2) != n){
@@ -32,42 +36,34 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE){
     R <- length(a)
     S <- length(b)
 
-
+    if (alternative_approximation){
+        v_c_rs <- vector_c_rs(c1, c2)
+        sum( lfactorial(v_c_rs) ) / n
+        choose2 <- function(k) k * (k-1) / 2
+        RMI <- sum( lfactorial(v_c_rs) ) / (n * log(base)) -
+               2 / n^3 * sum(sapply(a, choose2)) * sum(sapply(b, choose2)) 
+        
+    }
+    else{
     
-    w <- n / (n + 0.5 * R * S)
-    x <- (1 - w) / R + (w * a) / n
-    y <- (1 - w) / S + (w * b) / n
-    mu <- (R + 1) / (R * sum(y^2)) - 1 / R
-    nu <- (S + 1) / (S * sum(x^2)) - 1 / S
+        w <- n / (n + 0.5 * R * S)
+        x <- (1 - w) / R + (w * a) / n
+        y <- (1 - w) / S + (w * b) / n
+        mu <- (R + 1) / (R * sum(y^2)) - 1 / R
+        nu <- (S + 1) / (S * sum(x^2)) - 1 / S
+        
+        # Now we can compute the log Omega(a,b) approximation according to equation (29) in the reference
+        log_omega <- (R-1) * (S-1) * log(n + 0.5*R*S, base=base) +
+            0.5 * (R+nu-2) * sum(log(y, base=base)) +
+            0.5 * (S+mu-2) * sum(log(x, base=base)) +
+            0.5 * (lgamma(mu*R) + lgamma(nu*S) - S*(lgamma(nu) + lgamma(R)) - R*(lgamma(mu) + lgamma(S))) / log(base)
+        if (log_omega <= 0)
+            warning("error: log_omega<0")
     
-    # Now we can compute the log Omega(a,b) approximation according to equation (29) in the reference
-    log_omega <- (R-1) * (S-1) * log(n + 0.5*R*S, base=base) +
-        0.5 * (R+nu-2) * sum(log(y, base=base)) +
-        0.5 * (S+mu-2) * sum(log(x, base=base)) +
-        #0.5 * log( (gamma(mu*R) * gamma(nu*S)) / ( (gamma(nu)*gamma(R))^S * (gamma(mu)*gamma(S))^R ), base=base)
-        0.5 * (lgamma(mu*R) + lgamma(nu*S) - S*(lgamma(nu) + lgamma(R)) - R*(lgamma(mu) + lgamma(S)))
-
-    
-    # (this section is replaced by the Rcpp mutual information implementation)
-    # c_rs <- matrix(0, nrow=R, ncol=S)
-    # 
-    # for (i in 1:n){
-    #     c_rs[c1[i], c2[i]] <- c_rs[c1[i], c2[i]] + 1
-    # }
-    # MI <- 0
-    # for (i in 1:R){
-    #     for (j in 1:S){
-    #         P_rs <- c_rs[i,j] / n
-    #         if (P_rs != 0){
-    #             MI <- MI + P_rs * log(P_rs*n^2 / (a[i]*b[j]), base=base)
-    #         }
-    #     }
-    # }
-    
-    
-    MI <- mutual_information_Cpp(c1, c2, a, b)
-    if (base != exp(1)) MI <- MI/log(base)
-    
+        MI <- mutual_information_Cpp(c1, c2, a, b)
+        if (base != exp(1)) MI <- MI/log(base)
+        RMI <- MI - log_omega/n
+    }
     
     if (is.na(MI) | !is.finite(MI)){
         print(MI)
@@ -84,11 +80,18 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE){
     }
     
     if (!normalized){
-        return(MI - log_omega/n)
+        return(RMI)
     }
     else{
-        return(2*(MI-log_omega/n)/(reduced_mutual_information(c1, c1, normalized=FALSE) + 
-                                   reduced_mutual_information(c2, c2, normalized=FALSE)))
+        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, alternative_approximation=alternative_approximation)
+        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, alternative_approximation=alternative_approximation)
+        
+        cat("MI=", MI, "LO=", log_omega/n, "RMI_c1=",  RMI_c1, "RMI_c2", RMI_c2, "\n")
+        cat("RMI=", 2*(MI-log_omega/n)/(RMI_c1 + RMI_c2), "\n")
+        if (2*(RMI)/(RMI_c1 + RMI_c2) > 1){
+            save(c1, c2, file="problematic_news_clusterings.RData")
+        }
+        return(2*(RMI)/(RMI_c1 + RMI_c2))
     }
     
 }

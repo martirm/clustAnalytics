@@ -20,9 +20,8 @@ IntegerVector count_labels (const IntegerVector& c){
     return v;
 }
 
-std::map<std::pair<int,int>, int> count_c_rs
-        (   const IntegerVector& c1, const IntegerVector& c2,
-            const IntegerVector& a,  const IntegerVector& b  ){
+std::map<std::pair<int,int>, int> count_c_rs(const IntegerVector& c1, 
+                                             const IntegerVector& c2 ){
 
     int n = c1.size();
     std::map<std::pair<int,int>, int> c_rs;
@@ -40,10 +39,10 @@ std::map<std::pair<int,int>, int> count_c_rs
 double mutual_information_Cpp(const IntegerVector& c1, const IntegerVector& c2,
                                const IntegerVector& a, const IntegerVector& b){
 
-    auto c_rs = count_c_rs(c1, c2, a, b);
+    auto c_rs = count_c_rs(c1, c2);
     double n = c1.size();
     double MI = 0;
-    for (auto& x: c_rs){
+    for (auto const& x: c_rs){
         const int &r = x.first.first, s = x.first.second;
         double c = x.second, P_rs = c / n;
         //Rcout << "r: " << r << ",  s: " << s << std::endl;
@@ -54,8 +53,16 @@ double mutual_information_Cpp(const IntegerVector& c1, const IntegerVector& c2,
     return MI;
 }
 
+//[[Rcpp::export]]
+IntegerVector vector_c_rs(const IntegerVector& c1, const IntegerVector& c2){
+    //returns a vector with al c_rs values
+    auto c_rs = count_c_rs(c1, c2);
+    int l = c_rs.size();
+    IntegerVector v(l);
+    int i=0;
+    for (auto const& x: c_rs){
+        v[i++] = x.second;
+    }
+    return v;
+}
 
-// double log_omega_Rcpp(const IntegerVector& c1, const IntegerVector& c2){
-//     int n = c1.size();
-//
-// }

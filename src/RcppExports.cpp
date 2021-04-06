@@ -28,6 +28,68 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// walk_step
+bool walk_step(IntegerMatrix& M, int min_row);
+RcppExport SEXP _clustAnalytics_walk_step(SEXP MSEXP, SEXP min_rowSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type min_row(min_rowSEXP);
+    rcpp_result_gen = Rcpp::wrap(walk_step(M, min_row));
+    return rcpp_result_gen;
+END_RCPP
+}
+// walk_k_steps
+void walk_k_steps(IntegerMatrix& M, int min_row, int k);
+RcppExport SEXP _clustAnalytics_walk_k_steps(SEXP MSEXP, SEXP min_rowSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type min_row(min_rowSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    walk_k_steps(M, min_row, k);
+    return R_NilValue;
+END_RCPP
+}
+// sample_fraction_H_i
+int sample_fraction_H_i(IntegerMatrix M, int i, double error);
+RcppExport SEXP _clustAnalytics_sample_fraction_H_i(SEXP MSEXP, SEXP iSEXP, SEXP errorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerMatrix >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< double >::type error(errorSEXP);
+    rcpp_result_gen = Rcpp::wrap(sample_fraction_H_i(M, i, error));
+    return rcpp_result_gen;
+END_RCPP
+}
+// c_rs_table
+IntegerMatrix c_rs_table(const NumericVector& c1, const NumericVector& c2);
+RcppExport SEXP _clustAnalytics_c_rs_table(SEXP c1SEXP, SEXP c2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type c1(c1SEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type c2(c2SEXP);
+    rcpp_result_gen = Rcpp::wrap(c_rs_table(c1, c2));
+    return rcpp_result_gen;
+END_RCPP
+}
+// count_contingency_tables
+int count_contingency_tables(const NumericVector& c1, const NumericVector& c2, double error);
+RcppExport SEXP _clustAnalytics_count_contingency_tables(SEXP c1SEXP, SEXP c2SEXP, SEXP errorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericVector& >::type c1(c1SEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type c2(c2SEXP);
+    Rcpp::traits::input_parameter< double >::type error(errorSEXP);
+    rcpp_result_gen = Rcpp::wrap(count_contingency_tables(c1, c2, error));
+    return rcpp_result_gen;
+END_RCPP
+}
 // count_labels
 IntegerVector count_labels(const IntegerVector& c);
 RcppExport SEXP _clustAnalytics_count_labels(SEXP cSEXP) {
@@ -50,6 +112,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const IntegerVector& >::type a(aSEXP);
     Rcpp::traits::input_parameter< const IntegerVector& >::type b(bSEXP);
     rcpp_result_gen = Rcpp::wrap(mutual_information_Cpp(c1, c2, a, b));
+    return rcpp_result_gen;
+END_RCPP
+}
+// vector_c_rs
+IntegerVector vector_c_rs(const IntegerVector& c1, const IntegerVector& c2);
+RcppExport SEXP _clustAnalytics_vector_c_rs(SEXP c1SEXP, SEXP c2SEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const IntegerVector& >::type c1(c1SEXP);
+    Rcpp::traits::input_parameter< const IntegerVector& >::type c2(c2SEXP);
+    rcpp_result_gen = Rcpp::wrap(vector_c_rs(c1, c2));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -166,8 +240,14 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_clustAnalytics_TPR_coms_Rcpp", (DL_FUNC) &_clustAnalytics_TPR_coms_Rcpp, 2},
     {"_clustAnalytics_triangle_participation_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_triangle_participation_ratio_Rcpp, 1},
+    {"_clustAnalytics_walk_step", (DL_FUNC) &_clustAnalytics_walk_step, 2},
+    {"_clustAnalytics_walk_k_steps", (DL_FUNC) &_clustAnalytics_walk_k_steps, 3},
+    {"_clustAnalytics_sample_fraction_H_i", (DL_FUNC) &_clustAnalytics_sample_fraction_H_i, 3},
+    {"_clustAnalytics_c_rs_table", (DL_FUNC) &_clustAnalytics_c_rs_table, 2},
+    {"_clustAnalytics_count_contingency_tables", (DL_FUNC) &_clustAnalytics_count_contingency_tables, 3},
     {"_clustAnalytics_count_labels", (DL_FUNC) &_clustAnalytics_count_labels, 1},
     {"_clustAnalytics_mutual_information_Cpp", (DL_FUNC) &_clustAnalytics_mutual_information_Cpp, 4},
+    {"_clustAnalytics_vector_c_rs", (DL_FUNC) &_clustAnalytics_vector_c_rs, 2},
     {"_clustAnalytics_rcpp_hello_world", (DL_FUNC) &_clustAnalytics_rcpp_hello_world, 0},
     {"_clustAnalytics_randomize", (DL_FUNC) &_clustAnalytics_randomize, 5},
     {"_clustAnalytics_cluster_auxiliary_values_Rcpp", (DL_FUNC) &_clustAnalytics_cluster_auxiliary_values_Rcpp, 2},

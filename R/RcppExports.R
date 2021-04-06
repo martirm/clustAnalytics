@@ -9,12 +9,36 @@ triangle_participation_ratio_Rcpp <- function(EdgeList) {
     .Call('_clustAnalytics_triangle_participation_ratio_Rcpp', PACKAGE = 'clustAnalytics', EdgeList)
 }
 
+walk_step <- function(M, min_row) {
+    .Call('_clustAnalytics_walk_step', PACKAGE = 'clustAnalytics', M, min_row)
+}
+
+walk_k_steps <- function(M, min_row, k) {
+    invisible(.Call('_clustAnalytics_walk_k_steps', PACKAGE = 'clustAnalytics', M, min_row, k))
+}
+
+sample_fraction_H_i <- function(M, i, error = 0.1) {
+    .Call('_clustAnalytics_sample_fraction_H_i', PACKAGE = 'clustAnalytics', M, i, error)
+}
+
+c_rs_table <- function(c1, c2) {
+    .Call('_clustAnalytics_c_rs_table', PACKAGE = 'clustAnalytics', c1, c2)
+}
+
+count_contingency_tables <- function(c1, c2, error = 0.1) {
+    .Call('_clustAnalytics_count_contingency_tables', PACKAGE = 'clustAnalytics', c1, c2, error)
+}
+
 count_labels <- function(c) {
     .Call('_clustAnalytics_count_labels', PACKAGE = 'clustAnalytics', c)
 }
 
 mutual_information_Cpp <- function(c1, c2, a, b) {
     .Call('_clustAnalytics_mutual_information_Cpp', PACKAGE = 'clustAnalytics', c1, c2, a, b)
+}
+
+vector_c_rs <- function(c1, c2) {
+    .Call('_clustAnalytics_vector_c_rs', PACKAGE = 'clustAnalytics', c1, c2)
 }
 
 rcpp_hello_world <- function() {

@@ -1,7 +1,7 @@
 #ifndef SVECTOR_HPP // include guard
 #define SVECTOR_HPP
 
-#include <unordered_map>
+#include <map>
 #include <vector>
 #include <random>
 #include <Rcpp.h>
@@ -10,17 +10,16 @@
 template <typename T>
 class SVector{
     /* Allows sampling elements
-     * Implemented as a map to keep the cost of insertions and deletions constant (need to switch to unordered map)
+     * Implemented as a unordered_map to keep the cost of insertions and deletions constant
      * std::sample function might have linear running time, which would be a problem (look into this)
      */
         std::vector<T> v;
-        std::unordered_map<T, int> m;
+        std::map<T, int> m;
         int l;
         std::mt19937 generator;
         std::uniform_int_distribution<int> distribution;
     public:
         SVector(){
-            //this should never end up being used
             v = std::vector<T>();
             l = 0;
             m = std::map<T, int>();
@@ -66,6 +65,13 @@ class SVector{
                 update_distribution();
             }
         }
+        
+        bool belongs(T a){
+            // returns true if a belongs to the vector, false otherwise
+            auto it = m.find(a);
+            return not (it == m.end());
+        }
+        
         T rand_el_old(){
             int i = distribution(generator);
             std::cout << "random index: " << i << ", l=" << l << std::endl;
