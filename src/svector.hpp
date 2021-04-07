@@ -82,11 +82,11 @@ class SVector{
             auto i = Rcpp::sample(l, 1);
             return v[i[0]-1];
         }
-        // vector<T> sample(int n){
-        //     std::vector<T> s(n);
-        //     std::sample(v.begin(), v.end(), s.begin(), n);
-        //     return (s);
-        // }
+        
+        std::vector<T> get_v(){
+            return v;
+        }
+
 };
 
 

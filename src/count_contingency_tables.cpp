@@ -30,11 +30,24 @@ bool walk_step(IntegerMatrix& M, int min_row){
 void walk_effective_step(IntegerMatrix& M, SSMatrix& SM){
     std::vector<int> v = SM.sample_rw_step();
     int i1 = v[0], i2 = v[1], j1 = v[2], j2 = v[3];
+    if (M(i1, j1)==0 or M(i2,j2)==0){
+        Rcout << "error: sampled elements that are 0" << std::endl;
+        Rcpp::print(M);
+        Rcout << "(i1, j1) = (" << i1 << "," << j1 << "),  (i2, j2) = (" << i2 << "," << j2 <<")" << std::endl;
+        throw "sampling error";
+    }
     if (--M(i1, j1) == 0) SM.remove(i1, j1);
     if (--M(i2, j2) == 0) SM.remove(i2, j2);
     if (++M(i1, j2) == 1) SM.insert(i1, j2);
     if (++M(i2, j1) == 1) SM.insert(i2, j1);
 }
+
+// [[Rcpp::export]] 
+void test_walk_effective_step(IntegerMatrix& M, int i){
+    SSMatrix sampling_matrix(M, i);
+    walk_effective_step(M, sampling_matrix);
+}
+
 
 // [[Rcpp::export]]  
 void walk_k_steps(IntegerMatrix& M, int min_row, int k){
@@ -57,25 +70,33 @@ bool row_is_equal (const IntegerMatrix& M, const IntegerVector& v, int row){
 // [[Rcpp::export]]  
 int sample_fraction_H_i(IntegerMatrix M, int i, double error=0.1){
     double H_i=0, H_i_plus=0; //we will determine the fraction of elements in H_i that are also in H_i_plus
-    IntegerMatrix J(Rcpp::clone(M)); //this is necessary to avoid modifying M)
+    IntegerMatrix J = Rcpp::clone(M); //this is necessary to avoid modifying M)
     IntegerVector row_i = M(i,_);
-    SSMatrix sampling_matrix(M, i);
     
     
     walk_k_steps(J, i, 1000);
+    SSMatrix sampling_matrix(J, i);
     int iter=0;
     double ratio = -1;
-    bool is_H_i_plus = false;
+    bool is_H_i_plus = row_is_equal(J, row_i, i);
     while(1){ //replace this with convergence condition
-        if (walk_step(J, i)){
-            is_H_i_plus = row_is_equal(J, row_i, i);
+        int n_invariant_steps = sampling_matrix.sample_n_invariant_steps();
+        //Rcout << "# invariant_steps: " << n_invariant_steps << std::endl;
+        H_i += n_invariant_steps + 1; //we also add the effective step done later
+        if (is_H_i_plus){
+            H_i_plus += n_invariant_steps;
         }
+        walk_effective_step(J, sampling_matrix);
+        is_H_i_plus = row_is_equal(J, row_i, i);
         if ( is_H_i_plus )
             ++H_i_plus;
-        ++H_i;
+        
         double new_ratio = H_i/H_i_plus;
-        if (iter%100000 == 0){
-            if (abs(new_ratio - ratio) < error){ //replace with proper conditions depending on desired error
+        //Rcout << "H_I = " << H_i << ",   H_i_plus = " << H_i_plus << std::endl;
+        if (iter%1000 == 0){
+            Rcpp::checkUserInterrupt();
+            //Rcout << "new ratio: " << new_ratio << std::endl;
+            if (abs(new_ratio - ratio) < error and new_ratio != 0){ //replace with proper conditions depending on desired error
                 //std::cout << iter << std::endl << H_i << std::endl << H_i_plus << std::endl;
                 return round(new_ratio);
             }
@@ -106,21 +127,29 @@ IntegerMatrix c_rs_table(const NumericVector& c1, const NumericVector& c2){
 }
     
 // [[Rcpp::export]]
-int count_contingency_tables(const NumericVector& c1, const NumericVector& c2, double error=0.1){
+IntegerVector count_contingency_tables(const NumericVector& c1, const NumericVector& c2, double error=0.1){
     
     
     IntegerMatrix M = c_rs_table(c1,c2);
-    int nrow = M.nrow(), n_contingency_tables = 1;
+    int nrow = M.nrow(); 
+    long long int n_contingency_tables = 1;
     if (nrow==1 or M.ncol()==1){
         return 1;
     }
     
     IntegerVector v_H(nrow-1);
-    for (int i=0; i<nrow-1; ++i){
+    //for (int i=0; i<nrow-1; ++i){
+    for (int i=nrow-2; i>=0; --i){    
         v_H[i] = sample_fraction_H_i(M, i, error=error);
         n_contingency_tables *= v_H[i];
     }
     
-    return n_contingency_tables;
+    return v_H;
+}
+
+// [[Rcpp::export]]
+int test(){
+    Rcpp::NumericVector s = Rcpp::rgeom(1, 0.2);
+    return s[0];
 }
 
