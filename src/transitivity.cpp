@@ -34,30 +34,19 @@ double local_clustering_coefficient(const Graph& g, const int vertex){
     int n_triples = 0;
     double sum = 0;
     double current_weight = g.get_upper_bound(), new_weight;
-    //Rcout << "initial current_weight: " << current_weight << std::endl;
     for (auto it=sorted_triangles.rbegin(); it!=sorted_triangles.rend(); ++it){
         new_weight = it->first;
         if (current_weight != new_weight and n_triples>0){
             sum += (current_weight-new_weight) * (n_triangles/double(n_triples));
-            //Rcout << "width: " << (current_weight-new_weight) << std::endl;
-            //Rcout << "cc: " << (n_triangles/double(n_triples)) << std::endl;
             current_weight = new_weight;
         }
         if (it->second == true) n_triangles++;
         else n_triples++;
-        //Rcout << "n triangles: " << n_triangles << std::endl;
-        //Rcout << "n triples: " << n_triples << std::endl;
     }
     if (n_triples > 0){
-        //Rcout << "width of last interval: " << current_weight << std::endl;
-        //Rcout << "n triples: " << n_triples << std::endl;
-        //Rcout << "n triangles: " << n_triangles << std::endl;
-        //Rcout << "sum of last interval: " << current_weight * (n_triangles/double(n_triples)) << std::endl;
+
         sum += current_weight * (n_triangles/double(n_triples)); //last interval of the integral (from 0 to smallest weight)
     }
-    else Rcout << "crash would have been here" << std::endl;
-    Rcout << "local clustering coef: " << sum << std::endl
-          << "************************************" << std::endl << std::endl;
     return sum/g.get_upper_bound();
 }
 
@@ -113,7 +102,6 @@ double transitivity(const Graph& g){
         new_weight = it->first;
         if (current_weight != new_weight and n_triples>0){
             sum += (current_weight-new_weight) * (n_triangles / double(n_triples));
-            Rcout << "current sum: " << sum << std::endl;
             current_weight = new_weight;
         }
         if (it->second == true) n_triangles++;
@@ -122,8 +110,6 @@ double transitivity(const Graph& g){
     if (n_triples > 0){
         sum += current_weight * (n_triangles / double(n_triples)); //last interval of the integral (from 0 to smallest weight)
     }
-    Rcout << "n triangles: " << n_triangles << std::endl <<
-        "n_triples: " << n_triples << std::endl;
 
     return sum/g.get_upper_bound();
 }

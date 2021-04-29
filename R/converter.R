@@ -50,27 +50,19 @@ rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bou
 
 #' Clustering coefficient of a graph.
 #' @param g igraph graph
-#' @param upper_bound Upper bound of the edges. 1 by default. If set to NULL, 
-#' the maximum edge weight will be taken
 #' @export
-weighted_clustering_coefficient <- function(g, upper_bound = 1){
+weighted_clustering_coefficient <- function(g){
     edgelist <- igraph_to_edgelist(g)
-    max_weight <- max(E(g)$weight)
-    if (is.null(upper_bound) | max_weight > upper_bound) 
-        upper_bound <- max_weight
+    upper_bound  <- max(E(g)$weight)
     clustering_coefficient_Rcpp(edgelist, 0, upper_bound)
 }
 
 #' Transitivity of a graph.
 #' @param g igraph graph
-#' @param upper_bound Upper bound of the edges. 1 by default. If set to NULL, 
-#' the maximum edge weight will be taken
 #' @export
-weighted_transitivity <- function(g, upper_bound = 1){
+weighted_transitivity <- function(g){
     edgelist <- igraph_to_edgelist(g)
-    max_weight <- max(E(g)$weight)
-    if (is.null(upper_bound) | max_weight > upper_bound) 
-        upper_bound <- max_weight
+    upper_bound <- max(E(g)$weight)
     transitivity_Rcpp(edgelist, 0, upper_bound)
 }
 
