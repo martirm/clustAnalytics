@@ -1,4 +1,3 @@
-# source("scoring_functions.R")
 # library(pbapply)
 # library(dplyr)
 # library(parallel)
@@ -29,8 +28,19 @@ do.call_tryCatch <- function(f, args){
     return(c)
 }
 
-#print(evaluate_significance(rewireCpp(karate, weight_sel="max_weight")))
-
+#' Evaluates significance of cluster algorithm results on a graph
+#' 
+#' Given a graph and a list of clustering algorithms, computes several scoring
+#' functions on the clusters found by each of the algorithms.
+#' @param g Graph to be analyzed (as an igraph object)
+#' @param alg_list list of clustering algorithms, which take an \code{igraph} graph as
+#' input and return an object of the \code{communities} class.
+#' @param no_clustering_coef if \code{TRUE}, skips the computation of the clustering
+#' coefficient, which is the most computationally costly of the scoring functions.
+#' @param ground_truth if set to\code{TRUE}, computes the scoring functions for 
+#' a ground truth clustering, which has to be provided as \code{gt_clustering}
+#' @param gt_clustering ground truth clustering. Only used if \code{ground_truth}
+#' is set to \code{TRUE}.
 evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef=FALSE, 
                                   ground_truth=FALSE, gt_clustering=NULL, w_max=1){
     #given an algorithm list and a graph
@@ -46,9 +56,9 @@ evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef
     # this is currently only a workaround to prevent the conversion of the results to strings by
     # sapply
     aux <- function(mem){
-        scores <- scoring_functions(g, mem, no_clustering_coef=no_clustering_coef, w_max=w_max)
+        scores <- scoring_functions(g, mem, no_clustering_coef=no_clustering_coef, w_max=w_max, type="global")
         v <- as.vector(as.matrix(scores))
-        names(v) <- names(scores)
+        names(v) <- colnames(scores)
         if (ground_truth){
             v <- c(v, mcclust::vi.dist(mem, gt_clustering))
             names(v)[length(v)] <- "VIdist_to_GT"
@@ -197,7 +207,6 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
         rewire_g <- rewireCpp(g, Q, lower_bound=lower_bound, upper_bound=upper_bound, weight_sel=weight_sel)
         table2 <- evaluate_significance(rewire_g, alg_list, no_clustering_coef, ground_truth, gt_clustering, 
                                         w_max=w_max)
-        return(merge2(table1,table2))
     }
     else {
         # aux <- function(x) rewireCpp(g, Q, lower_bound=lower_bound, 
@@ -217,7 +226,7 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
                                    gt_clustering=gt_clustering)
         }
         else{
-            table_list <- pblapply(rewired_graph_list, evaluate_significance, alg_list=alg_list,
+            table_list <- lapply(rewired_graph_list, evaluate_significance, alg_list=alg_list,
                                    no_clustering_coef=no_clustering_coef, ground_truth=ground_truth,
                                    gt_clustering=gt_clustering)
         }

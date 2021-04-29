@@ -41,6 +41,7 @@ out_degree_fractions <- function(g, com, edgelist){
 #' of the graph, and contains the index of the community it belongs to.
 #' @param type can be "local" for a cluster by cluster analysis, or "global" for
 #' a global analysis of the whole graph partition.
+#' @param 
 #' 
 #' @return If \code{type=="local"}, returns a dataframe with a row for each 
 #' community, and a column for each score. If \code{type=="global"}, returns a
@@ -86,7 +87,12 @@ scoring_functions <- function(g, com, ignore_NA=TRUE, no_clustering_coef=TRUE,
     D[,c("max ODF","average ODF","flake ODF")] <- out_degree_fractions(edgelist = el, com = com)
     D[,"FOMD"] <- FOMD_Rcpp(el, com)
     
-    if (!weighted) D[,"TPR"] <- triangle_participation_ratio_communities(g, com)
+    if (!weighted){
+        D[,"TPR"] <- triangle_participation_ratio_communities(g, com)
+    }
+    if (!no_clustering_coef) {
+        D[,"clustering coef"] <- apply_subgraphs(g, com, weighted_transitivity)
+    }
     
     internal_weight <- sum(m_s)
     total_weight <- internal_weight + sum(c_s)/2 #total edge weight of the graph (the cut weight is halved because each edge gets counted twice)
@@ -190,5 +196,3 @@ scoring_functions_df <- function(G,com, ignore_NA=TRUE, no_clustering_coef=TRUE,
     
 }
     
-#com <- membership(cluster_louvain(karate))
-#auxiliary_functions(karate, com)

@@ -120,9 +120,9 @@ clustering_coef_w <- function(G, n_step=100, w_max=1){
 
 
 
-clustering_coef_subgraph <- function(G,s,n_step=100, w_max=w_max){
+clustering_coef_subgraph <- function(G, s, w_max=w_max){
   Gs <- induced_subgraph(G,s)
-  weighted_transitivity(Gs)
+  weighted_transitivity(Gs, upper_bound=w_max)
 }
 
 
@@ -204,104 +204,121 @@ weighted_mean_no_NA <- function(v, weights){
     sum(v*weights) /sum(weights)
 }
 
-# scoring_functions <- function(G,com,fix_labels=TRUE, globals_only=TRUE, no_clustering_coef=TRUE,
-#                               ignore_NA=TRUE, w_max=1){
-#   if (fix_labels) com <- relabel(com)
-#   n_com <- max(com)
-#   n <- length(V(G))
-#   function_names <- c("internal density","edges inside","av degree","FOMD","expansion",
-#                       "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF","clustering coef","modularity")
-#   D <- data.frame(matrix(nrow=n_com+1,ncol=length(function_names)))
-#   colnames(D) <- function_names
-#   rownames(D) <- c(1:n_com,"global")
-# 
-#   for (i in 1:n_com){
-#     s <- which(com==i) #s contains the indices of vertices belonging to cluster i
-#     if (no_clustering_coef)
-#         cc <- NaN
-#     else 
-#         cc <- clustering_coef_subgraph(G, s, w_max=w_max)
-#     D[i,]<- c(internal_density_s(G,s),m_subgraph_w(G,s),average_degree(G,s),FOMD(G,s),expansion(G,s),
-#               cut_ratio(G,s),conductance(G,s),normalized_cut(G,s),max_odf(G,s),av_odf(G,s),flake_odf(G,s),
-#               cc,0)
-#   }
-#   D[n_com+1,]<-colMeans(D[1:n_com,])
-#   weights <- table(com)/n
-#   if (ignore_NA){
-#       D[n_com+1,1:12] <- apply (D[1:n_com,1:12], 2, weighted_mean_no_NA, weights=weights)
-#   }
-#   else{
-#       w_mean <- function(v,weights) sum(v*weights)
-#       D[n_com+1,1:12] <- apply (D[1:n_com,1:12],2,w_mean,weights=weights)
-#   }
-# 
-#   
-#   D["modularity"]<-NaN
-#   D[n_com+1,"modularity"] <- modularity(G,com,weight=E(G)$weight)
-#   #D[n_com+1,"clustering coef"]<- sum(D[1:n_com,"clustering coef"])/ sum(D[1:n_com,"clustering coef"]>0) #mean of non-zero elements
-#   #D[n_com+1,"internal density"]<- sum(D[1:n_com,"internal density"])/ sum(D[1:n_com,"internal density"]>0)
-#   #D[n_com+1,"edges inside"]<- sum(D[1:n_com,"edges inside"])/ sum(D[1:n_com,"edges inside"]>0)
-#   #D[n_com+1,"av degree"]<- sum(D[1:n_com,"av degree"])/ sum(D[1:n_com,"av degree"]>0)
-#   if (globals_only) {
-#       result <- D[n_com+1,]
-#       result["n_communities"] <- length(table(com))
-#       return (result)
-#   }
-#   else return(D)
-# }
-
-scoring_functions_df <- function(G,com, ignore_NA=TRUE, no_clustering_coef=TRUE, type="local", weighted=FALSE){
-  # type: can be "local" or "global", dependeing on whether we want a cluster-by cluster or a 
-  # global analysis
-  
-  if (!"weight" %in% names(edge.attributes(G)))
-    G <- set_edge_attr(G, "weight", value=1)
-  
-  n_com <- max(com)
-  n <- length(V(G))
-  function_names <- c("size", "internal density","edges inside","av degree","FOMD","expansion",
-                      "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF", 
-                      "TPR", "clustering coef","modularity")
-  D <- data.frame(matrix(nrow=n_com,ncol=length(function_names)))
-  colnames(D) <- function_names
-  rownames(D) <- c(1:n_com)
-  
-  for (i in 1:n_com){
-    s <- which(com==i) #s contains the indices of vertices belonging to cluster i
-    size <- length(s)
-    Gs <- subgraph(G,s)
-    if (weighted){
-      if (no_clustering_coef)
-        cc <- NaN
-      else 
-        cc <- clustering_coef_subgraph(G, s, w_max=w_max)
-    }
-    else{
-      cc <- transitivity(Gs)
-    }
-    D[i,]<- c(size, internal_density_s(G,s),m_subgraph_w(G,s),average_degree(G,s),FOMD(G,s),expansion(G,s),
-              cut_ratio(G,s),conductance(G,s),normalized_cut(G,s),max_odf(G,s),av_odf(G,s),flake_odf(G,s),
-              triangle_participation_ratio(Gs), cc, NaN)
-  }
-  if (type=="local"){
-    D[,"modularity"] <- modularity(G, com)
-    D$coverage <- coverage(G, com)
-    return(D)
-  }
-  
-  
-  # type=="global" from here
-  D_glob <- apply(D,2,weighted.mean, w=D$size)
-  D_glob["size"] <- NaN
-  D_glob["graph_size"] <- n
-  D_glob["n_clusters"] <- n_com
-  D_glob["mean_cluster_size"] <- mean(D$size)
-  
-  D_glob["modularity"] <- modularity(G, com)
-  D_glob["coverage"] <- coverage(G, com)
-  D_glob["density ratio"] <- density_ratio(G, com)
-  return(t(as.matrix(D_glob)))
-  
-  
+#' Applies function to each subgraph of a graph
+#' 
+#' @param g igraph graph
+#' @param com vector of memberships that determines the subgraphs (i.e. all elements
+#' with the same label will form a subgraph).
+#' @param f Function to apply. Takes a graph as input and returns a scalar.
+#' @return vector with the result of each subgraph
+apply_subgraphs <- function(g, com, f, ...){
+    labels <- unique(com)  
+    f_aux <- function(i) f(induced_subgraph(g, v=which(com==i)), ...)
+    return(vapply(labels, f_aux, FUN.VALUE=1))
 }
+
+
+#' #' Cluster scoring functions
+#' #' 
+#' #' 
+#' scoring_functions <- function(G,com,fix_labels=TRUE, globals_only=TRUE, no_clustering_coef=TRUE,
+#'                               ignore_NA=TRUE, w_max=1){
+#'   if (fix_labels) com <- relabel(com)
+#'   n_com <- max(com)
+#'   n <- length(V(G))
+#'   function_names <- c("internal density","edges inside","av degree","FOMD","expansion",
+#'                       "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF","clustering coef","modularity")
+#'   D <- data.frame(matrix(nrow=n_com+1,ncol=length(function_names)))
+#'   colnames(D) <- function_names
+#'   rownames(D) <- c(1:n_com,"global")
+#' 
+#'   for (i in 1:n_com){
+#'     s <- which(com==i) #s contains the indices of vertices belonging to cluster i
+#'     if (no_clustering_coef)
+#'         cc <- NaN
+#'     else
+#'         cc <- clustering_coef_subgraph(G, s, w_max=w_max)
+#'     D[i,]<- c(internal_density_s(G,s),m_subgraph_w(G,s),average_degree(G,s),FOMD(G,s),expansion(G,s),
+#'               cut_ratio(G,s),conductance(G,s),normalized_cut(G,s),max_odf(G,s),av_odf(G,s),flake_odf(G,s),
+#'               cc,0)
+#'   }
+#'   D[n_com+1,]<-colMeans(D[1:n_com,])
+#'   weights <- table(com)/n
+#'   if (ignore_NA){
+#'       D[n_com+1,1:12] <- apply (D[1:n_com,1:12], 2, weighted_mean_no_NA, weights=weights)
+#'   }
+#'   else{
+#'       w_mean <- function(v,weights) sum(v*weights)
+#'       D[n_com+1,1:12] <- apply (D[1:n_com,1:12],2,w_mean,weights=weights)
+#'   }
+#' 
+#' 
+#'   D["modularity"]<-NaN
+#'   D[n_com+1,"modularity"] <- modularity(G,com,weight=E(G)$weight)
+#'   #D[n_com+1,"clustering coef"]<- sum(D[1:n_com,"clustering coef"])/ sum(D[1:n_com,"clustering coef"]>0) #mean of non-zero elements
+#'   #D[n_com+1,"internal density"]<- sum(D[1:n_com,"internal density"])/ sum(D[1:n_com,"internal density"]>0)
+#'   #D[n_com+1,"edges inside"]<- sum(D[1:n_com,"edges inside"])/ sum(D[1:n_com,"edges inside"]>0)
+#'   #D[n_com+1,"av degree"]<- sum(D[1:n_com,"av degree"])/ sum(D[1:n_com,"av degree"]>0)
+#'   if (globals_only) {
+#'       result <- D[n_com+1,]
+#'       result["n_communities"] <- length(table(com))
+#'       return (result)
+#'   }
+#'   else return(D)
+#' }
+#' 
+#' scoring_functions_df <- function(G,com, ignore_NA=TRUE, no_clustering_coef=TRUE, type="local", weighted=FALSE){
+#'   # type: can be "local" or "global", depending on whether we want a cluster-by cluster or a 
+#'   # global analysis
+#'   
+#'   if (!"weight" %in% names(edge.attributes(G)))
+#'     G <- set_edge_attr(G, "weight", value=1)
+#'   
+#'   n_com <- max(com)
+#'   n <- length(V(G))
+#'   function_names <- c("size", "internal density","edges inside","av degree","FOMD","expansion",
+#'                       "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF", 
+#'                       "TPR", "clustering coef","modularity")
+#'   D <- data.frame(matrix(nrow=n_com,ncol=length(function_names)))
+#'   colnames(D) <- function_names
+#'   rownames(D) <- c(1:n_com)
+#'   
+#'   for (i in 1:n_com){
+#'     s <- which(com==i) #s contains the indices of vertices belonging to cluster i
+#'     size <- length(s)
+#'     Gs <- subgraph(G,s)
+#'     if (weighted){
+#'       if (no_clustering_coef)
+#'         cc <- NaN
+#'       else 
+#'         cc <- clustering_coef_subgraph(G, s, w_max=w_max)
+#'     }
+#'     else{
+#'       cc <- transitivity(Gs)
+#'     }
+#'     D[i,]<- c(size, internal_density_s(G,s),m_subgraph_w(G,s),average_degree(G,s),FOMD(G,s),expansion(G,s),
+#'               cut_ratio(G,s),conductance(G,s),normalized_cut(G,s),max_odf(G,s),av_odf(G,s),flake_odf(G,s),
+#'               triangle_participation_ratio(Gs), cc, NaN)
+#'   }
+#'   if (type=="local"){
+#'     D[,"modularity"] <- modularity(G, com)
+#'     D$coverage <- coverage(G, com)
+#'     return(D)
+#'   }
+#'   
+#'   
+#'   # type=="global" from here
+#'   D_glob <- apply(D,2,weighted.mean, w=D$size)
+#'   D_glob["size"] <- NaN
+#'   D_glob["graph_size"] <- n
+#'   D_glob["n_clusters"] <- n_com
+#'   D_glob["mean_cluster_size"] <- mean(D$size)
+#'   
+#'   D_glob["modularity"] <- modularity(G, com)
+#'   D_glob["coverage"] <- coverage(G, com)
+#'   D_glob["density ratio"] <- density_ratio(G, com)
+#'   return(t(as.matrix(D_glob)))
+#'   
+#'   
+#' }
 

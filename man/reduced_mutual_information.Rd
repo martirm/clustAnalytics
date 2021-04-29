@@ -4,7 +4,13 @@
 \alias{reduced_mutual_information}
 \title{Corrected Mutual Information}
 \usage{
-reduced_mutual_information(c1, c2, base = exp(1), normalized = FALSE)
+reduced_mutual_information(
+  c1,
+  c2,
+  base = exp(1),
+  normalized = FALSE,
+  alternative_approximation = FALSE
+)
 }
 \arguments{
 \item{c1, c2}{membership vectors}
