@@ -4,7 +4,7 @@
 \alias{apply_subgraphs}
 \title{Applies function to each subgraph of a graph}
 \usage{
-apply_subgraphs(g, com, f)
+apply_subgraphs(g, com, f, ...)
 }
 \arguments{
 \item{g}{igraph graph}

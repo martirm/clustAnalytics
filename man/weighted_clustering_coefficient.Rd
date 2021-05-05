@@ -4,13 +4,10 @@
 \alias{weighted_clustering_coefficient}
 \title{Clustering coefficient of a graph.}
 \usage{
-weighted_clustering_coefficient(g, upper_bound = 1)
+weighted_clustering_coefficient(g)
 }
 \arguments{
 \item{g}{igraph graph}
-
-\item{upper_bound}{Upper bound of the edges. 1 by default. If set to NULL, 
-the maximum edge weight will be taken}
 }
 \description{
 Clustering coefficient of a graph.

@@ -4,13 +4,10 @@
 \alias{weighted_transitivity}
 \title{Transitivity of a graph.}
 \usage{
-weighted_transitivity(g, upper_bound = 1)
+weighted_transitivity(g)
 }
 \arguments{
 \item{g}{igraph graph}
-
-\item{upper_bound}{Upper bound of the edges. 1 by default. If set to NULL, 
-the maximum edge weight will be taken}
 }
 \description{
 Transitivity of a graph.
