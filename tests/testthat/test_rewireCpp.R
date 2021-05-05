@@ -1,14 +1,13 @@
-# This is an example test of the package
-
-#library(rewire) #probably not needed (???)
-
+# Tests of the rewireCpp function
 
 # currently converting graphs to edgelists to check for equality, because it 
 # seems some metadata of igraphs object prevents identical graphs created at 
 # different times from being identical igraph objects. 
 ####### IMPORTANT: figure this out ############
 
-
+library(igraphdata)
+data("karate")
+data("g_forex")
 
 test_that("trivial test. checks that the graph remains invariant when running 
           rewireCpp with 0 iterations",{
@@ -21,20 +20,22 @@ test_that("trivial test. checks that the graph remains invariant when running
           )
 
 
+test_that("Check that total edge weight remains invariant with rewireCpp",{
+    
+    total_weight <- function(g) {
+        sum(get.adjacency(g, attr="weight"))
+    }
+    
+    expect_equal(total_weight(karate), 
+                 total_weight( rewireCpp(karate, Q=10, weight_sel="max_weight") ) )
+    
+    expect_equal(total_weight(g_forex),
+                 total_weight( rewireCpp(g_forex, Q=10, weight_sel="const_var") ) )
+        
+}
+)
 
-test_that("runs the switching algorithm on several graphs using seeds, and
-          checks that the results are consistent",{
-              expect_equal_to_reference({
-                  set.seed(0)
-                  igraph_to_edgelist(rewireCpp(karate, Q=100))
-              }, file="test_cache_karate_Q100")
-              
-              expect_equal_to_reference({
-                  set.seed(0)
-                  igraph_to_edgelist(rewireCpp(g_forex, Q=100, upper_bound=1))
-              }, file="test_cache_forex_Q100")
-              
-          })
+
 
 
 
