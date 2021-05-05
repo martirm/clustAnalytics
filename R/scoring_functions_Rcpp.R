@@ -57,8 +57,10 @@ out_degree_fractions <- function(g, com, edgelist){
 scoring_functions <- function(g, com, no_clustering_coef=TRUE, 
                               type="local", weighted=TRUE, w_max=NULL){
     
-    if (!"weight" %in% names(edge.attributes(g)))
+    if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
     
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)

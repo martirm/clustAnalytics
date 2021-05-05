@@ -10,14 +10,11 @@ data("karate")
 data("g_forex")
 
 test_that("trivial test. checks that the graph remains invariant when running 
-          rewireCpp with 0 iterations",{
-              expect_equal(igraph_to_edgelist(rewireCpp(karate, Q=0)), 
-                           igraph_to_edgelist(karate))
-              expect_equal_to_reference(igraph_to_edgelist(rewireCpp(karate, Q=0)), 
-                                        file="test_cache1")
-              #expect_equal_to_reference(seeded_test(), file="test_cache2")
-          }
-          )
+      rewireCpp with 0 iterations",{
+    
+    expect_equal(igraph_to_edgelist(rewireCpp(karate, Q=0)), 
+               igraph_to_edgelist(karate))
+})
 
 
 test_that("Check that total edge weight remains invariant with rewireCpp",{
