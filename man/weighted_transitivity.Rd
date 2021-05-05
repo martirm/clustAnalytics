@@ -2,13 +2,16 @@
 % Please edit documentation in R/converter.R
 \name{weighted_transitivity}
 \alias{weighted_transitivity}
-\title{Transitivity of a graph.}
+\title{Transitivity of a weighted graph.}
 \usage{
-weighted_transitivity(g)
+weighted_transitivity(g, upper_bound = NULL)
 }
 \arguments{
 \item{g}{igraph graph}
+
+\item{upper_bound}{upper bound to the edge weights used to compute the integral}
 }
 \description{
-Transitivity of a graph.
+Computed using the definition given by McAssey, M. P. and Bijma, F. in 
+"A clustering coefficient for complete weighted networks" (2015).
 }

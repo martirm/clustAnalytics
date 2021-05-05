@@ -49,25 +49,36 @@ rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bou
 
 
 #' Clustering coefficient of a graph.
+#' 
+#' Computed using the definition given by McAssey, M. P. and Bijma, F. in 
+#' "A clustering coefficient for complete weighted networks" (2015).
 #' @param g igraph graph
+#' @param upper_bound upper bound to the edge weights used to compute the integral
 #' @export
-weighted_clustering_coefficient <- function(g){
+weighted_clustering_coefficient <- function(g, upper_bound=NULL){
     edgelist <- igraph_to_edgelist(g)
-    upper_bound  <- max(E(g)$weight)
+    if (is.null(upper_bound))
+        upper_bound <- max(E(g)$weight)
     clustering_coefficient_Rcpp(edgelist, 0, upper_bound)
 }
 
-#' Transitivity of a graph.
+#' Transitivity of a weighted graph. 
+#' 
+#' Computed using the definition given by McAssey, M. P. and Bijma, F. in 
+#' "A clustering coefficient for complete weighted networks" (2015).
 #' @param g igraph graph
+#' @param upper_bound upper bound to the edge weights used to compute the integral
 #' @export
-weighted_transitivity <- function(g){
+weighted_transitivity <- function(g, upper_bound=NULL){
     edgelist <- igraph_to_edgelist(g)
-    upper_bound <- max(E(g)$weight)
+    if (is.null(upper_bound))
+        upper_bound <- max(E(g)$weight)
     transitivity_Rcpp(edgelist, 0, upper_bound)
 }
 
 
-#currently this seems to give the wrong result.
+# Currently this seems to give the wrong result. Until it is fixed, the other 
+# implementation will be used
 triangle_participation_ratio2 <- function(g){
     edgelist <- igraph_to_edgelist(g)
     triangle_participation_ratio_Rcpp(edgelist)

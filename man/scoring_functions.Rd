@@ -7,7 +7,6 @@
 scoring_functions(
   g,
   com,
-  ignore_NA = TRUE,
   no_clustering_coef = TRUE,
   type = "local",
   weighted = TRUE,
@@ -20,8 +19,16 @@ scoring_functions(
 \item{com}{Community membership vector. Each element corresponds to a vertex
 of the graph, and contains the index of the community it belongs to.}
 
+\item{no_clustering_coef}{If TRUE, skips the computation of the clustering 
+coefficient (which can be slow on large graphs).}
+
 \item{type}{can be "local" for a cluster by cluster analysis, or "global" for
 a global analysis of the whole graph partition.}
+
+\item{weighted}{Is the graph weighted? If it is, doesn't compute TPR score.}
+
+\item{w_max}{Upper bound for edge weights. Should be generally left as default (NULL).
+Only affects the computation of the clustering coefficient.}
 }
 \value{
 If \code{type=="local"}, returns a dataframe with a row for each 

@@ -4,11 +4,14 @@
 \alias{weighted_clustering_coefficient}
 \title{Clustering coefficient of a graph.}
 \usage{
-weighted_clustering_coefficient(g)
+weighted_clustering_coefficient(g, upper_bound = NULL)
 }
 \arguments{
 \item{g}{igraph graph}
+
+\item{upper_bound}{upper bound to the edge weights used to compute the integral}
 }
 \description{
-Clustering coefficient of a graph.
+Computed using the definition given by McAssey, M. P. and Bijma, F. in 
+"A clustering coefficient for complete weighted networks" (2015).
 }

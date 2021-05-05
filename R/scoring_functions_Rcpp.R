@@ -41,7 +41,11 @@ out_degree_fractions <- function(g, com, edgelist){
 #' of the graph, and contains the index of the community it belongs to.
 #' @param type can be "local" for a cluster by cluster analysis, or "global" for
 #' a global analysis of the whole graph partition.
-#' @param 
+#' @param weighted Is the graph weighted? If it is, doesn't compute TPR score.
+#' @param w_max Upper bound for edge weights. Should be generally left as default (NULL).
+#' Only affects the computation of the clustering coefficient.
+#' @param no_clustering_coef  If TRUE, skips the computation of the clustering 
+#' coefficient (which can be slow on large graphs).
 #' 
 #' @return If \code{type=="local"}, returns a dataframe with a row for each 
 #' community, and a column for each score. If \code{type=="global"}, returns a
@@ -50,7 +54,7 @@ out_degree_fractions <- function(g, com, edgelist){
 #' @examples
 #' scoring_functions_Rcpp(karate, membership(cluster_louvain(karate)))
 #' @export
-scoring_functions <- function(g, com, ignore_NA=TRUE, no_clustering_coef=TRUE, 
+scoring_functions <- function(g, com, no_clustering_coef=TRUE, 
                               type="local", weighted=TRUE, w_max=NULL){
     
     if (!"weight" %in% names(edge.attributes(g)))
@@ -64,7 +68,6 @@ scoring_functions <- function(g, com, ignore_NA=TRUE, no_clustering_coef=TRUE,
     function_names <- c("size", "internal density","edges inside","av degree","FOMD","expansion",
                       "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF",
                       "density ratio", "clustering coef","modularity")
-    #function_names <- c("size", "internal density", "edges inside","av degree","FOMD","expansion")
     D <- data.frame(matrix(nrow=n_com,ncol=length(function_names)))
     colnames(D) <- function_names
     rownames(D) <- c(1:n_com)
@@ -91,7 +94,7 @@ scoring_functions <- function(g, com, ignore_NA=TRUE, no_clustering_coef=TRUE,
         D[,"TPR"] <- triangle_participation_ratio_communities(g, com)
     }
     if (!no_clustering_coef) {
-        D[,"clustering coef"] <- apply_subgraphs(g, com, weighted_transitivity)
+        D[,"clustering coef"] <- apply_subgraphs(g, com, weighted_transitivity, upper_bound=w_max)
     }
     
     internal_weight <- sum(m_s)
@@ -99,8 +102,6 @@ scoring_functions <- function(g, com, ignore_NA=TRUE, no_clustering_coef=TRUE,
     coverage <- internal_weight / total_weight
 
     if (type=="local"){
-        #D[,"modularity"] <- modularity(g, com)
-        #D$coverage <- coverage
         return(D)
     }
     
@@ -114,7 +115,6 @@ scoring_functions <- function(g, com, ignore_NA=TRUE, no_clustering_coef=TRUE,
     D_glob["modularity"] <- modularity(g, com)
     D_glob["coverage"] <- coverage
     D_glob["global density ratio"] <- density_ratio_from_aux(aux_vals)
-    #D_glob["global density ratio"] <- density_ratio(g, com)
     return(t(as.matrix(D_glob)))
 }
 
@@ -142,7 +142,7 @@ FOMD <- function(g, com, edgelist){
 
 
 scoring_functions_df <- function(G,com, ignore_NA=TRUE, no_clustering_coef=TRUE, type="local", weighted=FALSE){
-    # type: can be "local" or "global", dependeing on whether we want a cluster-by cluster or a 
+    # type: can be "local" or "global", depending on whether we want a cluster-by cluster or a 
     # global analysis
     
     if (!"weight" %in% names(edge.attributes(G)))
