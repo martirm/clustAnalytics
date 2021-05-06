@@ -3,14 +3,16 @@
 #' Generates a Barabási-Albert graph with community structure
 #' 
 #' @param t_max final graph order
-#' @param t0
+#' @param t0 initial
 #' @param p vector of label probabilities
 #' @param B matrix indicating the affinity of vertices of each label.
 #' @param m number of edges added at each step.
 #' @param G0 initial graph
 #' @param G0_labels labels of the initial graph. If NULL, they will al be set to 1.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
-barabasi_ablert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
+#' 
+#' @export
+barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
                                    sample_with_replacement=FALSE){
 
     if (is.null(G0)){
