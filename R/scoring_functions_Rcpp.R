@@ -8,6 +8,7 @@
 #' @param edelist alternatively, the edgelist of the graph
 #' @param com Community membership vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
+#' @keywords internal
 auxiliary_functions <- function(g, com, edgelist){
     if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)
     values <- cluster_auxiliary_values_Rcpp(edgelist, com)
@@ -52,7 +53,9 @@ out_degree_fractions <- function(g, com, edgelist){
 #' single row with the weighted average scores.
 #' 
 #' @examples
-#' scoring_functions_Rcpp(karate, membership(cluster_louvain(karate)))
+#' library(igraphdata)
+#' data("karate")
+#' scoring_functions(karate, membership(cluster_louvain(karate)))
 #' @export
 scoring_functions <- function(g, com, no_clustering_coef=TRUE, 
                               type="local", weighted=TRUE, w_max=NULL){

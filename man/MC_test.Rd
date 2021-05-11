@@ -7,5 +7,6 @@
 MC_test(M)
 }
 \description{
-Count contingency tables with a singel MC sampling process
+Count contingency tables with a single MC sampling process
 }
+\keyword{internal}

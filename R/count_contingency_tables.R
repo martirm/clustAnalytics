@@ -1,7 +1,8 @@
 
 #' Test for contingency table approximate counting
 #' 
-#' Count contingency tables with a singel MC sampling process
+#' Count contingency tables with a single MC sampling process
+#' @keywords internal
 MC_test <- function(M){
     H <- 0
     V <- 0

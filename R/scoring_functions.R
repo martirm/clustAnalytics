@@ -211,6 +211,7 @@ weighted_mean_no_NA <- function(v, weights){
 #' with the same label will form a subgraph).
 #' @param f Function to apply. Takes a graph as input and returns a scalar.
 #' @return vector with the result of each subgraph
+#' @keywords internal
 apply_subgraphs <- function(g, com, f, ...){
     labels <- unique(com)  
     f_aux <- function(i) f(induced_subgraph(g, v=which(com==i)), ...)

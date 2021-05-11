@@ -39,5 +39,7 @@ single row with the weighted average scores.
 Computes the scoring functions of a graph and its clusters
 }
 \examples{
-scoring_functions_Rcpp(karate, membership(cluster_louvain(karate)))
+library(igraphdata)
+data("karate")
+scoring_functions(karate, membership(cluster_louvain(karate)))
 }
