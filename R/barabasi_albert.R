@@ -4,7 +4,7 @@
 #' 
 #' @param t_max final graph order
 #' @param t0 initial
-#' @param p vector of label probabilities
+#' @param p vector of label probabilities. If they don't sum 1, they will be scaled accordingly.
 #' @param B matrix indicating the affinity of vertices of each label.
 #' @param m number of edges added at each step.
 #' @param G0 initial graph

@@ -17,7 +17,7 @@ barabasi_albert_blocks(
 \arguments{
 \item{m}{number of edges added at each step.}
 
-\item{p}{vector of label probabilities}
+\item{p}{vector of label probabilities. If they don't sum 1, they will be scaled accordingly.}
 
 \item{B}{matrix indicating the affinity of vertices of each label.}
 
