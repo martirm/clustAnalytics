@@ -20,3 +20,4 @@ vector with the result of each subgraph
 \description{
 Applies function to each subgraph of a graph
 }
+\keyword{internal}

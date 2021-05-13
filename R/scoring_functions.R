@@ -181,7 +181,13 @@ density_ratio <- function(G, com){
 }
 
 ###################
-#other
+#' Relabels membership vector
+#' 
+#' Takes a vector of vertex ids indicating community membership, and relabels the communities
+#' to have consecutive values from 1 to the number of communities.
+#' @param c numeric vector of vertex ids, not necessarily consecutive
+#' @return A numeric vector of consecutive vertex ids starting from one
+#' @export
 relabel <- function(c){  
   c2 <- c
   j <- 1
