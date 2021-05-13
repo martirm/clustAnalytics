@@ -9,11 +9,14 @@
 #' @param m number of edges added at each step.
 #' @param G0 initial graph
 #' @param G0_labels labels of the initial graph. If NULL, they will al be set to 1.
+#' @param poisson If TRUE, instead of adding m edges incident to each new vertex, 
+#' the number of new edges is sampled from a Poisson distribution with parameter m.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
 #' 
 #' @export
 barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
-                                   sample_with_replacement=FALSE){
+                                   sample_with_replacement=FALSE,
+                                   poisson=FALSE){
 
     if (is.null(G0)){
         G0 <- generate_G0(n=5*m, p=p, m=m, B=B)
@@ -21,6 +24,10 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
     }
     G <- G0
     t0 <- gorder(G) + 1
+    
+    if (poisson){ 
+        lambda <- m
+    }
     
     new_labels <- sample(1:length(p), t_max-t0+1, replace=TRUE, prob=p)
     if (is.null(G0_labels)){
@@ -35,7 +42,7 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
     i <- 1
     for (t in t0:t_max){
         weights <- degrees[1:(t-1)] * B[labels[1:(t-1)], labels[t]]
-
+        m <- rpois(1, lambda)
         new_half_edges <- sample(t-1, size=m, replace=sample_with_replacement, prob=weights)
         
         degrees[t] <- m
