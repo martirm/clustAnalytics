@@ -11,7 +11,8 @@ barabasi_albert_blocks(
   G0 = NULL,
   G0_labels = NULL,
   t_max,
-  sample_with_replacement = FALSE
+  sample_with_replacement = FALSE,
+  poisson = FALSE
 )
 }
 \arguments{
@@ -29,7 +30,14 @@ barabasi_albert_blocks(
 
 \item{sample_with_replacement}{If TRUE, allows parallel edges.}
 
+\item{poisson}{If TRUE, instead of adding m edges incident to each new vertex, 
+the number of new edges is sampled from a Poisson distribution with parameter m.}
+
 \item{t0}{initial}
+}
+\value{
+The resulting graph, as an igraph object. The vertices have a
+"label" attribute.
 }
 \description{
 Generates a Barabási-Albert graph with community structure

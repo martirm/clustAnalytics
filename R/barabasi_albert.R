@@ -13,6 +13,10 @@
 #' the number of new edges is sampled from a Poisson distribution with parameter m.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
 #' 
+#' @return The resulting graph, as an igraph object. The vertices have a
+#' "label" attribute.
+#' 
+#' 
 #' @export
 barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
                                    sample_with_replacement=FALSE,
@@ -42,7 +46,9 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
     i <- 1
     for (t in t0:t_max){
         weights <- degrees[1:(t-1)] * B[labels[1:(t-1)], labels[t]]
-        m <- rpois(1, lambda)
+        if (poisson){
+            m <- rpois(1, lambda)
+        }
         new_half_edges <- sample(t-1, size=m, replace=sample_with_replacement, prob=weights)
         
         degrees[t] <- m
