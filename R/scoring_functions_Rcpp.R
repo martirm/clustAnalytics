@@ -69,7 +69,7 @@ scoring_functions <- function(g, com, no_clustering_coef=TRUE,
     n <- length(V(g))
     function_names <- c("size", "internal density","edges inside","av degree","FOMD","expansion",
                       "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF",
-                      "density ratio", "clustering coef","modularity")
+                      "density ratio")
     D <- data.frame(matrix(nrow=n_com,ncol=length(function_names)))
     colnames(D) <- function_names
     rownames(D) <- c(1:n_com)
