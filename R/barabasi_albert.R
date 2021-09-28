@@ -10,7 +10,7 @@
 #' @param G0 initial graph
 #' @param G0_labels labels of the initial graph. If NULL, they will al be set to 1.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
-barabasi_ablert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
+barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
                                    sample_with_replacement=FALSE){
 
     if (is.null(G0)){
