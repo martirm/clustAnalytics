@@ -1,7 +1,7 @@
 #' Generates a Barabási-Albert graph with community structure
 #' 
-#' @param t_max final graph order
-#' @param t0 initial
+#' @param t_max maximum value of t (which corresponds to graph order)
+#' @param t0 initial t
 #' @param p vector of label probabilities. If they don't sum 1, they will be scaled accordingly.
 #' @param B matrix indicating the affinity of vertices of each label.
 #' @param m number of edges added at each step.
@@ -42,11 +42,11 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
     }
     
     for (t in t0:t_max){
+        degrees[t] <- m
         if (type == "Hajek"){
             weights <- degrees[1:(t-1)] * B[labels[1:(t-1)], labels[t]]
             new_half_edges <- sample(t-1, size=m, replace=sample_with_replacement, prob=weights)
             el <- matrix(nrow=m, ncol=2) #edgelist of new edges
-            degrees[t] <- m
             for (j in 1:m){
                 v <- new_half_edges[j]
                 degrees[v] <- degrees[v] + 1
@@ -62,12 +62,15 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
             el <- matrix(nrow=m, ncol=2) #edgelist of new edges
             k <- 1 
             for (j in unique(new_half_edge_blocks)){
-                candidates = which(labels[1:t-1]==new_half_edge_blocks[j])
+                candidates = which(labels[1:t-1]==j)
                 n_half_edges = sum(new_half_edge_blocks==j)
-                print(candidates)
-                print(n_half_edges)
-                connected_vertices <- sample(candidates, size=n_half_edges, prob=degrees[candidates],
-                            replace=sample_with_replacement)
+                if (length(candidates) == 1){
+                    connected_vertices <- rep(candidates, n_half_edges)
+                }
+                else{
+                    connected_vertices <- sample(candidates, size=n_half_edges, prob=degrees[candidates],
+                                replace=sample_with_replacement)
+                }
                 for (v in connected_vertices){
                     degrees[v] <- degrees[v] + 1
                     el[k,] <- c(t, v)
