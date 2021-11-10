@@ -18,8 +18,34 @@ knitr::opts_chunk$set(
 library(clustAnalytics)
 ```
 
-To showcase the randomization process, we apply it to the karate club graph, with the default settings (positive weights with no upper bound, which suits this graph):
+
+## Significance
+To showcase the randomization process, we apply it to the Zachary's karate club graph, with the default settings (positive weights with no upper bound, which suits this graph):
 ```{r}
 data(karate, package="igraphdata")
-rewireCpp(karate)
+E(karate)
+rewired_karate <- rewireCpp(karate, weight_sel = "max_weight")
+E(rewired_karate)
 ```
+
+Now compute the scoring functions for the karate club graph. By default the clustering algorithms are Louvain, label propagation and Walktrap, but the function can take any list of clustering algorithms for igraph graphs.
+```{r}
+# this corresponds to the club each member ended up with after the split, 
+# which we could consider the ground truth clustering for this graph.
+karate_gt_clustering <- c(1,1,1,1,1,1,1,1,1,2,1,1,1,1,2,2,1,1,
+                          2,1,2,1,2,2,2,2,2,2,2,2,2,2,2,2)
+significance_table_karate <- evaluate_significance(karate, ground_truth=TRUE, 
+                                                   gt_clustering=karate_gt_clustering)
+significance_table_karate
+```
+
+
+
+## Stability
+Here we perform a nonparametric bootstrap to the karate club graph and the same selection of algorithms. For each instance, the set of vertices is resampled, the induced graph is obtained by taking the new set of vertices with the induced edges from the original graph, and the clustering algorithms are applied. Then, these results are compared to the induced original clusterings using several metrics: the variation of information (VI), normalized reduced mutual information (NRMI) and both adjusted and regular Rand index (Rand and adRand):
+```{r}
+b_karate <- boot_alg_list(g=karate, return_data=FALSE, R=9) 
+b_karate
+```
+
+

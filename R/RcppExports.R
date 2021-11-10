@@ -45,6 +45,10 @@ rcpp_hello_world <- function() {
     .Call('_clustAnalytics_rcpp_hello_world', PACKAGE = 'clustAnalytics')
 }
 
+resampled_edgelist <- function(el, s) {
+    .Call('_clustAnalytics_resampled_edgelist', PACKAGE = 'clustAnalytics', el, s)
+}
+
 randomize <- function(EdgeList, Q, weight_sel = "const_var", lower_bound = 0, upper_bound = -1) {
     .Call('_clustAnalytics_randomize', PACKAGE = 'clustAnalytics', EdgeList, Q, weight_sel, lower_bound, upper_bound)
 }

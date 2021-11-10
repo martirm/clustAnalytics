@@ -69,7 +69,7 @@ scoring_functions <- function(g, com, no_clustering_coef=TRUE,
     n <- length(V(g))
     function_names <- c("size", "internal density","edges inside","av degree","FOMD","expansion",
                       "cut ratio","conductance", "norm cut", "max ODF","average ODF","flake ODF",
-                      "density ratio", "clustering coef","modularity")
+                      "density ratio", "modularity")
     D <- data.frame(matrix(nrow=n_com,ncol=length(function_names)))
     colnames(D) <- function_names
     rownames(D) <- c(1:n_com)
@@ -109,8 +109,8 @@ scoring_functions <- function(g, com, no_clustering_coef=TRUE,
     
     # type=="global" from here
     D_glob <- apply(D,2,weighted.mean, w=D$size, na.rm=TRUE)
-    D_glob["size"] <- NaN
-    D_glob["graph_size"] <- n
+    #D_glob["size"] <- NaN
+    D_glob["graph_order"] <- n
     D_glob["n_clusters"] <- n_com
     D_glob["mean_cluster_size"] <- mean(D$size)
     
