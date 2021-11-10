@@ -12,7 +12,7 @@ barabasi_albert_blocks(
   G0_labels = NULL,
   t_max,
   sample_with_replacement = FALSE,
-  poisson = FALSE
+  type = "Hajek"
 )
 }
 \arguments{
@@ -26,14 +26,13 @@ barabasi_albert_blocks(
 
 \item{G0_labels}{labels of the initial graph. If NULL, they will al be set to 1.}
 
-\item{t_max}{final graph order}
+\item{t_max}{maximum value of t (which corresponds to graph order)}
 
 \item{sample_with_replacement}{If TRUE, allows parallel edges.}
 
-\item{poisson}{If TRUE, instead of adding m edges incident to each new vertex, 
-the number of new edges is sampled from a Poisson distribution with parameter m.}
+\item{type}{Either "Hajek" or "block_first".}
 
-\item{t0}{initial}
+\item{t0}{initial t}
 }
 \value{
 The resulting graph, as an igraph object. The vertices have a
