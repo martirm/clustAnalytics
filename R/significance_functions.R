@@ -171,7 +171,7 @@ percentile_matrix <- function(M, l){
     external_conn_scores <- c("expansion", "cut ratio", "conductance", "norm cut", "max ODF", "average ODF", "flake ODF")
     other_scores <- setdiff(rownames(M), external_conn_scores)
     
-    element_rank <- function(x, v) percent_rank(c(x,v))[1]
+    element_rank <- function(x, v) dplyr::percent_rank(c(x,v))[1]
     M_per <- M
     for (j in 1:(dim(M))[2]){
         for (i in external_conn_scores)
@@ -234,12 +234,13 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
         }
         
         mean_table <- Reduce('+', table_list)/n_reps
-        mean_table_nodegen <- matrix_elwise_mean_no_degen(table_list)
+        # this part is causing errors. Unavailable for now
+        # mean_table_nodegen <- matrix_elwise_mean_no_degen(table_list)
         table2 <- mean_table
-        if (ignore_degenerate_cl){
-            table2[lower_is_better,] <- mean_table_nodegen[lower_is_better,]
-            table_list <- lapply(table_list, nullify_degen)
-        }
+        # if (ignore_degenerate_cl){
+        #     table2[lower_is_better,] <- mean_table_nodegen[lower_is_better,]
+        #     table_list <- lapply(table_list, nullify_degen)
+        # }
         
         table_per <- percentile_matrix(table1, table_list)
     }

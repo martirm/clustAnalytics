@@ -28,7 +28,7 @@ rewired_karate <- rewireCpp(karate, weight_sel = "max_weight")
 E(rewired_karate)
 ```
 
-Now compute the scoring functions for the karate club graph. By default the clustering algorithms are Louvain, label propagation and Walktrap, but the function can take any list of clustering algorithms for igraph graphs.
+Now we compute the scoring functions for the karate club graph. By default the clustering algorithms are Louvain, label propagation and Walktrap, but the function can take any list of clustering algorithms for igraph graphs.
 ```{r}
 # this corresponds to the club each member ended up with after the split, 
 # which we could consider the ground truth clustering for this graph.
