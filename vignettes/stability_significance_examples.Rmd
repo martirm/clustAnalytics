@@ -10,6 +10,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  warning = FALSE,
   comment = "#>"
 )
 ```
@@ -39,6 +40,18 @@ significance_table_karate <- evaluate_significance(karate, ground_truth=TRUE,
 significance_table_karate
 ```
 
+Now we generate a graph from a stochastic block model in which we set very strong clusters (the elements in the diagonal of the matrix are much larger than the rest, so the probability of intra-cluster edges is much higher than that of inter-cluster edges).
+
+```{r}
+pm <- matrix (c(.3, .001, .001, .003,
+                .001, .2, .005, .002,
+                .001, .005, .2, .001,
+                .003, .002, .001, .3), nrow=4, ncol=4)
+g_sbm <- sample_sbm(100, pref.matrix=pm, block.sizes=c(25,25,25,25))
+E(g_sbm)$weight <- 1
+significance_table_sbm <- evaluate_significance(g_sbm)
+significance_table_sbm
+```
 
 
 ## Stability
@@ -47,5 +60,13 @@ Here we perform a nonparametric bootstrap to the karate club graph and the same 
 b_karate <- boot_alg_list(g=karate, return_data=FALSE, R=9) 
 b_karate
 ```
+
+And the same for the stochastic block model graph:
+```{r}
+b_sbm <- boot_alg_list(g=g_sbm, return_data=FALSE, R=99)
+b_sbm
+```
+We can clearly see that for all metrics, the results are much more stable, which makes sense because we created the sbm graph with very strong clusters.
+
 
 
