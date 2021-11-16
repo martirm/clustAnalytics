@@ -52,7 +52,7 @@ out_degree_fractions <- function(g, com, edgelist){
 #' single row with the weighted average scores.
 #'
 #' @examples
-#' scoring_functions_Rcpp(karate, membership(cluster_louvain(karate)))
+#' scoring_functions(karate, membership(cluster_louvain(karate)))
 #' @export
 scoring_functions <- function(g, com, no_clustering_coef=TRUE,
                               type="local", weighted=TRUE, w_max=NULL){
