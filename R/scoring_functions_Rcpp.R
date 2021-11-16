@@ -332,6 +332,67 @@ density_ratio <- function(g, com, weighted=TRUE, w_max=NULL, type="local"){
     else{
         return(density_ratio_from_aux(aux_vals))
     }
+}
+
+#' Max Out Degree Fraction
+#'
+#' Computes the Maximum Out Degree Fraction (Max ODF) of a graph (which can be weighted) 
+#' and its communities.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param com Community membership integer vector. Each element corresponds to a vertex
+#' of the graph, and contains the index of the community it belongs to.
+#' @return Numeric vector with the Max ODF of each community.
+#' @export
+max_odf <- function(g, com, no_clustering_coef=TRUE,
+                              type="local", weighted=TRUE, w_max=NULL){
     
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    ODFs <- out_degree_fractions(edgelist = el, com = com)
+    return(ODFs[,1])
+}
+
+#' Average Out Degree Fraction
+#'
+#' Computes the Average Out Degree Fraction (Average ODF) of a graph (which can be weighted) 
+#' and its communities.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param com Community membership integer vector. Each element corresponds to a vertex
+#' of the graph, and contains the index of the community it belongs to.
+#' @return Numeric vector with the Average ODF of each community.
+#' @export
+average_odf <- function(g, com, no_clustering_coef=TRUE,
+                    type="local", weighted=TRUE, w_max=NULL){
     
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    ODFs <- out_degree_fractions(edgelist = el, com = com)
+    return(ODFs[,2])
+}
+
+#' Flake Out Degree Fraction
+#'
+#' Computes the Flake Out Degree Fraction (Max ODF) of a graph (which can be weighted) 
+#' and its communities.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param com Community membership integer vector. Each element corresponds to a vertex
+#' of the graph, and contains the index of the community it belongs to.
+#' @return Numeric vector with the Max ODF of each community.
+#' @export
+max_odf <- function(g, com, no_clustering_coef=TRUE,
+                    type="local", weighted=TRUE, w_max=NULL){
+    
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    ODFs <- out_degree_fractions(edgelist = el, com = com)
+    return(ODFs[,3])
 }
