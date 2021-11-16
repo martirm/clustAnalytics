@@ -1,5 +1,5 @@
 #' Generates a Barabási-Albert graph with community structure
-#' 
+#'
 #' @param t_max maximum value of t (which corresponds to graph order)
 #' @param t0 initial t
 #' @param p vector of label probabilities. If they don't sum 1, they will be scaled accordingly.
@@ -9,11 +9,11 @@
 #' @param G0_labels labels of the initial graph. If NULL, they will al be set to 1.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
 #' @param type Either "Hajek" or "block_first".
-#' 
+#'
 #' @return The resulting graph, as an igraph object. The vertices have a
 #' "label" attribute.
-#' 
-#' 
+#'
+#'
 #' @export
 barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
                                    sample_with_replacement=FALSE,
@@ -25,22 +25,22 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
     }
     G <- G0
     t0 <- gorder(G) + 1
-    
+
     new_labels <- sample(1:length(p), t_max-t0+1, replace=TRUE, prob=p)
     if (is.null(G0_labels)){
         G0_labels <- rep(1, gorder(G0))
     }
     labels <- c(G0_labels, new_labels)
-    
+
     degrees <- rep(0, t_max)
     degrees[1:(t0-1)] <- degree(G0)
-    
+
     l <- as.list(t0:t_max)
-    
+
     if (type == "block_first"){
         fa <-  first_appearance(labels)
     }
-    
+
     for (t in t0:t_max){
         degrees[t] <- m
         if (type == "Hajek"){
@@ -53,14 +53,14 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
                 el[j,] <- c(t, v)
             }
         }
-        
+
         if (type == "block_first"){
             populated_communities <- which(fa < t)
-            new_half_edge_blocks <- sample(populated_communities, size=m, 
+            new_half_edge_blocks <- sample(populated_communities, size=m,
                                            replace=TRUE,
                                            prob = B[labels[t], populated_communities])
             el <- matrix(nrow=m, ncol=2) #edgelist of new edges
-            k <- 1 
+            k <- 1
             for (j in unique(new_half_edge_blocks)){
                 candidates = which(labels[1:t-1]==j)
                 n_half_edges = sum(new_half_edge_blocks==j)
@@ -80,7 +80,7 @@ barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
         }
         l[[t-t0+1]] <- el
     }
-    
+
     complete_edgelist <- do.call(rbind, l)
 
     G <- add.vertices(G0, nv=t_max-t0+1)
@@ -104,12 +104,12 @@ first_appearance <- function(labels){
 
 
 generate_G0 <- function(n, p, m, B){
-    #TO DO: 
+    #TO DO:
     # -verify that there are enough vertices so that we don't need to add more edges than possible
     # -add isolated vertices to the graph (if creating from edgelist this doesn't happen)
 
     n <- round(n)
-    
+
     labels <- sample(length(p), n, replace=TRUE, prob=p)
     potential_edges <- matrix(0, nrow=n*(n-1)/2, ncol=3) #first and second columns are adjacent vertices, third is the weight of the edge probability
     k <- 1
@@ -123,10 +123,8 @@ generate_G0 <- function(n, p, m, B){
     selected_edgelist <- potential_edges[selected_edges,1:2]
     G0 <- graph_from_edgelist(selected_edgelist, directed=FALSE)
     V(G0)$label <- labels
-    
+
     if (any( degree(G0) == 0 )) return(generate_G0(n,p,m,B))
     return(G0)
-    
+
 }
-
-
