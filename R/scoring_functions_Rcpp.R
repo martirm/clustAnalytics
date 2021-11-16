@@ -36,8 +36,7 @@ out_degree_fractions <- function(g, com, edgelist){
 #' Scoring Functions of a Graph Partition
 #'
 #' Computes the scoring functions of a graph and its clusters.
-#' @param g Graph to be analyzed (as an igraph object). It can be a weighted graph, 
-#' in which case the weights of the edges
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @param type can be "local" for a cluster by cluster analysis, or "global" for
@@ -134,13 +133,205 @@ density_ratio_from_aux <- function(aux_vals){
 #' of nodes of each community whose internal degree (i.e. the degree accounting
 #' only intra-community edges) is greater than the median degree of the whole
 #' graph.
-#' @param g Graph to be analyzed (as an igraph object)
-#' @param edelist alternatively, the edgelist of the graph
-#' @param com Community membership vector. Each element corresponds to a vertex
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param edelist alternatively, the edgelist of the graph, as a matrix where the 
+#' first two columns to the vertices and the third is the weight of each edge.
+#' @param com Community membership integer vector. Each element corresponds to a vertex.
+#' @export
 FOMD <- function(g, com, edgelist){
     if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)
     FOMD_Rcpp(edgelist, com)
 }
 
 
+#' Internal Density
+#' 
+#' Internal density of a graph's communities
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the internal density of each community.
+#' @export
+internal_density <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    # just to make the following lines more readable. (note that _s stands for subgraph)
+    n_s <- aux_vals[,"n"]
+    m_s <- aux_vals[,"m_w"]
+    c_s <- aux_vals[,"c_w"]
+    
+    return(m_s * 2 / (n_s * (n_s-1)))
+}
 
+#' Edges Inside
+#' 
+#' Number of edges inside a graph's communities, or their accumulated weight if
+#' the graph's edges are weighted.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the internal edge weight of each community
+#' @export
+edges_inside <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+
+    return(aux_vals[,"m_w"])
+}
+
+#' Average Degree
+#' 
+#' Average degree (weighted degree, if the graph is weighted) of a graph's communities.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the average degree of each community.
+#' @export
+average_degree <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    # just to make the following lines more readable. (note that _s stands for subgraph)
+    n_s <- aux_vals[,"n"]
+    m_s <- aux_vals[,"m_w"]
+    return(m_s / n_s)
+}
+
+#' Expansion
+#' 
+#' Given a graph (possibly weighted) split into communities, the expansion of a community
+#' is the sum of all edge weights connecting it to the rest of the graph divided by the number
+#' of vertices in the community
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the expansion of each community.
+#' @export
+expansion <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    # just to make the following lines more readable. (note that _s stands for subgraph)
+    n_s <- aux_vals[,"n"]
+    c_s <- aux_vals[,"c_w"]
+    
+    return(c_s / n_s)
+}
+
+#' Cut Ratio
+#' 
+#' The cut ratio of a graph's community is the total edge weight connecting the community
+#' to the rest of the graph divided by number of unordered pairs of vertices such that one
+#' belongs to the community and the other does not.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the cut ratio of each community.
+#' @export
+cut_ratio <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    # just to make the following lines more readable. (note that _s stands for subgraph)
+    n_s <- aux_vals[,"n"]
+    m_s <- aux_vals[,"m_w"]
+    c_s <- aux_vals[,"c_w"]
+    
+    return(c_s / (n_s * (n - n_s)))
+}
+
+#' Conductance
+#' 
+#' Conductance of a graph's communities, which is given by
+#' \deqn{\frac{c_s}{2m_s + c_s}},
+#' where \eqn{c_s} is the weight of the edges connecting the community s to the rest
+#' of the graph, and m_s is the internal weight of the community.
+#' 
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the conductance of each community.
+#' @export
+conductance <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    # just to make the following lines more readable. (note that _s stands for subgraph)
+    m_s <- aux_vals[,"m_w"]
+    c_s <- aux_vals[,"c_w"]
+    
+    return(c_s / (2*m_s + c_s))
+}
+
+#' Normalized cut
+#' 
+#' Normalized cut of a graph's communities, which is given by 
+#' \deqn{\frac{c_s}{2m_s+c_s}+\frac{c_s}{2(m-m_s)+c_s}},
+#' where \eqn{c_s} is the weight of the edges connecting the community s to the rest
+#' of the graph, \eqn{m_s} is the internal weight of the community, and \eqn{m} is 
+#' the total weight of the network.
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the normalized cut of each community.
+#' @export
+normalized_cut <- function(g, com, weighted=TRUE, w_max=NULL){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    # just to make the following lines more readable. (note that _s stands for subgraph)
+    m_s <- aux_vals[,"m_w"]
+    c_s <- aux_vals[,"c_w"]
+    
+    return( c_s / (2*m_s + c_s) + c_s / ( 2*(sum(m_s)-m_s) + c_s) ) 
+}
+
+#' Density Ratio
+#' 
+#' Internal density of a graph's communities. 
+#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+#' attribute, those will be used as weights.
+#' @param com community membership integer vector. Each element corresponds to a vertex.
+#' @param type can either be "local" or "global"
+#' @return Numeric vector with the internal density of each community.
+#' @export
+density_ratio <- function(g, com, weighted=TRUE, w_max=NULL, type="local"){
+    if (!"weight" %in% names(edge.attributes(g))){
+        G <- set_edge_attr(g, "weight", value=1)
+        w_max <- 1
+    }
+    el <- igraph_to_edgelist(g)
+    aux_vals <- auxiliary_functions(edgelist = el, com = com)
+    if (type=="local"){
+        return(local_density_ratio_Rcpp(aux_vals))
+    }
+    else{
+        return(density_ratio_from_aux(aux_vals))
+    }
+    
+    
+}

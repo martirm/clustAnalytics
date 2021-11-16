@@ -15,6 +15,6 @@ of the graph, and contains the index of the community it belongs to.}
 \item{edelist}{alternatively, the edgelist of the graph}
 }
 \description{
-Given a weighted graph and a partition into communities, returns the 
+Given a weighted graph and a partition into communities, returns the
 internal edge weight, the size, and the cut weight for each community.
 }
