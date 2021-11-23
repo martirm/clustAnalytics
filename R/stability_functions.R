@@ -21,33 +21,6 @@ perturbate_matrix <- function (M, sd=-1, sd_scale=0.1, truncated=FALSE){
     return (M)
 }
 
-cluster_bootstrap_p <- function (returns, n_samples=10, sd=-1, sd_scale=0.1, truncated=FALSE){
-    #replace normal distribution with truncated normal (between 0 and 1)
-    n <- dim(returns)[2]
-    M_dist <- dcor.M(returns[,1:(n/2)])
-    gamma.dist=1.48
-    c_dist <- HminCpp(M.dist, gamma.dist, itermax=10)
-    vi_distances <- vector (mode="numeric", length=n_samples)
-    rand_indices <- vi_distances
-    for (i in 1:n_samples){
-        S_sample <- sample(n/2, n/2, replace=TRUE)
-        M_dist_resample <- M_dist[S_sample,S_sample]
-        M_p <- perturbate_matrix(M_dist_resample, sd= sd, sd_scale=sd_scale, truncated=truncated)
-        c_dist_resample <- HminCpp(M_p, gamma.dist, itermax=10)
-        
-        c_dist_nd <- c_dist[S_sample] #gets the original clusters for the new sample
-        nd <- !duplicated(S_sample) #vector of bools indicating which of the elements are not duplicates
-        c_dist_nd <- c_dist_nd[nd]
-        c_dist_resample <- c_dist_resample[nd]
-        
-        vi_distances[i] <- mcclust::vi.dist(c_dist_nd,c_dist_resample)/log(n)
-        rand_indices[i] <- fossil::rand.index(c_dist_nd, c_dist_resample)
-        
-    }
-    print(mean(rand_indices))
-    return (mean (vi_distances))
-}
-
 cluster_bootstrap_igraph <- function (clust_alg, g, n_samples=10, sd=-1, sd_scale=0.1, truncated=FALSE, edgelist=TRUE, perturbate=TRUE, add_self_edges=TRUE){
     n <- gorder(g)
     c_original <- clust_alg(g)
