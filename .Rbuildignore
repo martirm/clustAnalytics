@@ -1,3 +1,4 @@
 devto^.*\.Rproj$
 ^\.Rproj\.user$
 clustAnalytics.Rproj
+^LICENSE\.md$
