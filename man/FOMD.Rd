@@ -7,15 +7,17 @@
 FOMD(g, com, edgelist)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object)}
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+attribute, those will be used as weights.}
 
-\item{com}{Community membership vector. Each element corresponds to a vertex}
+\item{com}{Community membership integer vector. Each element corresponds to a vertex.}
 
-\item{edelist}{alternatively, the edgelist of the graph}
+\item{edelist}{alternatively, the edgelist of the graph, as a matrix where the 
+first two columns to the vertices and the third is the weight of each edge.}
 }
 \description{
 Given a weighted graph and a partition into communities, returns the fraction
-of nodes of each community whose internal degree (i.e. the degree accounting 
+of nodes of each community whose internal degree (i.e. the degree accounting
 only intra-community edges) is greater than the median degree of the whole
 graph.
 }

@@ -7,7 +7,7 @@
 evaluate_significance(
   g,
   alg_list = clust_alg_list,
-  no_clustering_coef = FALSE,
+  no_clustering_coef = TRUE,
   ground_truth = FALSE,
   gt_clustering = NULL,
   w_max = 1

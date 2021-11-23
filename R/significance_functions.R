@@ -41,7 +41,9 @@ do.call_tryCatch <- function(f, args){
 #' a ground truth clustering, which has to be provided as \code{gt_clustering}
 #' @param gt_clustering ground truth clustering. Only used if \code{ground_truth}
 #' is set to \code{TRUE}.
-evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef=FALSE, 
+#' 
+#' @export
+evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef=TRUE, 
                                   ground_truth=FALSE, gt_clustering=NULL, w_max=1){
     #given an algorithm list and a graph
     c_list <- lapply(alg_list, do.call, list(g)) #clusters graph g by all algorithms in list

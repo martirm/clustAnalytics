@@ -14,12 +14,12 @@ scoring_functions(
 )
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object)}
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).}
 
-\item{com}{Community membership vector. Each element corresponds to a vertex
+\item{com}{Community membership integer vector. Each element corresponds to a vertex
 of the graph, and contains the index of the community it belongs to.}
 
-\item{no_clustering_coef}{If TRUE, skips the computation of the clustering 
+\item{no_clustering_coef}{Logical. If TRUE, skips the computation of the clustering
 coefficient (which can be slow on large graphs).}
 
 \item{type}{can be "local" for a cluster by cluster analysis, or "global" for
@@ -27,19 +27,18 @@ a global analysis of the whole graph partition.}
 
 \item{weighted}{Is the graph weighted? If it is, doesn't compute TPR score.}
 
-\item{w_max}{Upper bound for edge weights. Should be generally left as default (NULL).
+\item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (NULL).
 Only affects the computation of the clustering coefficient.}
 }
 \value{
-If \code{type=="local"}, returns a dataframe with a row for each 
+If \code{type=="local"}, returns a dataframe with a row for each
 community, and a column for each score. If \code{type=="global"}, returns a
 single row with the weighted average scores.
 }
 \description{
-Computes the scoring functions of a graph and its clusters
+Computes the scoring functions of a graph and its clusters.
 }
 \examples{
-library(igraphdata)
-data("karate")
+data(karate, package="igraphdata")
 scoring_functions(karate, membership(cluster_louvain(karate)))
 }

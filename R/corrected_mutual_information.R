@@ -86,8 +86,8 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
         RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, alternative_approximation=alternative_approximation)
         RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, alternative_approximation=alternative_approximation)
         
-        cat("MI=", MI, "LO=", log_omega/n, "RMI_c1=",  RMI_c1, "RMI_c2", RMI_c2, "\n")
-        cat("RMI=", 2*(MI-log_omega/n)/(RMI_c1 + RMI_c2), "\n")
+        #cat("MI=", MI, "LO=", log_omega/n, "RMI_c1=",  RMI_c1, "RMI_c2", RMI_c2, "\n")
+        #cat("RMI=", 2*(MI-log_omega/n)/(RMI_c1 + RMI_c2), "\n")
         if (2*(RMI)/(RMI_c1 + RMI_c2) > 1){
             save(c1, c2, file="problematic_news_clusterings.RData")
         }

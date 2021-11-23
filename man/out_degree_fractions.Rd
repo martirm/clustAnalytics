@@ -15,6 +15,6 @@ of the graph, and contains the index of the community it belongs to.}
 \item{edelist}{alternatively, the edgelist of the graph}
 }
 \description{
-Given a weighted graph and a partition into communities, returns the 
+Given a weighted graph and a partition into communities, returns the
 maximum, average and flake out degree fractions of each community.
 }

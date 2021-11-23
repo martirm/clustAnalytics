@@ -9,16 +9,20 @@ Maintainer: Martí Renedo Mirambell <marti.renedo@gmail.com>
 Description: This package evaluates the stability and significance of clusters on igraph graphs.
     Supports weighted and unweighted graphs.
 License: GPL-3
-Imports: 
-    Rcpp (>= 1.0.1), 
-    mcclust
+Imports:
+    Rcpp (>= 1.0.1),
+    mcclust,
+    mclust,
+    truncnorm,
+    boot,
+    fossil
 LinkingTo: Rcpp
-RoxygenNote: 7.1.0
-Suggests: 
+RoxygenNote: 7.1.2
+Suggests:
     igraphdata,
     knitr,
     testthat,
 VignetteBuilder: knitr
-Depends: 
+Depends:
     R (>= 2.10),
     igraph
