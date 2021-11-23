@@ -2,7 +2,7 @@
 
 perturbate_matrix <- function (M, sd=-1, sd_scale=0.1, truncated=FALSE){
     if (sd==-1){
-        sd= sqrt(var(as.vector(M))*sd_scale)
+        sd= sqrt(stats::var(as.vector(M))*sd_scale)
     }
     
     n <- dim(M)[1]
@@ -98,7 +98,7 @@ resample_igraph <- function (g, S_sample, perturbate=FALSE, sd=-1, sd_scale=0.1,
     if (perturbate){
         p <- function(weight){
             if (sd==-1){
-                sd= sqrt(var(el[,3])*sd_scale)
+                sd= sqrt(stats::var(el[,3])*sd_scale)
             }
             if (truncated) 
                 return(truncnorm::rtruncnorm(1, mean=weight, sd=sd, a=0, b=1))

@@ -16,7 +16,7 @@ degree_s <- function(G,v,s){ #weighted degree of v over subgraph s (given by a l
 
 median_degree_w <- function(G){
   M <- get.adjacency(G,attr="weight")
-  median(apply(M,1,sum))  #computes the median of the degree sequence
+  stats::median(apply(M,1,sum))  #computes the median of the degree sequence
 }
 
 cs_w <- function(G,s){ #sum of weight of edges connecting vertices of s to the rest of the graph
