@@ -15,7 +15,8 @@ Imports:
     mclust,
     truncnorm,
     boot,
-    fossil
+    fossil,
+    dplyr
 LinkingTo: Rcpp
 RoxygenNote: 7.1.2
 Suggests:
