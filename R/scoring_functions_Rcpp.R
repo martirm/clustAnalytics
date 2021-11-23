@@ -110,7 +110,7 @@ scoring_functions <- function(g, com, no_clustering_coef=TRUE,
     }
 
     # type=="global" from here
-    D_glob <- apply(D,2,weighted.mean, w=D$size, na.rm=TRUE)
+    D_glob <- apply(D,2,stats::weighted.mean, w=D$size, na.rm=TRUE)
     #D_glob["size"] <- NaN
     D_glob["graph_order"] <- n
     D_glob["n_clusters"] <- n_com
@@ -255,6 +255,7 @@ cut_ratio <- function(g, com, weighted=TRUE, w_max=NULL){
     n_s <- aux_vals[,"n"]
     m_s <- aux_vals[,"m_w"]
     c_s <- aux_vals[,"c_w"]
+    n <- length(V(g))
 
     return(c_s / (n_s * (n - n_s)))
 }
