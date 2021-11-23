@@ -8,7 +8,7 @@ Author: Martí Renedo Mirambell
 Maintainer: Martí Renedo Mirambell <marti.renedo@gmail.com>
 Description: This package evaluates the stability and significance of clusters on igraph graphs.
     Supports weighted and unweighted graphs.
-License: GPL (>= 3)
+License: GPL (>= 3) + file LICENSE
 Imports:
     Rcpp (>= 1.0.1),
     mcclust,
