@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 #include <map>
-#include "graph.hpp"
+#include "graph.h"
 using namespace Rcpp;
 
 

@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 #include <map>
 #include <vector>
-#include "graph.hpp"
+#include "graph.h"
 using namespace Rcpp;
 
 

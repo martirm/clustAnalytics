@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 #include <cmath>
-#include "ssmatrix.hpp"
+#include "ssmatrix.h"
 
 using namespace Rcpp;
 

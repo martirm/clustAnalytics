@@ -4,7 +4,7 @@
 #include <Rcpp.h>
 #include <unordered_map>
 #include <vector>
-#include "svector.hpp"
+#include "svector.h"
 
 // SSMatrix stands for Sparse Sampling Matrix
 class SSMatrix{

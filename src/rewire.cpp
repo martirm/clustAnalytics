@@ -2,7 +2,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
-#include "graph.hpp"
+#include "graph.h"
 
 using namespace Rcpp;
 using namespace std;

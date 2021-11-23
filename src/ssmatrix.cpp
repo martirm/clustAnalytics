@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <vector>
 #include <cmath>
-#include "ssmatrix.hpp"
+#include "ssmatrix.h"
 
 
 void SSMatrix::empty_SSMatrix_initialization(Rcpp::IntegerMatrix M){

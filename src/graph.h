@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include <Rcpp.h>
-#include "svector.hpp"
+#include "svector.h"
 
 struct Edge{
     int a;
