@@ -125,7 +125,7 @@ merge4 <- function(table1, table2, table3, digits=3){
 
 pull_element <- function(A, i, j) A[i,j]
 pull_element_list <- function(l, i,j) sapply(l, pull_element, i=i, j=j)
-pull_element_list_nodegen <- function(l, i, j, degen_row="n_communities"){
+pull_element_list_nodegen <- function(l, i, j, degen_row="n_clusters"){
     # pulls list of elements (i,j) out of each of the matrices of a list, but only those for which
     # ("n_communities", j) is not 1 (degenerate cases)
     l_ij <- pull_element_list(l, i, j)
@@ -218,20 +218,9 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
                                                           upper_bound=upper_bound, 
                                                           weight_sel=weight_sel), 
                                         simplify=FALSE)
-        if (parallel){
-            no_cores <- detectCores(logical = TRUE)
-            cl <- makeCluster(no_cores-1)  
-            registerDoParallel(cl) 
-            clusterExport(cl,list('evaluate_significance', 'cluster_leading_eigen'), envir=environment())
-            table_list <- parLapply(cl=cl, rewired_graph_list, evaluate_significance, alg_list=alg_list,
-                                   no_clustering_coef=no_clustering_coef, ground_truth=ground_truth,
-                                   gt_clustering=gt_clustering)
-        }
-        else{
-            table_list <- lapply(rewired_graph_list, evaluate_significance, alg_list=alg_list,
-                                   no_clustering_coef=no_clustering_coef, ground_truth=ground_truth,
-                                   gt_clustering=gt_clustering)
-        }
+        table_list <- lapply(rewired_graph_list, evaluate_significance, alg_list=alg_list,
+                             no_clustering_coef=no_clustering_coef, ground_truth=ground_truth,
+                             gt_clustering=gt_clustering)
         
         mean_table <- Reduce('+', table_list)/n_reps
         # this part is causing errors. Unavailable for now
