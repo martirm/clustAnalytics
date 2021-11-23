@@ -1,9 +1,5 @@
 ---
-<<<<<<< Updated upstream
-title: "test-vignette"
-=======
 title: "Stability and Significance Examples"
->>>>>>> Stashed changes
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{test-vignette}
@@ -61,11 +57,7 @@ significance_table_sbm
 ## Stability
 Here we perform a nonparametric bootstrap to the karate club graph and the same selection of algorithms. For each instance, the set of vertices is resampled, the induced graph is obtained by taking the new set of vertices with the induced edges from the original graph, and the clustering algorithms are applied. Then, these results are compared to the induced original clusterings using several metrics: the variation of information (VI), normalized reduced mutual information (NRMI) and both adjusted and regular Rand index (Rand and adRand):
 ```{r}
-<<<<<<< Updated upstream
-b_karate <- boot_alg_list(g=karate, return_data=FALSE, R=9) 
-=======
 b_karate <- boot_alg_list(g=karate, return_data=FALSE, R=99) 
->>>>>>> Stashed changes
 b_karate
 ```
 
