@@ -4,7 +4,13 @@
 \alias{boot_alg_list}
 \title{Performs nonparametric bootstrap to a graph and a list of clustering algorithms}
 \usage{
-boot_alg_list(alg_list, g, R = 999, return_data = FALSE, type = "global")
+boot_alg_list(
+  alg_list = clust_alg_list,
+  g,
+  R = 999,
+  return_data = FALSE,
+  type = "global"
+)
 }
 \arguments{
 \item{alg_list}{List of igraph clustering algorithms}
