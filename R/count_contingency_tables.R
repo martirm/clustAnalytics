@@ -17,7 +17,7 @@ MC_test <- function(M){
         dummy <- readline()
         if (dummy == "stop") break
         for(i in 1:100000){
-            walk_step(M,0,1)
+            walk_step(M,0)
             if (matrix_equal(M, original_M)) H <- H+1
             V <- V+1
             
