@@ -53,9 +53,9 @@ void randomize_g(Graph &g, double Q, string weight_sel = "const_var"){
             ++performed_switchings;
         }
     }
-    Rcout << "done" << endl;
-    Rcout << "Switchings performed: " << performed_switchings << "/"
-          << itermax << endl;
+    // Rcout << "done" << endl;
+    // Rcout << "Switchings performed: " << performed_switchings << "/"
+    //       << itermax << endl;
 }
 
 
@@ -65,6 +65,6 @@ NumericMatrix randomize(NumericMatrix EdgeList, double Q, std::string weight_sel
     if (upper_bound == -1) upper_bound = DBL_MAX;
     Graph g = Graph_from_edge_list(EdgeList, lower_bound, upper_bound);
     randomize_g(g, Q, weight_sel);
-    Rcout << "converting back to edge list" << endl;
+    //Rcout << "converting back to edge list" << endl;
     return g.numericmatrix_edgelist();
 }

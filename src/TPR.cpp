@@ -30,8 +30,8 @@ NumericVector TPR_coms_Rcpp(const IntegerVector& triangles,
         if (has_triangles[i]) TPR_coms[c]++;
         com_size[c]++;
     }
-    Rcout << TPR_coms << std::endl;
-    Rcout << com_size << std::endl;
+    //Rcout << TPR_coms << std::endl;
+    //Rcout << com_size << std::endl;
     return TPR_coms / com_size;
 }
 
@@ -64,10 +64,10 @@ double triangle_participation_ratio(const Graph& g){
     }
     double ratio = 0;
     for (int i=0; i<n; ++i){
-        Rcout << (1 ? has_triangle[i] : 0) << " ";
+        //Rcout << (1 ? has_triangle[i] : 0) << " ";
         if (has_triangle[i]) ++ratio;
     }
-    Rcout << std::endl;
+    //Rcout << std::endl;
     ratio /= n;
     return ratio;
 }
