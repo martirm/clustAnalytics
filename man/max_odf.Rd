@@ -4,23 +4,9 @@
 \alias{max_odf}
 \title{Max Out Degree Fraction}
 \usage{
-max_odf(
-  g,
-  com,
-  no_clustering_coef = TRUE,
-  type = "local",
-  weighted = TRUE,
-  w_max = NULL
-)
+max_odf(g, com)
 
-max_odf(
-  g,
-  com,
-  no_clustering_coef = TRUE,
-  type = "local",
-  weighted = TRUE,
-  w_max = NULL
-)
+max_odf(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).}

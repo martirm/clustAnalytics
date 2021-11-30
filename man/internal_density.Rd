@@ -4,7 +4,7 @@
 \alias{internal_density}
 \title{Internal Density}
 \usage{
-internal_density(g, com, weighted = TRUE, w_max = NULL)
+internal_density(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"

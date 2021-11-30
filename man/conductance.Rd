@@ -4,7 +4,7 @@
 \alias{conductance}
 \title{Conductance}
 \usage{
-conductance(g, com, weighted = TRUE, w_max = NULL)
+conductance(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"

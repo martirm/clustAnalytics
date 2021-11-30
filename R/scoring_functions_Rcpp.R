@@ -164,10 +164,9 @@ FOMD <- function(g, com, edgelist){
 #' data(karate, package="igraphdata")
 #' internal_density(karate, membership(cluster_louvain(karate)))
 #' @export
-internal_density <- function(g, com, weighted=TRUE, w_max=NULL){
+internal_density <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -191,10 +190,9 @@ internal_density <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' edges_inside(karate, membership(cluster_louvain(karate)))
 #' @export
-edges_inside <- function(g, com, weighted=TRUE, w_max=NULL){
+edges_inside <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -213,10 +211,9 @@ edges_inside <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' average_degree(karate, membership(cluster_louvain(karate)))
 #' @export
-average_degree <- function(g, com, weighted=TRUE, w_max=NULL){
+average_degree <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -239,10 +236,9 @@ average_degree <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' expansion(karate, membership(cluster_louvain(karate)))
 #' @export
-expansion <- function(g, com, weighted=TRUE, w_max=NULL){
+expansion <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -266,10 +262,9 @@ expansion <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' cut_ratio(karate, membership(cluster_louvain(karate)))
 #' @export
-cut_ratio <- function(g, com, weighted=TRUE, w_max=NULL){
+cut_ratio <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -297,10 +292,9 @@ cut_ratio <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' conductance(karate, membership(cluster_louvain(karate)))
 #' @export
-conductance <- function(g, com, weighted=TRUE, w_max=NULL){
+conductance <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -326,10 +320,9 @@ conductance <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' normalized_cut(karate, membership(cluster_louvain(karate)))
 #' @export
-normalized_cut <- function(g, com, weighted=TRUE, w_max=NULL){
+normalized_cut <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -352,10 +345,9 @@ normalized_cut <- function(g, com, weighted=TRUE, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' density_ratio(karate, membership(cluster_louvain(karate)))
 #' @export
-density_ratio <- function(g, com, weighted=TRUE, w_max=NULL, type="local"){
+density_ratio <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -379,11 +371,10 @@ density_ratio <- function(g, com, weighted=TRUE, w_max=NULL, type="local"){
 #' data(karate, package="igraphdata")
 #' max_odf(karate, membership(cluster_louvain(karate)))
 #' @export
-max_odf <- function(g, com, w_max=NULL){
+max_odf <- function(g, com){
 
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     ODFs <- out_degree_fractions(edgelist = el, com = com)
@@ -402,12 +393,10 @@ max_odf <- function(g, com, w_max=NULL){
 #' data(karate, package="igraphdata")
 #' average_odf(karate, membership(cluster_louvain(karate)))
 #' @export
-average_odf <- function(g, com, no_clustering_coef=TRUE,
-                    type="local", weighted=TRUE, w_max=NULL){
+average_odf <- function(g, com){
 
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     ODFs <- out_degree_fractions(edgelist = el, com = com)
@@ -426,12 +415,10 @@ average_odf <- function(g, com, no_clustering_coef=TRUE,
 #' data(karate, package="igraphdata")
 #' max_odf(karate, membership(cluster_louvain(karate)))
 #' @export
-max_odf <- function(g, com, no_clustering_coef=TRUE,
-                    type="local", weighted=TRUE, w_max=NULL){
+max_odf <- function(g, com){
 
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     ODFs <- out_degree_fractions(edgelist = el, com = com)

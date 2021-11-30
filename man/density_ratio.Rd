@@ -4,7 +4,7 @@
 \alias{density_ratio}
 \title{Density Ratio}
 \usage{
-density_ratio(g, com, weighted = TRUE, w_max = NULL, type = "local")
+density_ratio(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"

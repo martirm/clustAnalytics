@@ -4,7 +4,7 @@
 \alias{cut_ratio}
 \title{Cut Ratio}
 \usage{
-cut_ratio(g, com, weighted = TRUE, w_max = NULL)
+cut_ratio(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"

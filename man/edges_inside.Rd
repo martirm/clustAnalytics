@@ -4,7 +4,7 @@
 \alias{edges_inside}
 \title{Edges Inside}
 \usage{
-edges_inside(g, com, weighted = TRUE, w_max = NULL)
+edges_inside(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"

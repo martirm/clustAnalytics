@@ -4,7 +4,7 @@
 \alias{average_degree}
 \title{Average Degree}
 \usage{
-average_degree(g, com, weighted = TRUE, w_max = NULL)
+average_degree(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"

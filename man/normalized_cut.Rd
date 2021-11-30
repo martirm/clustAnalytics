@@ -4,7 +4,7 @@
 \alias{normalized_cut}
 \title{Normalized cut}
 \usage{
-normalized_cut(g, com, weighted = TRUE, w_max = NULL)
+normalized_cut(g, com)
 }
 \arguments{
 \item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
