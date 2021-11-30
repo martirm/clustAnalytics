@@ -9,6 +9,10 @@
 This package evaluates the stability and significance of clusters in 
 \code{igraph} graphs. Supports weighted and unweighted graphs.
 }
+\details{
+Extensions to weighted graphs of multiple functions present in \code{igraph} 
+are provided, such as scoring functions or edge rewiring methods.
+}
 \author{
 Martí Renedo Mirambell
 }

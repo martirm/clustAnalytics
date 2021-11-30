@@ -10,7 +10,7 @@ evaluate_significance(
   no_clustering_coef = TRUE,
   ground_truth = FALSE,
   gt_clustering = NULL,
-  w_max = 1
+  w_max = NULL
 )
 }
 \arguments{
@@ -27,8 +27,19 @@ a ground truth clustering, which has to be provided as \code{gt_clustering}}
 
 \item{gt_clustering}{ground truth clustering. Only used if \code{ground_truth}
 is set to \code{TRUE}.}
+
+\item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (NULL).}
+}
+\value{
+A dataframe with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
+of the clusters obtained by
+applying the clustering algorithms to the graph.
 }
 \description{
 Given a graph and a list of clustering algorithms, computes several scoring
 functions on the clusters found by each of the algorithms.
+}
+\examples{
+data(karate, package="igraphdata")
+evaluate_significance(karate)
 }

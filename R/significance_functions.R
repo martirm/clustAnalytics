@@ -35,16 +35,23 @@ do.call_tryCatch <- function(f, args){
 #' @param g Graph to be analyzed (as an igraph object)
 #' @param alg_list list of clustering algorithms, which take an \code{igraph} graph as
 #' input and return an object of the \code{communities} class.
+#' @param w_max Numeric. Upper bound for edge weights. Should be generally left as default (NULL).
 #' @param no_clustering_coef if \code{TRUE}, skips the computation of the clustering
 #' coefficient, which is the most computationally costly of the scoring functions.
 #' @param ground_truth if set to\code{TRUE}, computes the scoring functions for 
 #' a ground truth clustering, which has to be provided as \code{gt_clustering}
 #' @param gt_clustering ground truth clustering. Only used if \code{ground_truth}
 #' is set to \code{TRUE}.
-#' 
+#' @return
+#' A dataframe with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
+#' of the clusters obtained by
+#' applying the clustering algorithms to the graph.
+#' @examples
+#' data(karate, package="igraphdata")
+#' evaluate_significance(karate)
 #' @export
 evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef=TRUE, 
-                                  ground_truth=FALSE, gt_clustering=NULL, w_max=1){
+                                  ground_truth=FALSE, gt_clustering=NULL, w_max=NULL){
     #given an algorithm list and a graph
     c_list <- lapply(alg_list, do.call, list(g)) #clusters graph g by all algorithms in list
     #c_list <- lapply(alg_list, do.call_tryCatch, list(g)) #clusters graph g by all algorithms in list
