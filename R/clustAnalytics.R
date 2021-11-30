@@ -10,7 +10,8 @@
 #' @encoding UTF-8
 #' @author Martí Renedo Mirambell
 #' @import Rcpp igraph
-#' @importFrom Rcpp evalCpp RDpack remprompt
+#' @importFrom Rcpp evalCpp
+#' @importFrom Rdpack reprompt
 #' @useDynLib clustAnalytics
 #' @name clustAnalytics
 NULL  

@@ -193,10 +193,14 @@ statistics_table <- function(b) sapply(b, get_statistics)
 #' Performs nonparametric bootstrap on a graph's by resampling its vertices and
 #' clustering the results using a list of clustering algorithms. 
 #' @param alg_list List of igraph clustering algorithms
-#' @param g igraph graph object
+#' @param g \code{igraph} graph object
 #' @param R Number of bootstrap replicates.
 #' @param type Can be "global" (Variation of Information, Reduced Mutual Information, 
 #' and adjusted Rand Index) or "cluster-wise" (Jaccard distance)
+#' @return If \code{return_data} is set to \code{TRUE}, returns a list of objects of
+#' class "\code{boot}" (see \code{\link[boot]{boot}}). Otherwise, returns as table 
+#' with the mean distances from the clusters in the original graph to the resampled
+#' ones, for each of the algorithms.
 #' 
 #' @export
 boot_alg_list <- function (alg_list = clust_alg_list, g, R=999, return_data=FALSE, type="global"){

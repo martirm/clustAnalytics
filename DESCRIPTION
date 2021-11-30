@@ -15,8 +15,10 @@ Imports:
     truncnorm,
     boot,
     fossil,
-    dplyr
+    dplyr,
+    Rdpack
 LinkingTo: Rcpp
+RdMacros: Rdpack
 RoxygenNote: 7.1.2
 Suggests:
     igraphdata,

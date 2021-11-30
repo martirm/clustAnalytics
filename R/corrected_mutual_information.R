@@ -2,7 +2,8 @@
 
 #' Reduced Mutual Information
 #' 
-#' Computes the Newman's Reduced Mutual Information (RMI) (insert Latex reference here)
+#' Computes the Newman's Reduced Mutual Information (RMI) as defined in 
+#' \insertCite{corrected_MI_Newman2020}{clustAnalytics}
 #' 
 #' The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).
 #' The evaluations of the \eqn{\Gamma} functions can get too large and cause overflow 
@@ -18,6 +19,9 @@
 #' @param alternative_approximation Uses equation 28 instead of 29.
 #' 
 #' @return The value of Newman's RMI (a scalar).
+#' 
+#' @section References:
+#' \insertRef{corrected_MI_Newman2020}{clustAnalytics}
 #' 
 #' @export
 reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,

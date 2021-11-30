@@ -18,12 +18,15 @@ reduced_mutual_information(
 \item{base}{base of the logarithms used in the calculations. Changing it only scales the final value. By default set to e=exp(1).}
 
 \item{normalized}{If true, computes the normalized version of the corrected mutual information.}
+
+\item{alternative_approximation}{Uses equation 28 instead of 29.}
 }
 \value{
 The value of Newman's RMI (a scalar).
 }
 \description{
-Computes the Newman's Reduced Mutual Information (RMI) (insert Latex reference here)
+Computes the Newman's Reduced Mutual Information (RMI) as defined in 
+\insertCite{corrected_MI_Newman2020}{clustAnalytics}
 }
 \details{
 The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).
@@ -34,3 +37,8 @@ is rewritten as
 \deqn{\frac{1}{2} (\log\Gamma(\mu R) + \log\Gamma(\nu S) - S\log(\Gamma(\nu) - S\log(\Gamma(R) - R\log\Gamma(\mu) - R\log\Gamma(R)  )},
 and then the function \link[base]{lgamma} is used instead of \link[base]{gamma}.
 }
+\section{References}{
+
+\insertRef{corrected_MI_Newman2020}{clustAnalytics}
+}
+

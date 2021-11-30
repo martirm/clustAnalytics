@@ -15,12 +15,16 @@ boot_alg_list(
 \arguments{
 \item{alg_list}{List of igraph clustering algorithms}
 
-\item{g}{igraph graph object}
+\item{g}{\code{igraph} graph object}
 
 \item{R}{Number of bootstrap replicates.}
 
 \item{type}{Can be "global" (Variation of Information, Reduced Mutual Information, 
 and adjusted Rand Index) or "cluster-wise" (Jaccard distance)}
+}
+\value{
+If \code{return_data} is set to \code{TRUE}, returns a list of objects of
+class "\code{boot}" (see \code{\link[boot]{boot}}).
 }
 \description{
 Performs nonparametric bootstrap on a graph's by resampling its vertices and
