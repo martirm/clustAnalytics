@@ -4,10 +4,10 @@
 \alias{internal_density}
 \title{Internal Density}
 \usage{
-internal_density(g, com, weighted = TRUE, w_max = NULL)
+internal_density(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -16,5 +16,10 @@ attribute, those will be used as weights.}
 Numeric vector with the internal density of each community.
 }
 \description{
-Internal density of a graph's communities
+Internal density of a graph's communities. That is, the sum of weights of their 
+edges divided by the number of unordered pairs of vertices (which is the number of potential edges).
+}
+\examples{
+data(karate, package="igraphdata")
+internal_density(karate, membership(cluster_louvain(karate)))
 }

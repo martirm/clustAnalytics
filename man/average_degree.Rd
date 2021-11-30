@@ -4,10 +4,10 @@
 \alias{average_degree}
 \title{Average Degree}
 \usage{
-average_degree(g, com, weighted = TRUE, w_max = NULL)
+average_degree(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -17,4 +17,8 @@ Numeric vector with the average degree of each community.
 }
 \description{
 Average degree (weighted degree, if the graph is weighted) of a graph's communities.
+}
+\examples{
+data(karate, package="igraphdata")
+average_degree(karate, membership(cluster_louvain(karate)))
 }

@@ -22,6 +22,7 @@ edgelist_to_igraph <- function(edgelist){
 #' @param lower_bound,upper_bound Bounds to edge weights. The randomization
 #' process will avoid steps that would make edge weights fall outside these
 #' bounds. Set to NULL for no bound. By default, 0 and NULL respectively.
+#' @return The rewired graph.
 #' @export
 rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bound=NULL){
 
@@ -48,12 +49,13 @@ rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bou
 }
 
 
-#' Clustering coefficient of a graph.
+#' Weighted clustering coefficient of a weighted graph.
 #' 
-#' Computed using the definition given by McAssey, M. P. and Bijma, F. in 
+#' Weighted clustering Computed using the definition given by McAssey, M. P. and Bijma, F. in 
 #' "A clustering coefficient for complete weighted networks" (2015).
 #' @param g igraph graph
 #' @param upper_bound upper bound to the edge weights used to compute the integral
+#' @return The weighted clustering coefficient of the graph (a scalar).
 #' @export
 weighted_clustering_coefficient <- function(g, upper_bound=NULL){
     edgelist <- igraph_to_edgelist(g)
@@ -62,12 +64,13 @@ weighted_clustering_coefficient <- function(g, upper_bound=NULL){
     clustering_coefficient_Rcpp(edgelist, 0, upper_bound)
 }
 
-#' Transitivity of a weighted graph. 
+#' Weighed transitivity of a weighted graph. 
 #' 
 #' Computed using the definition given by McAssey, M. P. and Bijma, F. in 
 #' "A clustering coefficient for complete weighted networks" (2015).
 #' @param g igraph graph
 #' @param upper_bound upper bound to the edge weights used to compute the integral
+#' @return The weighted transitivity of the graph (a scalar).
 #' @export
 weighted_transitivity <- function(g, upper_bound=NULL){
     edgelist <- igraph_to_edgelist(g)

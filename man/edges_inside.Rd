@@ -4,10 +4,10 @@
 \alias{edges_inside}
 \title{Edges Inside}
 \usage{
-edges_inside(g, com, weighted = TRUE, w_max = NULL)
+edges_inside(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -18,4 +18,8 @@ Numeric vector with the internal edge weight of each community
 \description{
 Number of edges inside a graph's communities, or their accumulated weight if
 the graph's edges are weighted.
+}
+\examples{
+data(karate, package="igraphdata")
+edges_inside(karate, membership(cluster_louvain(karate)))
 }

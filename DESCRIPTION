@@ -1,5 +1,4 @@
 Package: clustAnalytics
-Encoding: UTF-8
 Type: Package
 Title: Cluster evaluation on graphs
 Version: 0.1
@@ -24,6 +23,7 @@ Suggests:
     knitr,
     testthat,
 VignetteBuilder: knitr
+Encoding: UTF-8
 Depends:
     R (>= 2.10),
     igraph

@@ -26,6 +26,8 @@ auxiliary_functions <- function(g, com, edgelist){
 #' @param edelist alternatively, the edgelist of the graph
 #' @param com Community membership vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
+#' @return A numeric matrix where each row corresponds to a community, and the 
+#' columns contain the max, average and flake ODFs respectively.
 out_degree_fractions <- function(g, com, edgelist){
     if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)
     odfs <- out_degree_fractions_Rcpp(edgelist, com)
@@ -139,6 +141,10 @@ density_ratio_from_aux <- function(aux_vals){
 #' @param edelist alternatively, the edgelist of the graph, as a matrix where the
 #' first two columns to the vertices and the third is the weight of each edge.
 #' @param com Community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the FOMD of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' FOMD(karate, membership(cluster_louvain(karate)))
 #' @export
 FOMD <- function(g, com, edgelist){
     if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)
@@ -148,16 +154,19 @@ FOMD <- function(g, com, edgelist){
 
 #' Internal Density
 #'
-#' Internal density of a graph's communities
+#' Internal density of a graph's communities. That is, the sum of weights of their 
+#' edges divided by the number of unordered pairs of vertices (which is the number of potential edges).
 #' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the internal density of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' internal_density(karate, membership(cluster_louvain(karate)))
 #' @export
-internal_density <- function(g, com, weighted=TRUE, w_max=NULL){
+internal_density <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -177,11 +186,13 @@ internal_density <- function(g, com, weighted=TRUE, w_max=NULL){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the internal edge weight of each community
+#' @examples
+#' data(karate, package="igraphdata")
+#' edges_inside(karate, membership(cluster_louvain(karate)))
 #' @export
-edges_inside <- function(g, com, weighted=TRUE, w_max=NULL){
+edges_inside <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -196,11 +207,13 @@ edges_inside <- function(g, com, weighted=TRUE, w_max=NULL){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the average degree of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' average_degree(karate, membership(cluster_louvain(karate)))
 #' @export
-average_degree <- function(g, com, weighted=TRUE, w_max=NULL){
+average_degree <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -219,11 +232,13 @@ average_degree <- function(g, com, weighted=TRUE, w_max=NULL){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the expansion of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' expansion(karate, membership(cluster_louvain(karate)))
 #' @export
-expansion <- function(g, com, weighted=TRUE, w_max=NULL){
+expansion <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -243,11 +258,13 @@ expansion <- function(g, com, weighted=TRUE, w_max=NULL){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the cut ratio of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' cut_ratio(karate, membership(cluster_louvain(karate)))
 #' @export
-cut_ratio <- function(g, com, weighted=TRUE, w_max=NULL){
+cut_ratio <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -271,11 +288,13 @@ cut_ratio <- function(g, com, weighted=TRUE, w_max=NULL){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the conductance of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' conductance(karate, membership(cluster_louvain(karate)))
 #' @export
-conductance <- function(g, com, weighted=TRUE, w_max=NULL){
+conductance <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -297,11 +316,13 @@ conductance <- function(g, com, weighted=TRUE, w_max=NULL){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the normalized cut of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' normalized_cut(karate, membership(cluster_louvain(karate)))
 #' @export
-normalized_cut <- function(g, com, weighted=TRUE, w_max=NULL){
+normalized_cut <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -314,17 +335,19 @@ normalized_cut <- function(g, com, weighted=TRUE, w_max=NULL){
 
 #' Density Ratio
 #'
-#' Internal density of a graph's communities.
+#' Density ratio of a graph's communities.
 #' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @param type can either be "local" or "global"
 #' @return Numeric vector with the internal density of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' density_ratio(karate, membership(cluster_louvain(karate)))
 #' @export
-density_ratio <- function(g, com, weighted=TRUE, w_max=NULL, type="local"){
+density_ratio <- function(g, com){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     aux_vals <- auxiliary_functions(edgelist = el, com = com)
@@ -344,13 +367,14 @@ density_ratio <- function(g, com, weighted=TRUE, w_max=NULL, type="local"){
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Max ODF of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' max_odf(karate, membership(cluster_louvain(karate)))
 #' @export
-max_odf <- function(g, com, no_clustering_coef=TRUE,
-                              type="local", weighted=TRUE, w_max=NULL){
+max_odf <- function(g, com){
 
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     ODFs <- out_degree_fractions(edgelist = el, com = com)
@@ -365,13 +389,14 @@ max_odf <- function(g, com, no_clustering_coef=TRUE,
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Average ODF of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' average_odf(karate, membership(cluster_louvain(karate)))
 #' @export
-average_odf <- function(g, com, no_clustering_coef=TRUE,
-                    type="local", weighted=TRUE, w_max=NULL){
+average_odf <- function(g, com){
 
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     ODFs <- out_degree_fractions(edgelist = el, com = com)
@@ -386,13 +411,14 @@ average_odf <- function(g, com, no_clustering_coef=TRUE,
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Max ODF of each community.
+#' @examples
+#' data(karate, package="igraphdata")
+#' max_odf(karate, membership(cluster_louvain(karate)))
 #' @export
-max_odf <- function(g, com, no_clustering_coef=TRUE,
-                    type="local", weighted=TRUE, w_max=NULL){
+max_odf <- function(g, com){
 
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
-        w_max <- 1
     }
     el <- igraph_to_edgelist(g)
     ODFs <- out_degree_fractions(edgelist = el, com = com)

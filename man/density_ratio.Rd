@@ -4,10 +4,10 @@
 \alias{density_ratio}
 \title{Density Ratio}
 \usage{
-density_ratio(g, com, weighted = TRUE, w_max = NULL, type = "local")
+density_ratio(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -18,5 +18,9 @@ attribute, those will be used as weights.}
 Numeric vector with the internal density of each community.
 }
 \description{
-Internal density of a graph's communities.
+Density ratio of a graph's communities.
+}
+\examples{
+data(karate, package="igraphdata")
+density_ratio(karate, membership(cluster_louvain(karate)))
 }

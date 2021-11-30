@@ -23,6 +23,9 @@ rewireCpp(
 process will avoid steps that would make edge weights fall outside these
 bounds. Set to NULL for no bound. By default, 0 and NULL respectively.}
 }
+\value{
+The rewired graph.
+}
 \description{
 Converts the graph to a weighted edge list in NumericMatrix, which is compatible with Rcpp.
 The Rcpp function "randomize" is called, and then the resulting edge list is converted

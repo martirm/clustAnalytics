@@ -4,10 +4,10 @@
 \alias{cut_ratio}
 \title{Cut Ratio}
 \usage{
-cut_ratio(g, com, weighted = TRUE, w_max = NULL)
+cut_ratio(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -19,4 +19,8 @@ Numeric vector with the cut ratio of each community.
 The cut ratio of a graph's community is the total edge weight connecting the community
 to the rest of the graph divided by number of unordered pairs of vertices such that one
 belongs to the community and the other does not.
+}
+\examples{
+data(karate, package="igraphdata")
+cut_ratio(karate, membership(cluster_louvain(karate)))
 }

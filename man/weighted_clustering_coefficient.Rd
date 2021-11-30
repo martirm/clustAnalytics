@@ -2,7 +2,7 @@
 % Please edit documentation in R/converter.R
 \name{weighted_clustering_coefficient}
 \alias{weighted_clustering_coefficient}
-\title{Clustering coefficient of a graph.}
+\title{Weighted clustering coefficient of a weighted graph.}
 \usage{
 weighted_clustering_coefficient(g, upper_bound = NULL)
 }
@@ -11,7 +11,10 @@ weighted_clustering_coefficient(g, upper_bound = NULL)
 
 \item{upper_bound}{upper bound to the edge weights used to compute the integral}
 }
+\value{
+The weighted clustering coefficient of the graph (a scalar).
+}
 \description{
-Computed using the definition given by McAssey, M. P. and Bijma, F. in 
+Weighted clustering Computed using the definition given by McAssey, M. P. and Bijma, F. in 
 "A clustering coefficient for complete weighted networks" (2015).
 }

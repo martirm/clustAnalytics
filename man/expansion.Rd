@@ -4,10 +4,10 @@
 \alias{expansion}
 \title{Expansion}
 \usage{
-expansion(g, com, weighted = TRUE, w_max = NULL)
+expansion(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -19,4 +19,8 @@ Numeric vector with the expansion of each community.
 Given a graph (possibly weighted) split into communities, the expansion of a community
 is the sum of all edge weights connecting it to the rest of the graph divided by the number
 of vertices in the community
+}
+\examples{
+data(karate, package="igraphdata")
+expansion(karate, membership(cluster_louvain(karate)))
 }

@@ -4,10 +4,10 @@
 \alias{conductance}
 \title{Conductance}
 \usage{
-conductance(g, com, weighted = TRUE, w_max = NULL)
+conductance(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -20,4 +20,8 @@ Conductance of a graph's communities, which is given by
 \deqn{\frac{c_s}{2m_s + c_s}},
 where \eqn{c_s} is the weight of the edges connecting the community s to the rest
 of the graph, and m_s is the internal weight of the community.
+}
+\examples{
+data(karate, package="igraphdata")
+conductance(karate, membership(cluster_louvain(karate)))
 }
