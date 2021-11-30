@@ -26,3 +26,7 @@ Numeric vector with the Average ODF of each community.
 Computes the Average Out Degree Fraction (Average ODF) of a graph (which can be weighted)
 and its communities.
 }
+\examples{
+data(karate, package="igraphdata")
+average_odf(karate, membership(cluster_louvain(karate)))
+}

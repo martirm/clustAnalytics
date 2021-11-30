@@ -40,3 +40,9 @@ and its communities.
 Computes the Flake Out Degree Fraction (Max ODF) of a graph (which can be weighted)
 and its communities.
 }
+\examples{
+data(karate, package="igraphdata")
+max_odf(karate, membership(cluster_louvain(karate)))
+data(karate, package="igraphdata")
+max_odf(karate, membership(cluster_louvain(karate)))
+}

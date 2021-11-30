@@ -16,5 +16,10 @@ attribute, those will be used as weights.}
 Numeric vector with the internal density of each community.
 }
 \description{
-Internal density of a graph's communities
+Internal density of a graph's communities. That is, the sum of weights of their 
+edges divided by the number of unordered pairs of vertices (which is the number of potential edges).
+}
+\examples{
+data(karate, package="igraphdata")
+internal_density(karate, membership(cluster_louvain(karate)))
 }

@@ -18,3 +18,7 @@ Numeric vector with the average degree of each community.
 \description{
 Average degree (weighted degree, if the graph is weighted) of a graph's communities.
 }
+\examples{
+data(karate, package="igraphdata")
+average_degree(karate, membership(cluster_louvain(karate)))
+}

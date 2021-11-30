@@ -19,3 +19,7 @@ Numeric vector with the internal edge weight of each community
 Number of edges inside a graph's communities, or their accumulated weight if
 the graph's edges are weighted.
 }
+\examples{
+data(karate, package="igraphdata")
+edges_inside(karate, membership(cluster_louvain(karate)))
+}

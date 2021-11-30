@@ -20,3 +20,7 @@ The cut ratio of a graph's community is the total edge weight connecting the com
 to the rest of the graph divided by number of unordered pairs of vertices such that one
 belongs to the community and the other does not.
 }
+\examples{
+data(karate, package="igraphdata")
+cut_ratio(karate, membership(cluster_louvain(karate)))
+}

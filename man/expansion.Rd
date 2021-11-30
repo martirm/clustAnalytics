@@ -20,3 +20,7 @@ Given a graph (possibly weighted) split into communities, the expansion of a com
 is the sum of all edge weights connecting it to the rest of the graph divided by the number
 of vertices in the community
 }
+\examples{
+data(karate, package="igraphdata")
+expansion(karate, membership(cluster_louvain(karate)))
+}

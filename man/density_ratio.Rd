@@ -18,5 +18,9 @@ attribute, those will be used as weights.}
 Numeric vector with the internal density of each community.
 }
 \description{
-Internal density of a graph's communities.
+Density ratio of a graph's communities.
+}
+\examples{
+data(karate, package="igraphdata")
+density_ratio(karate, membership(cluster_louvain(karate)))
 }

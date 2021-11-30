@@ -22,3 +22,7 @@ where \eqn{c_s} is the weight of the edges connecting the community s to the res
 of the graph, \eqn{m_s} is the internal weight of the community, and \eqn{m} is
 the total weight of the network.
 }
+\examples{
+data(karate, package="igraphdata")
+normalized_cut(karate, membership(cluster_louvain(karate)))
+}

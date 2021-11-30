@@ -24,3 +24,7 @@ of nodes of each community whose internal degree (i.e. the degree accounting
 only intra-community edges) is greater than the median degree of the whole
 graph.
 }
+\examples{
+data(karate, package="igraphdata")
+FOMD(karate, membership(cluster_louvain(karate)))
+}

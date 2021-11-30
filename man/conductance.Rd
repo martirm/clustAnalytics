@@ -21,3 +21,7 @@ Conductance of a graph's communities, which is given by
 where \eqn{c_s} is the weight of the edges connecting the community s to the rest
 of the graph, and m_s is the internal weight of the community.
 }
+\examples{
+data(karate, package="igraphdata")
+conductance(karate, membership(cluster_louvain(karate)))
+}
