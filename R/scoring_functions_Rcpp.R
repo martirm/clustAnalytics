@@ -142,6 +142,7 @@ density_ratio_from_aux <- function(aux_vals){
 #' first two columns to the vertices and the third is the weight of each edge.
 #' @param com Community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the FOMD of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' FOMD(karate, membership(cluster_louvain(karate)))
@@ -160,6 +161,7 @@ FOMD <- function(g, com, edgelist){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the internal density of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' internal_density(karate, membership(cluster_louvain(karate)))
@@ -186,6 +188,7 @@ internal_density <- function(g, com){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the internal edge weight of each community
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' edges_inside(karate, membership(cluster_louvain(karate)))
@@ -207,6 +210,7 @@ edges_inside <- function(g, com){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the average degree of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' average_degree(karate, membership(cluster_louvain(karate)))
@@ -232,6 +236,7 @@ average_degree <- function(g, com){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the expansion of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' expansion(karate, membership(cluster_louvain(karate)))
@@ -258,6 +263,7 @@ expansion <- function(g, com){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the cut ratio of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' cut_ratio(karate, membership(cluster_louvain(karate)))
@@ -288,6 +294,7 @@ cut_ratio <- function(g, com){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the conductance of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' conductance(karate, membership(cluster_louvain(karate)))
@@ -316,6 +323,7 @@ conductance <- function(g, com){
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the normalized cut of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' normalized_cut(karate, membership(cluster_louvain(karate)))
@@ -341,6 +349,7 @@ normalized_cut <- function(g, com){
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @param type can either be "local" or "global"
 #' @return Numeric vector with the internal density of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' density_ratio(karate, membership(cluster_louvain(karate)))
@@ -367,6 +376,7 @@ density_ratio <- function(g, com){
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Max ODF of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' max_odf(karate, membership(cluster_louvain(karate)))
@@ -389,6 +399,7 @@ max_odf <- function(g, com){
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Average ODF of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' average_odf(karate, membership(cluster_louvain(karate)))
@@ -411,6 +422,7 @@ average_odf <- function(g, com){
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Max ODF of each community.
+#' @family cluster scoring functions
 #' @examples
 #' data(karate, package="igraphdata")
 #' max_odf(karate, membership(cluster_louvain(karate)))

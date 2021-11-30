@@ -24,3 +24,18 @@ of vertices in the community
 data(karate, package="igraphdata")
 expansion(karate, membership(cluster_louvain(karate)))
 }
+\seealso{
+Other cluster scoring functions: 
+\code{\link{FOMD}()},
+\code{\link{average_degree}()},
+\code{\link{average_odf}()},
+\code{\link{conductance}()},
+\code{\link{coverage}()},
+\code{\link{cut_ratio}()},
+\code{\link{density_ratio}()},
+\code{\link{edges_inside}()},
+\code{\link{internal_density}()},
+\code{\link{max_odf}()},
+\code{\link{normalized_cut}()}
+}
+\concept{cluster scoring functions}

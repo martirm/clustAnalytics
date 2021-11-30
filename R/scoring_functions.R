@@ -150,9 +150,21 @@ triangle_participation_ratio <- function(G, s=NULL){
   sum(a!=0)/length(a)
 }
 
-coverage <- function(G, com){
+#' Coverage
+#' 
+#' Computes the coverage (fraction of internal edges with respect to the total
+#' number of edges) of a graph and its communities
+#' @param g Graph to be analyzed (as an \code{igraph} object).
+#' @param com Community membership integer vector. Each element corresponds to a vertex
+#' of the graph, and contains the index of the community it belongs to.
+#' @return Numeric value of the coverage of \code{g} and \code{com}.
+#' @family cluster scoring functions
+#' @examples
+#' data(karate, package="igraphdata")
+#' coverage(karate, membership(cluster_louvain(karate)))
+coverage <- function(g, com){
   # percentage of internal edges respect to total number of edges
-  EL <- as_edgelist(G, names=FALSE)
+  EL <- as_edgelist(g, names=FALSE)
   n_internal <- 0
   f_com <- function(i) com[i]
   EL_com <- apply(EL, c(1,2), f_com)
@@ -160,25 +172,25 @@ coverage <- function(G, com){
   sum(internal)/length(internal)
 }
 
-density_ratio <- function(G, com){
-  # new scoring function
-  internal_weight <- 0
-  for (i in 1:max(com)){
-    s <- which(com==i)
-    internal_weight <- internal_weight + m_subgraph_w(G, s)
-  }
-  total_weight <- sum(G[,])/2
-  
-  sizes <- as.vector(table(com))
-  n_total <- sum(sizes)
-  potential_internal_n <- function(n) n*(n-1)/2
-  potential_external_n <- function(n) n*(n_total-n)
-  
-  potential_internal <- sum(sapply(sizes, potential_internal_n))
-  potential_external <- sum(sapply(sizes, potential_external_n))/2
-  
-  1 - ((total_weight-internal_weight)/potential_external) / (internal_weight/potential_internal)
-}
+# density_ratio <- function(G, com){
+#   # new scoring function
+#   internal_weight <- 0
+#   for (i in 1:max(com)){
+#     s <- which(com==i)
+#     internal_weight <- internal_weight + m_subgraph_w(G, s)
+#   }
+#   total_weight <- sum(G[,])/2
+#   
+#   sizes <- as.vector(table(com))
+#   n_total <- sum(sizes)
+#   potential_internal_n <- function(n) n*(n-1)/2
+#   potential_external_n <- function(n) n*(n_total-n)
+#   
+#   potential_internal <- sum(sapply(sizes, potential_internal_n))
+#   potential_external <- sum(sapply(sizes, potential_external_n))/2
+#   
+#   1 - ((total_weight-internal_weight)/potential_external) / (internal_weight/potential_internal)
+# }
 
 ###################
 #' Relabels membership vector

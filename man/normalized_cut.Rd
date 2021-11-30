@@ -26,3 +26,18 @@ the total weight of the network.
 data(karate, package="igraphdata")
 normalized_cut(karate, membership(cluster_louvain(karate)))
 }
+\seealso{
+Other cluster scoring functions: 
+\code{\link{FOMD}()},
+\code{\link{average_degree}()},
+\code{\link{average_odf}()},
+\code{\link{conductance}()},
+\code{\link{coverage}()},
+\code{\link{cut_ratio}()},
+\code{\link{density_ratio}()},
+\code{\link{edges_inside}()},
+\code{\link{expansion}()},
+\code{\link{internal_density}()},
+\code{\link{max_odf}()}
+}
+\concept{cluster scoring functions}

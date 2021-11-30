@@ -24,3 +24,18 @@ belongs to the community and the other does not.
 data(karate, package="igraphdata")
 cut_ratio(karate, membership(cluster_louvain(karate)))
 }
+\seealso{
+Other cluster scoring functions: 
+\code{\link{FOMD}()},
+\code{\link{average_degree}()},
+\code{\link{average_odf}()},
+\code{\link{conductance}()},
+\code{\link{coverage}()},
+\code{\link{density_ratio}()},
+\code{\link{edges_inside}()},
+\code{\link{expansion}()},
+\code{\link{internal_density}()},
+\code{\link{max_odf}()},
+\code{\link{normalized_cut}()}
+}
+\concept{cluster scoring functions}
