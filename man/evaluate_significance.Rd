@@ -14,24 +14,24 @@ evaluate_significance(
 )
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object)}
+\item{g}{Graph to be analyzed (as an \code{igraph} object)}
 
-\item{alg_list}{list of clustering algorithms, which take an \code{igraph} graph as
+\item{alg_list}{List of clustering algorithms, which take an \code{igraph} graph as
 input and return an object of the \code{communities} class.}
 
-\item{no_clustering_coef}{if \code{TRUE}, skips the computation of the clustering
+\item{no_clustering_coef}{Logical. If \code{TRUE}, skips the computation of the clustering
 coefficient, which is the most computationally costly of the scoring functions.}
 
-\item{ground_truth}{if set to\code{TRUE}, computes the scoring functions for 
+\item{ground_truth}{Logical. If set to \code{TRUE}, computes the scoring functions for 
 a ground truth clustering, which has to be provided as \code{gt_clustering}}
 
-\item{gt_clustering}{ground truth clustering. Only used if \code{ground_truth}
-is set to \code{TRUE}.}
+\item{gt_clustering}{Vector of integers that correspond to labels of the ground truth clustering. 
+Only used if \code{ground_truth} is set to \code{TRUE}.}
 
-\item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (NULL).}
+\item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).}
 }
 \value{
-A dataframe with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
+A data frame with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
 of the clusters obtained by
 applying the clustering algorithms to the graph.
 }

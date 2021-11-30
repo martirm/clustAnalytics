@@ -1,11 +1,3 @@
-# library(pbapply)
-# library(dplyr)
-# library(parallel)
-# library(doParallel)
-
-
-
-
 do.call_tryCatch <- function(f, args){
     #same as the do.call, but executes f inside a tryCatch block, and returns NULL 
     #if there is an error 
@@ -32,18 +24,18 @@ do.call_tryCatch <- function(f, args){
 #' 
 #' Given a graph and a list of clustering algorithms, computes several scoring
 #' functions on the clusters found by each of the algorithms.
-#' @param g Graph to be analyzed (as an igraph object)
-#' @param alg_list list of clustering algorithms, which take an \code{igraph} graph as
+#' @param g Graph to be analyzed (as an \code{igraph} object)
+#' @param alg_list List of clustering algorithms, which take an \code{igraph} graph as
 #' input and return an object of the \code{communities} class.
-#' @param w_max Numeric. Upper bound for edge weights. Should be generally left as default (NULL).
-#' @param no_clustering_coef if \code{TRUE}, skips the computation of the clustering
+#' @param w_max Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).
+#' @param no_clustering_coef Logical. If \code{TRUE}, skips the computation of the clustering
 #' coefficient, which is the most computationally costly of the scoring functions.
-#' @param ground_truth if set to\code{TRUE}, computes the scoring functions for 
+#' @param ground_truth Logical. If set to \code{TRUE}, computes the scoring functions for 
 #' a ground truth clustering, which has to be provided as \code{gt_clustering}
-#' @param gt_clustering ground truth clustering. Only used if \code{ground_truth}
-#' is set to \code{TRUE}.
+#' @param gt_clustering Vector of integers that correspond to labels of the ground truth clustering. 
+#' Only used if \code{ground_truth} is set to \code{TRUE}.
 #' @return
-#' A dataframe with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
+#' A data frame with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
 #' of the clusters obtained by
 #' applying the clustering algorithms to the graph.
 #' @examples
@@ -197,19 +189,33 @@ percentile_matrix <- function(M, l){
 clust_alg_list <- c(cluster_louvain, cluster_label_prop, cluster_walktrap)
 names(clust_alg_list) <- c("Louvain", "label prop", "Walktrap")
 
-#' Computes scoring functions of a graph clustering
+#' Evaluates the significance of a graph's clusters
 #' 
-#' Computes the scoring functions for both the graph and multiple randomized samples 
-#' generated using a switching model
+#' Computes community scoring functions to the communities obtained by applying 
+#' the given clustering algorithms to a graph. These are compared to the same scores
+#' for randomized versions of the graph obtained by a switching algorithm that
+#' rewires edges.
+#' @inherit evaluate_significance params
+#' @param Q Numeric. Parameter that controls the number of iterations of the switching algorithm,
+#' which will be Q times the order of the graph.
+#' @param lower_bound Numeric. Lower bound to the edge weights. The randomization
+#' process will avoid steps that would make edge weights fall outside this
+#' bound. It should generally be left as 0 to avoid negative weights.
+#' @param weight_sel Can be either \code{const_var} or \code{max_weight}.
+#' @param n_reps Number of samples of the rewired graph. 
+#' @param ignore_degenerate_cl Logical. If TRUE, when computing the means of the 
+#' scoring functions, samples with only one cluster will be ignored.
+#' See \link[clustAnalytics]{rewireCpp}.
 #' @export
 evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_coef=FALSE, 
                                     ground_truth=FALSE, gt_clustering=NULL, table_style=4,
                                     ignore_degenerate_cl=TRUE,
-                                    Q=100, lower_bound=0, upper_bound=NULL, weight_sel="const_var", 
-                                    n_reps=1, w_max=1, parallel=FALSE){
+                                    Q=100, lower_bound=0, weight_sel="const_var", 
+                                    n_reps=1, w_max=NULL){
     ### weight_sel can be either "const_var" or "max_weight"
     ## ignore_degenerate_cl: if TRUE, when computing the means of the scoring functions, samples with
     ## only one cluster will be ignored.
+    upper_bound <- w_max
     table1 <- evaluate_significance(g, alg_list, no_clustering_coef, ground_truth, gt_clustering, 
                                     w_max=w_max)
     if (n_reps == 1){

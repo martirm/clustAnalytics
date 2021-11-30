@@ -4,7 +4,7 @@
 #'
 #' Given a weighted graph and a partition into communities, returns the
 #' internal edge weight, the size, and the cut weight for each community.
-#' @param g Graph to be analyzed (as an igraph object)
+#' @param g Graph to be analyzed (as an \code{igraph} object)
 #' @param edelist alternatively, the edgelist of the graph
 #' @param com Community membership vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
@@ -22,8 +22,8 @@ auxiliary_functions <- function(g, com, edgelist){
 #'
 #' Given a weighted graph and a partition into communities, returns the
 #' maximum, average and flake out degree fractions of each community.
-#' @param g Graph to be analyzed (as an igraph object)
-#' @param edelist alternatively, the edgelist of the graph
+#' @param g Graph to be analyzed (as an \code{igraph} object)
+#' @param edgelist alternatively, the edgelist of the graph
 #' @param com Community membership vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return A numeric matrix where each row corresponds to a community, and the 
@@ -39,7 +39,8 @@ out_degree_fractions <- function(g, com, edgelist){
 #' Scoring Functions of a Graph Partition
 #'
 #' Computes the scoring functions of a graph and its clusters.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have 
+#' a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @param type can be "local" for a cluster by cluster analysis, or "global" for
@@ -136,9 +137,9 @@ density_ratio_from_aux <- function(aux_vals){
 #' of nodes of each community whose internal degree (i.e. the degree accounting
 #' only intra-community edges) is greater than the median degree of the whole
 #' graph.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
-#' @param edelist alternatively, the edgelist of the graph, as a matrix where the
+#' @param edgelist alternatively, the edgelist of the graph, as a matrix where the
 #' first two columns to the vertices and the third is the weight of each edge.
 #' @param com Community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the FOMD of each community.
@@ -147,8 +148,8 @@ density_ratio_from_aux <- function(aux_vals){
 #' data(karate, package="igraphdata")
 #' FOMD(karate, membership(cluster_louvain(karate)))
 #' @export
-FOMD <- function(g, com, edgelist){
-    if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)
+FOMD <- function(g, com, edgelist=NULL){
+    if(is.null(edgelist)) edgelist <- igraph_to_edgelist(g)
     FOMD_Rcpp(edgelist, com)
 }
 
@@ -157,7 +158,7 @@ FOMD <- function(g, com, edgelist){
 #'
 #' Internal density of a graph's communities. That is, the sum of weights of their 
 #' edges divided by the number of unordered pairs of vertices (which is the number of potential edges).
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the internal density of each community.
@@ -184,7 +185,7 @@ internal_density <- function(g, com){
 #'
 #' Number of edges inside a graph's communities, or their accumulated weight if
 #' the graph's edges are weighted.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the internal edge weight of each community
@@ -206,7 +207,7 @@ edges_inside <- function(g, com){
 #' Average Degree
 #'
 #' Average degree (weighted degree, if the graph is weighted) of a graph's communities.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the average degree of each community.
@@ -232,7 +233,7 @@ average_degree <- function(g, com){
 #' Given a graph (possibly weighted) split into communities, the expansion of a community
 #' is the sum of all edge weights connecting it to the rest of the graph divided by the number
 #' of vertices in the community
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the expansion of each community.
@@ -259,7 +260,7 @@ expansion <- function(g, com){
 #' The cut ratio of a graph's community is the total edge weight connecting the community
 #' to the rest of the graph divided by number of unordered pairs of vertices such that one
 #' belongs to the community and the other does not.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the cut ratio of each community.
@@ -290,7 +291,7 @@ cut_ratio <- function(g, com){
 #' where \eqn{c_s} is the weight of the edges connecting the community s to the rest
 #' of the graph, and m_s is the internal weight of the community.
 #'
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the conductance of each community.
@@ -319,7 +320,7 @@ conductance <- function(g, com){
 #' where \eqn{c_s} is the weight of the edges connecting the community s to the rest
 #' of the graph, \eqn{m_s} is the internal weight of the community, and \eqn{m} is
 #' the total weight of the network.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @return Numeric vector with the normalized cut of each community.
@@ -344,7 +345,7 @@ normalized_cut <- function(g, com){
 #' Density Ratio
 #'
 #' Density ratio of a graph's communities.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight"
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 #' attribute, those will be used as weights.
 #' @param com community membership integer vector. Each element corresponds to a vertex.
 #' @param type can either be "local" or "global"
@@ -372,7 +373,7 @@ density_ratio <- function(g, com, type="local"){
 #'
 #' Computes the Maximum Out Degree Fraction (Max ODF) of a graph (which can be weighted)
 #' and its communities.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Max ODF of each community.
@@ -395,7 +396,7 @@ max_odf <- function(g, com){
 #'
 #' Computes the Average Out Degree Fraction (Average ODF) of a graph (which can be weighted)
 #' and its communities.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Average ODF of each community.
@@ -418,7 +419,7 @@ average_odf <- function(g, com){
 #'
 #' Computes the Flake Out Degree Fraction (Max ODF) of a graph (which can be weighted)
 #' and its communities.
-#' @param g Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
+#' @param g Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).
 #' @param com Community membership integer vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
 #' @return Numeric vector with the Max ODF of each community.

@@ -13,13 +13,13 @@ rewireCpp(
 )
 }
 \arguments{
-\item{g}{igraph graph}
+\item{g}{\code{igraph} graph, which can be weighted.}
 
-\item{Q}{parameter that controls the number of iterations, which will be Q times the order of the graph.}
+\item{Q}{Numeric. Parameter that controls the number of iterations, which will be Q times the order of the graph.}
 
 \item{weight_sel}{can be either "const_var" or "max_weight".}
 
-\item{lower_bound, upper_bound}{Bounds to edge weights. The randomization
+\item{lower_bound, upper_bound}{Bounds to the edge weights. The randomization
 process will avoid steps that would make edge weights fall outside these
 bounds. Set to NULL for no bound. By default, 0 and NULL respectively.}
 }

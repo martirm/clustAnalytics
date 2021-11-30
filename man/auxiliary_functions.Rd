@@ -7,7 +7,7 @@
 auxiliary_functions(g, com, edgelist)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object)}
+\item{g}{Graph to be analyzed (as an \code{igraph} object)}
 
 \item{com}{Community membership vector. Each element corresponds to a vertex
 of the graph, and contains the index of the community it belongs to.}

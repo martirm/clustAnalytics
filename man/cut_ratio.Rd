@@ -7,7 +7,7 @@
 cut_ratio(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
+\item{g}{Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}

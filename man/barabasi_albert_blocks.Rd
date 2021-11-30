@@ -9,9 +9,10 @@ barabasi_albert_blocks(
   m,
   p,
   B,
-  G0 = NULL,
-  G0_labels = NULL,
   t_max,
+  G0 = NULL,
+  t0 = NULL,
+  G0_labels = NULL,
   sample_with_replacement = FALSE,
   type = "Hajek"
 )
@@ -23,17 +24,19 @@ barabasi_albert_blocks(
 
 \item{B}{matrix indicating the affinity of vertices of each label.}
 
+\item{t_max}{maximum value of t (which corresponds to graph order)}
+
 \item{G0}{initial graph}
 
-\item{G0_labels}{labels of the initial graph. If NULL, they will all be set to 1.}
+\item{t0}{t value at which new vertex start to be attached. If G0 is provided,
+this argument is ignored and assumed to be gorder(G0)+1. If it isn't, a G0
+graph will be generated with order t0-1.}
 
-\item{t_max}{maximum value of t (which corresponds to graph order)}
+\item{G0_labels}{labels of the initial graph. If NULL, they will all be set to 1.}
 
 \item{sample_with_replacement}{If TRUE, allows parallel edges.}
 
 \item{type}{Either "Hajek" or "block_first".}
-
-\item{t0}{initial t}
 }
 \value{
 The resulting graph, as an igraph object. The vertices have a

@@ -7,12 +7,12 @@
 out_degree_fractions(g, com, edgelist)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object)}
+\item{g}{Graph to be analyzed (as an \code{igraph} object)}
 
 \item{com}{Community membership vector. Each element corresponds to a vertex
 of the graph, and contains the index of the community it belongs to.}
 
-\item{edelist}{alternatively, the edgelist of the graph}
+\item{edgelist}{alternatively, the edgelist of the graph}
 }
 \value{
 A numeric matrix where each row corresponds to a community, and the 

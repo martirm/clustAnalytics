@@ -15,6 +15,7 @@
 #' @param c1,c2 membership vectors
 #' @param base base of the logarithms used in the calculations. Changing it only scales the final value. By default set to e=exp(1). 
 #' @param normalized If true, computes the normalized version of the corrected mutual information.
+#' @param alternative_approximation Uses equation 28 instead of 29.
 #' 
 #' @return The value of Newman's RMI (a scalar).
 #' 

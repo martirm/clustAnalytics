@@ -16,10 +16,10 @@ edgelist_to_igraph <- function(edgelist){
 #' Converts the graph to a weighted edge list in NumericMatrix, which is compatible with Rcpp.
 #' The Rcpp function "randomize" is called, and then the resulting edge list is converted
 #' back into an igraph object.
-#' @param g igraph graph
-#' @param Q parameter that controls the number of iterations, which will be Q times the order of the graph.
+#' @param g \code{igraph} graph, which can be weighted.
+#' @param Q Numeric. Parameter that controls the number of iterations, which will be Q times the order of the graph.
 #' @param weight_sel can be either "const_var" or "max_weight".
-#' @param lower_bound,upper_bound Bounds to edge weights. The randomization
+#' @param lower_bound,upper_bound Bounds to the edge weights. The randomization
 #' process will avoid steps that would make edge weights fall outside these
 #' bounds. Set to NULL for no bound. By default, 0 and NULL respectively.
 #' @return The rewired graph.

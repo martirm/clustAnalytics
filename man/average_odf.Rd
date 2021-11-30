@@ -7,7 +7,7 @@
 average_odf(g, com)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).}
+\item{g}{Graph to be analyzed (as an \code{igraph} object). If the edges have a "weight" attribute, those will be used as weights (otherwise, all edges are assumed to be 1).}
 
 \item{com}{Community membership integer vector. Each element corresponds to a vertex
 of the graph, and contains the index of the community it belongs to.}

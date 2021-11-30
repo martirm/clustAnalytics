@@ -2,7 +2,7 @@
 % Please edit documentation in R/significance_functions.R
 \name{evaluate_significance_r}
 \alias{evaluate_significance_r}
-\title{Computes scoring functions of a graph clustering}
+\title{Evaluates the significance of a graph's clusters}
 \usage{
 evaluate_significance_r(
   g,
@@ -14,14 +14,46 @@ evaluate_significance_r(
   ignore_degenerate_cl = TRUE,
   Q = 100,
   lower_bound = 0,
-  upper_bound = NULL,
   weight_sel = "const_var",
   n_reps = 1,
-  w_max = 1,
-  parallel = FALSE
+  w_max = NULL
 )
 }
+\arguments{
+\item{g}{Graph to be analyzed (as an \code{igraph} object)}
+
+\item{alg_list}{List of clustering algorithms, which take an \code{igraph} graph as
+input and return an object of the \code{communities} class.}
+
+\item{no_clustering_coef}{Logical. If \code{TRUE}, skips the computation of the clustering
+coefficient, which is the most computationally costly of the scoring functions.}
+
+\item{ground_truth}{Logical. If set to \code{TRUE}, computes the scoring functions for 
+a ground truth clustering, which has to be provided as \code{gt_clustering}}
+
+\item{gt_clustering}{Vector of integers that correspond to labels of the ground truth clustering. 
+Only used if \code{ground_truth} is set to \code{TRUE}.}
+
+\item{ignore_degenerate_cl}{Logical. If TRUE, when computing the means of the 
+scoring functions, samples with only one cluster will be ignored.
+See \link[clustAnalytics]{rewireCpp}.}
+
+\item{Q}{Numeric. Parameter that controls the number of iterations of the switching algorithm,
+which will be Q times the order of the graph.}
+
+\item{lower_bound}{Numeric. Lower bound to the edge weights. The randomization
+process will avoid steps that would make edge weights fall outside this
+bound. It should generally be left as 0 to avoid negative weights.}
+
+\item{weight_sel}{Can be either \code{const_var} or \code{max_weight}.}
+
+\item{n_reps}{Number of samples of the rewired graph.}
+
+\item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).}
+}
 \description{
-Computes the scoring functions for both the graph and multiple randomized samples 
-generated using a switching model
+Computes community scoring functions to the communities obtained by applying 
+the given clustering algorithms to a graph. These are compared to the same scores
+for randomized versions of the graph obtained by a switching algorithm that
+rewires edges.
 }

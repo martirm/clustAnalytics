@@ -2,7 +2,9 @@
 #'
 #' @encoding UTF-8
 #' @param t_max maximum value of t (which corresponds to graph order)
-#' @param t0 initial t
+#' @param t0 t value at which new vertex start to be attached. If G0 is provided,
+#' this argument is ignored and assumed to be gorder(G0)+1. If it isn't, a G0
+#' graph will be generated with order t0-1. 
 #' @param p vector of label probabilities. If they don't sum 1, they will be scaled accordingly.
 #' @param B matrix indicating the affinity of vertices of each label.
 #' @param m number of edges added at each step.
@@ -16,11 +18,12 @@
 #'
 #'
 #' @export
-barabasi_albert_blocks <- function(m, p, B, G0=NULL, G0_labels=NULL, t_max,
+barabasi_albert_blocks <- function(m, p, B, t_max, G0=NULL, t0=NULL, G0_labels=NULL, 
                                    sample_with_replacement=FALSE,
                                    type="Hajek"){
 
     if (is.null(G0)){
+        n_G0 <- if (!is.null(t0)) t0-1 else 5*m
         G0 <- generate_G0(n=5*m, p=p, m=m, B=B)
         G0_labels <- V(G0)$label
     }
