@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // TPR_coms_Rcpp
 NumericVector TPR_coms_Rcpp(const IntegerVector& triangles, const IntegerVector& com);
 RcppExport SEXP _clustAnalytics_TPR_coms_Rcpp(SEXP trianglesSEXP, SEXP comSEXP) {
