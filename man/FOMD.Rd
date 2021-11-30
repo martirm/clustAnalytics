@@ -7,13 +7,16 @@
 FOMD(g, com, edgelist)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{Community membership integer vector. Each element corresponds to a vertex.}
 
-\item{edelist}{alternatively, the edgelist of the graph, as a matrix where the 
+\item{edelist}{alternatively, the edgelist of the graph, as a matrix where the
 first two columns to the vertices and the third is the weight of each edge.}
+}
+\value{
+Numeric vector with the FOMD of each community.
 }
 \description{
 Given a weighted graph and a partition into communities, returns the fraction

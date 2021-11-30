@@ -26,6 +26,8 @@ auxiliary_functions <- function(g, com, edgelist){
 #' @param edelist alternatively, the edgelist of the graph
 #' @param com Community membership vector. Each element corresponds to a vertex
 #' of the graph, and contains the index of the community it belongs to.
+#' @return A numeric matrix where each row corresponds to a community, and the 
+#' columns contain the max, average and flake ODFs respectively.
 out_degree_fractions <- function(g, com, edgelist){
     if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)
     odfs <- out_degree_fractions_Rcpp(edgelist, com)
@@ -139,6 +141,7 @@ density_ratio_from_aux <- function(aux_vals){
 #' @param edelist alternatively, the edgelist of the graph, as a matrix where the
 #' first two columns to the vertices and the third is the weight of each edge.
 #' @param com Community membership integer vector. Each element corresponds to a vertex.
+#' @return Numeric vector with the FOMD of each community.
 #' @export
 FOMD <- function(g, com, edgelist){
     if(missing(edgelist)) edgelist <- igraph_to_edgelist(g)

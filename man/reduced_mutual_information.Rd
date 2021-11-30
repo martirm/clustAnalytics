@@ -2,7 +2,7 @@
 % Please edit documentation in R/corrected_mutual_information.R
 \name{reduced_mutual_information}
 \alias{reduced_mutual_information}
-\title{Corrected Mutual Information}
+\title{Reduced Mutual Information}
 \usage{
 reduced_mutual_information(
   c1,
@@ -19,8 +19,11 @@ reduced_mutual_information(
 
 \item{normalized}{If true, computes the normalized version of the corrected mutual information.}
 }
+\value{
+The value of Newman's RMI (a scalar).
+}
 \description{
-Computes the Newman's corrected mutual information (insert Latex reference here)
+Computes the Newman's Reduced Mutual Information (RMI) (insert Latex reference here)
 }
 \details{
 The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).

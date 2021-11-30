@@ -7,7 +7,7 @@
 normalized_cut(g, com, weighted = TRUE, w_max = NULL)
 }
 \arguments{
-\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight" 
+\item{g}{Graph to be analyzed (as an igraph object). If the edges have a "weight"
 attribute, those will be used as weights.}
 
 \item{com}{community membership integer vector. Each element corresponds to a vertex.}
@@ -16,9 +16,9 @@ attribute, those will be used as weights.}
 Numeric vector with the normalized cut of each community.
 }
 \description{
-Normalized cut of a graph's communities, which is given by 
+Normalized cut of a graph's communities, which is given by
 \deqn{\frac{c_s}{2m_s+c_s}+\frac{c_s}{2(m-m_s)+c_s}},
 where \eqn{c_s} is the weight of the edges connecting the community s to the rest
-of the graph, \eqn{m_s} is the internal weight of the community, and \eqn{m} is 
+of the graph, \eqn{m_s} is the internal weight of the community, and \eqn{m} is
 the total weight of the network.
 }

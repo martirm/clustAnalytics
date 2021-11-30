@@ -1,8 +1,8 @@
 
 
-#' Corrected Mutual Information
+#' Reduced Mutual Information
 #' 
-#' Computes the Newman's corrected mutual information (insert Latex reference here)
+#' Computes the Newman's Reduced Mutual Information (RMI) (insert Latex reference here)
 #' 
 #' The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).
 #' The evaluations of the \eqn{\Gamma} functions can get too large and cause overflow 
@@ -15,6 +15,8 @@
 #' @param c1,c2 membership vectors
 #' @param base base of the logarithms used in the calculations. Changing it only scales the final value. By default set to e=exp(1). 
 #' @param normalized If true, computes the normalized version of the corrected mutual information.
+#' 
+#' @return The value of Newman's RMI (a scalar).
 #' 
 #' @export
 reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,

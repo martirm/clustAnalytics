@@ -5,7 +5,7 @@
 \alias{clustAnalytics}
 \title{clustAnalytics}
 \description{
-This package evaluates the stability and significance of clusters in igraph graphs.
+This package evaluates the stability and significance of clusters in \code{igraph} graphs.
 }
 \author{
 Martí Renedo Mirambell

@@ -2,7 +2,7 @@
 % Please edit documentation in R/converter.R
 \name{weighted_transitivity}
 \alias{weighted_transitivity}
-\title{Transitivity of a weighted graph.}
+\title{Weighed transitivity of a weighted graph.}
 \usage{
 weighted_transitivity(g, upper_bound = NULL)
 }
@@ -10,6 +10,9 @@ weighted_transitivity(g, upper_bound = NULL)
 \item{g}{igraph graph}
 
 \item{upper_bound}{upper bound to the edge weights used to compute the integral}
+}
+\value{
+The weighted transitivity of the graph (a scalar).
 }
 \description{
 Computed using the definition given by McAssey, M. P. and Bijma, F. in 

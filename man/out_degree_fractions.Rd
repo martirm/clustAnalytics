@@ -14,6 +14,10 @@ of the graph, and contains the index of the community it belongs to.}
 
 \item{edelist}{alternatively, the edgelist of the graph}
 }
+\value{
+A numeric matrix where each row corresponds to a community, and the 
+columns contain the max, average and flake ODFs respectively.
+}
 \description{
 Given a weighted graph and a partition into communities, returns the
 maximum, average and flake out degree fractions of each community.
