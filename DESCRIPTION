@@ -21,6 +21,7 @@ RoxygenNote: 7.1.2
 Suggests:
     igraphdata,
     knitr,
+    rmarkdown,
     testthat,
 VignetteBuilder: knitr
 Encoding: UTF-8

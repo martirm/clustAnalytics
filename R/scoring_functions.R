@@ -162,6 +162,7 @@ triangle_participation_ratio <- function(G, s=NULL){
 #' @examples
 #' data(karate, package="igraphdata")
 #' coverage(karate, membership(cluster_louvain(karate)))
+#' @export
 coverage <- function(g, com){
   # percentage of internal edges respect to total number of edges
   EL <- as_edgelist(g, names=FALSE)

@@ -354,7 +354,7 @@ normalized_cut <- function(g, com){
 #' data(karate, package="igraphdata")
 #' density_ratio(karate, membership(cluster_louvain(karate)))
 #' @export
-density_ratio <- function(g, com){
+density_ratio <- function(g, com, type="local"){
     if (!"weight" %in% names(edge.attributes(g))){
         G <- set_edge_attr(g, "weight", value=1)
     }

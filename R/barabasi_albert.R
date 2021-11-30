@@ -1,12 +1,13 @@
 #' Generates a Barabási-Albert graph with community structure
 #'
+#' @encoding UTF-8
 #' @param t_max maximum value of t (which corresponds to graph order)
 #' @param t0 initial t
 #' @param p vector of label probabilities. If they don't sum 1, they will be scaled accordingly.
 #' @param B matrix indicating the affinity of vertices of each label.
 #' @param m number of edges added at each step.
 #' @param G0 initial graph
-#' @param G0_labels labels of the initial graph. If NULL, they will al be set to 1.
+#' @param G0_labels labels of the initial graph. If NULL, they will all be set to 1.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
 #' @param type Either "Hajek" or "block_first".
 #'
