@@ -195,6 +195,8 @@ statistics_table <- function(b) sapply(b, get_statistics)
 #' @param alg_list List of igraph clustering algorithms
 #' @param g \code{igraph} graph object
 #' @param R Number of bootstrap replicates.
+#' @param return_data Logical. If \code{TRUE}, returns a list of "\code{boot}" objects
+#' with the full results. Otherwise, returns a table with the mean results.
 #' @param type Can be "global" (Variation of Information, Reduced Mutual Information, 
 #' and adjusted Rand Index) or "cluster-wise" (Jaccard distance)
 #' @return If \code{return_data} is set to \code{TRUE}, returns a list of objects of

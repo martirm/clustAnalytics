@@ -19,12 +19,17 @@ boot_alg_list(
 
 \item{R}{Number of bootstrap replicates.}
 
+\item{return_data}{Logical. If \code{TRUE}, returns a list of "\code{boot}" objects
+with the full results. Otherwise, returns a table with the mean results.}
+
 \item{type}{Can be "global" (Variation of Information, Reduced Mutual Information, 
 and adjusted Rand Index) or "cluster-wise" (Jaccard distance)}
 }
 \value{
 If \code{return_data} is set to \code{TRUE}, returns a list of objects of
-class "\code{boot}" (see \code{\link[boot]{boot}}).
+class "\code{boot}" (see \code{\link[boot]{boot}}). Otherwise, returns as table 
+with the mean distances from the clusters in the original graph to the resampled
+ones, for each of the algorithms.
 }
 \description{
 Performs nonparametric bootstrap on a graph's by resampling its vertices and
