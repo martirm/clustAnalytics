@@ -58,6 +58,9 @@ rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bou
 #' @return The weighted clustering coefficient of the graph (a scalar).
 #' @export
 weighted_clustering_coefficient <- function(g, upper_bound=NULL){
+    if (gorder(g) < 3){
+        return(NA)
+    }
     edgelist <- igraph_to_edgelist(g)
     if (is.null(upper_bound))
         upper_bound <- max(E(g)$weight)
@@ -73,6 +76,9 @@ weighted_clustering_coefficient <- function(g, upper_bound=NULL){
 #' @return The weighted transitivity of the graph (a scalar).
 #' @export
 weighted_transitivity <- function(g, upper_bound=NULL){
+    if (gorder(g) < 3){
+        return(NA)
+    }
     edgelist <- igraph_to_edgelist(g)
     if (is.null(upper_bound))
         upper_bound <- max(E(g)$weight)
