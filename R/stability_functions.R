@@ -216,51 +216,51 @@ boot_alg_list <- function (alg_list = clust_alg_list, g, R=999, return_data=FALS
 }
 
 
-#' @param t_names names of the statistics in b and b_rnd. Defaults should not be 
-#' changed unless the experiments are as well.
-#' @param sel_statistics subset of t_names, used to select which statistics we
-#' want the table to display.
-get_latex_table <- function(b, b_rnd, graph_name = "", caption = NULL, label=NULL,
-                            t_names  = c("VI", "RMI", "Rand", "AdRand", "n_clusters"),
-                            sel_statistics = c("VI", "RMI", "AdRand", "n_clusters")){
-    
-    t <- statistics_table(b)
-    rownames(t) <- t_names
-    t_rnd <- statistics_table(b_rnd)
-    rownames(t_rnd) <- sapply(t_names, paste0, "_rnd")
-    table <- cbind(t(t), t(t_rnd))
-    
-    #select desired rows
-    all_sel_statistics <- c(sel_statistics, sapply(sel_statistics, paste0, "_rnd"))
-    table <- table[,all_sel_statistics]
-    
-    
-    addtorow <- list()
-    addtorow$pos <- list(-1,0)
-    n_stats <- length(sel_statistics)
-    range1 <- paste0("2-", toString(1+n_stats))
-    range2 <- paste0(toString(2+n_stats), "-", toString(2*n_stats+1))
-    addtorow$command <- c(paste0("& \\multicolumn{",
-                                 toString(n_stats),
-                                 "}{c}{original} & \\multicolumn{",
-                                 toString(n_stats),
-                                 "}{c}{randomized} \\\\
-                                  \\cmidrule(l){", range1, "} \\cmidrule(l){", range2, "}"),
-                          "\\hline\n")
-    
-    if (is.null(caption)){
-        caption <- paste("Mean values of the metrics after bootstrapping with $R=999$ , for both the", 
-                         graph_name, "graph and its randomized counterpart, for all tested clustering algorithms")
-    }
-    if (is.null(label)){
-        label <- paste0(graph_name, "_bootstrap")
-    }
-    
-    aux <- paste(replicate(n_stats, "r"), collapse = "")
-    align <- paste0("l|", aux, "|", aux)
-    l_table <- xtable(table, align = align, caption=caption, label=label)
-    print(l_table, add.to.row=addtorow, hline.after=NULL)
-}
+# #' @param t_names names of the statistics in b and b_rnd. Defaults should not be
+# #' changed unless the experiments are as well.
+# #' @param sel_statistics subset of t_names, used to select which statistics we
+# #' want the table to display.
+# get_latex_table <- function(b, b_rnd, graph_name = "", caption = NULL, label=NULL,
+#                             t_names  = c("VI", "RMI", "Rand", "AdRand", "n_clusters"),
+#                             sel_statistics = c("VI", "RMI", "AdRand", "n_clusters")){
+# 
+#     t <- statistics_table(b)
+#     rownames(t) <- t_names
+#     t_rnd <- statistics_table(b_rnd)
+#     rownames(t_rnd) <- sapply(t_names, paste0, "_rnd")
+#     table <- cbind(t(t), t(t_rnd))
+# 
+#     #select desired rows
+#     all_sel_statistics <- c(sel_statistics, sapply(sel_statistics, paste0, "_rnd"))
+#     table <- table[,all_sel_statistics]
+# 
+# 
+#     addtorow <- list()
+#     addtorow$pos <- list(-1,0)
+#     n_stats <- length(sel_statistics)
+#     range1 <- paste0("2-", toString(1+n_stats))
+#     range2 <- paste0(toString(2+n_stats), "-", toString(2*n_stats+1))
+#     addtorow$command <- c(paste0("& \\multicolumn{",
+#                                  toString(n_stats),
+#                                  "}{c}{original} & \\multicolumn{",
+#                                  toString(n_stats),
+#                                  "}{c}{randomized} \\\\
+#                                   \\cmidrule(l){", range1, "} \\cmidrule(l){", range2, "}"),
+#                           "\\hline\n")
+# 
+#     if (is.null(caption)){
+#         caption <- paste("Mean values of the metrics after bootstrapping with $R=999$ , for both the",
+#                          graph_name, "graph and its randomized counterpart, for all tested clustering algorithms")
+#     }
+#     if (is.null(label)){
+#         label <- paste0(graph_name, "_bootstrap")
+#     }
+# 
+#     aux <- paste(replicate(n_stats, "r"), collapse = "")
+#     align <- paste0("l|", aux, "|", aux)
+#     l_table <- xtable(table, align = align, caption=caption, label=label)
+#     print(l_table, add.to.row=addtorow, hline.after=NULL)
+# }
 
 jaccard_table <- function(b, graph_name = "", caption = NULL, label=NULL){
     if (is.null(caption)){
