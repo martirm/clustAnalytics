@@ -50,7 +50,7 @@ evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef
     memberships_list <- lapply(c_list, membership)
     if (ground_truth){
         memberships_list <- c(memberships_list, list(gt_clustering))
-        names(memberships_list)[length(clust_alg_list)+1] <- "ground truth"
+        names(memberships_list)[length(alg_list)+1] <- "ground truth"
     }
     # TO DO:
     # change "scoring_functions" to return and use a matrix/vector all along, not a data frame
@@ -71,20 +71,6 @@ evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef
 
 
 
-merge1 <- function(table1, table2, digits = 4){
-    #option 1 to merge standard and randomized scoring function results.
-    #randomized value goes in parentheses under the corresponding original value.
-    table1  <- apply(table1, 1:2, format, digits = digits)
-    table2  <- apply(table2, 1:2, format, digits = digits)
-    parentheses <- function(s) paste0("(",s,")")
-    table2 <- apply(table2, 1:2, parentheses)
-    full_table <- as.data.frame(matrix(t(cbind(table1,table2)), ncol= ncol(table1), byrow=TRUE))
-    full_table <- cbind(c(rbind(rownames(table1), rep("(randomized)",nrow(table1)))), full_table)
-    colnames(full_table)[1] <- "score"
-    return(full_table)
-}
-
-
 matrix_elementwise_apply <- function (f, A, ...){
     #returns the matrix where element i,j is f(A_ij, B_ij)
     #A and B need to be of the same size.
@@ -94,22 +80,14 @@ matrix_elementwise_apply <- function (f, A, ...){
     return(M)
 }
 
-merge2 <- function(table1, table2, digits=4){
-    table1  <- apply(table1, 1:2, format, digits = digits)
-    table2  <- apply(table2, 1:2, format, digits = digits)
-    p <- function(a,b) paste0(a, "|", b)
-    matrix_elementwise_apply(p, table1, table2)
-}
 
-merge3 <- function(table1, table2, suffix="_r"){
-    # Joins both tables, adding the suffix to the second matrix colnames 
-    # (this could produce duplicates if colnames of table1 already include 
-    # the suffix, for now just don't do that)
-    # Also includes table1/table2 to get the relative value of each score over
-    # its randomized counterpart
-    colnames(table2) <- lapply(colnames(table1), paste0, "_r")
-    table3 <- table1/table2
-    colnames(table3) <- lapply(colnames(table3), paste0, '_rel')
+
+merge_percentile <- function(table1, table2, table3){
+    # Joins table1 (original scores), table2 (mean rewired scores) and table3
+    # percentile of original scores within the corresponding distribution of 
+    # rewired scores, with the approppriate suffixes.
+    colnames(table2) <- lapply(colnames(table2), paste0, "_r")
+    colnames(table3) <- lapply(colnames(table3), paste0, '_percentile')
     cbind(table1, table2, table3)
 }
 
@@ -119,7 +97,12 @@ merge4 <- function(table1, table2, table3, digits=3){
     table2  <- apply(table2, 1:2, format, digits = digits)
     table3  <- apply(table3, 1:2, format, digits = digits)
     p <- function(a,b,c) paste0(a, "|", b, "(", c, ")")
-    matrix_elementwise_apply(p, table1, table2, table3)
+    n_row <- nrow(table2)
+    n_col <- ncol(table2)
+    partial_results <- matrix_elementwise_apply(p, table1[1:n_row, 1:n_col], table2, table3)
+    merged_table <- table1
+    merged_table[1:n_row, 1:n_col] <- partial_results
+    return(merged_table)
 }
 
 pull_element <- function(A, i, j) A[i,j]
@@ -166,7 +149,15 @@ percentile_matrix <- function(M, l){
     # from a matrix M and a list of matrices (all of the same dimensions), for
     # each element of M, compute its percentile rank  with respect to all
     # the corresponding values across l.
+    ncol_l <- ncol(l[[1]])
+    nrow_l <- nrow(l[[1]])
     
+    if (ncol(M) > ncol_l){
+        M <- M[,1:ncol_l]
+    }
+    if (nrow(M) >nrow_l){
+        M <- M[1:nrow_l,]
+    }
     external_conn_scores <- c("expansion", "cut ratio", "conductance", "norm cut", "max ODF", "average ODF", "flake ODF")
     other_scores <- setdiff(rownames(M), external_conn_scores)
     
@@ -206,12 +197,18 @@ names(clust_alg_list) <- c("Louvain", "label prop", "Walktrap")
 #' @param ignore_degenerate_cl Logical. If TRUE, when computing the means of the 
 #' scoring functions, samples with only one cluster will be ignored.
 #' See \link[clustAnalytics]{rewireCpp}.
+#' @param table_style By default returns a table with three columns per algorithm: the original one,
+#' the mean of the corresponding rewired scores (suffix "_r") and it's percentile rank within the
+#' distribution of rewired scores (suffix "_percentile"). If table_style == "string", instead
+#' returns a table with a column per algorithm where each element is of the form "original|rewired(percentile)"
+#' @return A matrix with the results of each scoring function and algorithm. See \code{table_style} for details.
 #' @export
 evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_coef=FALSE, 
-                                    ground_truth=FALSE, gt_clustering=NULL, table_style=4,
+                                    ground_truth=FALSE, gt_clustering=NULL, table_style="default",
                                     ignore_degenerate_cl=TRUE,
-                                    Q=100, lower_bound=0, weight_sel="const_var", 
-                                    n_reps=1, w_max=NULL){
+                                    Q=100, lower_bound=0,
+                                    weight_sel="const_var", 
+                                    n_reps=5, w_max=NULL){
     ### weight_sel can be either "const_var" or "max_weight"
     ## ignore_degenerate_cl: if TRUE, when computing the means of the scoring functions, samples with
     ## only one cluster will be ignored.
@@ -220,10 +217,12 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
                                     w_max=w_max)
     if (n_reps == 1){
         rewire_g <- rewireCpp(g, Q, lower_bound=lower_bound, upper_bound=upper_bound, weight_sel=weight_sel)
-        table2 <- evaluate_significance(rewire_g, alg_list, no_clustering_coef, ground_truth, gt_clustering, 
+        table2 <- evaluate_significance(rewire_g, alg_list, no_clustering_coef, ground_truth=FALSE,  
                                         w_max=w_max)
+        table_per <- table1
+        table_per[,] <- NA
     }
-    else {
+    else{
         # aux <- function(x) rewireCpp(g, Q, lower_bound=lower_bound, 
         #                              upper_bound=upper_bound, weight_sel=weight_sel)
         # rewired_graph_list <- lapply(1:n_reps, aux)
@@ -232,8 +231,8 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
                                                           weight_sel=weight_sel), 
                                         simplify=FALSE)
         table_list <- lapply(rewired_graph_list, evaluate_significance, alg_list=alg_list,
-                             no_clustering_coef=no_clustering_coef, ground_truth=ground_truth,
-                             gt_clustering=gt_clustering)
+                             no_clustering_coef=no_clustering_coef, 
+                             gt_clustering=FALSE)
         
         mean_table <- Reduce('+', table_list)/n_reps
         # this part is causing errors. Unavailable for now
@@ -246,17 +245,23 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
         
         table_per <- percentile_matrix(table1, table_list)
     }
-    
-    
-    if (table_style==1) results_table <- merge1(table1, table2)
-    else if (table_style==2) results_table <- merge2(table1,table2)
-    else if (table_style==3) results_table <- merge3(table1, table2)
-    else if (table_style==4) results_table <- merge4(table1, table2, table_per)
-    else results_table <- table1/table2
-    
     if (ground_truth){
-        results_table[,"ground truth"] <- format(table1[,"ground truth"], digits=3)
+        table2 <- rbind(table2, NA)
+        rownames(table2) <- rownames(table1)
+        table_per <- rbind(table_per, NA)
+        rownames(table_per) <- rownames(table1)
     }
+    
+    if (table_style=="string"){ 
+        results_table <- merge4(table1, table2, table_per)
+        if (ground_truth){
+            results_table[,"ground truth"] <- format(table1[,"ground truth"], digits=3)
+        }
+    }
+    else{
+        results_table <- merge_percentile(table1, table2, table_per)
+    }
+    
     return(results_table)
 }
 

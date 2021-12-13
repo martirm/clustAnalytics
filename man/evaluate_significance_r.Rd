@@ -10,12 +10,12 @@ evaluate_significance_r(
   no_clustering_coef = FALSE,
   ground_truth = FALSE,
   gt_clustering = NULL,
-  table_style = 4,
+  table_style = "default",
   ignore_degenerate_cl = TRUE,
   Q = 100,
   lower_bound = 0,
   weight_sel = "const_var",
-  n_reps = 1,
+  n_reps = 5,
   w_max = NULL
 )
 }
@@ -34,6 +34,11 @@ a ground truth clustering, which has to be provided as \code{gt_clustering}}
 \item{gt_clustering}{Vector of integers that correspond to labels of the ground truth clustering. 
 Only used if \code{ground_truth} is set to \code{TRUE}.}
 
+\item{table_style}{By default returns a table with three columns per algorithm: the original one,
+the mean of the corresponding rewired scores (suffix "_r") and it's percentile rank within the
+distribution of rewired scores (suffix "_percentile"). If table_style == "string", instead
+returns a table with a column per algorithm where each element is of the form "original|rewired(percentile)"}
+
 \item{ignore_degenerate_cl}{Logical. If TRUE, when computing the means of the 
 scoring functions, samples with only one cluster will be ignored.
 See \link[clustAnalytics]{rewireCpp}.}
@@ -50,6 +55,9 @@ bound. It should generally be left as 0 to avoid negative weights.}
 \item{n_reps}{Number of samples of the rewired graph.}
 
 \item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).}
+}
+\value{
+A matrix with the results of each scoring function and algorithm. See \code{table_style} for details.
 }
 \description{
 Computes community scoring functions to the communities obtained by applying 
