@@ -262,19 +262,19 @@ boot_alg_list <- function (alg_list = clust_alg_list, g, R=999, return_data=FALS
 #     print(l_table, add.to.row=addtorow, hline.after=NULL)
 # }
 
-jaccard_table <- function(b, graph_name = "", caption = NULL, label=NULL){
-    if (is.null(caption)){
-        caption <- paste("Jaccard distances for each cluster after bootstrapping the", graph_name, "graph with $R=999$")
-    }
-    if (is.null(label)){
-        label <- paste0(graph_name, "_bootstrap_cw")
-    }
-    
-    distances <- function(b_el) colMeans(b_el$t)
-    j_list <- lapply(b, distances)
-    n_max <- max(unlist(lapply(j_list, length)))
-    table <- matrix(nrow=length(b), ncol=n_max, dimnames=list(names(b)))
-    for (i in 1:length(j_list)) table[i,1:length(j_list[[i]])] <- j_list[[i]]
-    j_table <- xtable(table, caption=caption, label=label)
-    print(j_table)
-}
+# jaccard_table <- function(b, graph_name = "", caption = NULL, label=NULL){
+#     if (is.null(caption)){
+#         caption <- paste("Jaccard distances for each cluster after bootstrapping the", graph_name, "graph with $R=999$")
+#     }
+#     if (is.null(label)){
+#         label <- paste0(graph_name, "_bootstrap_cw")
+#     }
+#     
+#     distances <- function(b_el) colMeans(b_el$t)
+#     j_list <- lapply(b, distances)
+#     n_max <- max(unlist(lapply(j_list, length)))
+#     table <- matrix(nrow=length(b), ncol=n_max, dimnames=list(names(b)))
+#     for (i in 1:length(j_list)) table[i,1:length(j_list[[i]])] <- j_list[[i]]
+#     j_table <- xtable(table, caption=caption, label=label)
+#     print(j_table)
+# }
