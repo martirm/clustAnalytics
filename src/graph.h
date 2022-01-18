@@ -1,5 +1,5 @@
-#ifndef GRAPH_HPP // include guard
-#define GRAPH_HPP
+#ifndef GRAPH_H // include guard
+#define GRAPH_H
 
 #include <map>
 #include <vector>
@@ -18,6 +18,7 @@ class Graph {
         int size;
         double lower_bound;
         double upper_bound;
+        bool directed;
         std::map<std::pair<int,int>, double> edge_list_m; //keys are pairs of ints indicating the two ends of the edge. Value is a double with its weight
         std::vector<std::map<int,double> > adjacencies_list; //for every vertex, map of its adjacencies (pairs of vertex index, and edge weight)
         SVector<std::pair<int,int> > sampling_vector; //contains all edges. Used to sample edges uniformly.
@@ -25,7 +26,8 @@ class Graph {
         void update_size();
 
     public:
-        Graph(std::vector<Edge> v, int graph_order, double lb, double ub);
+        Graph(std::vector<Edge> v, int graph_order, double lb, double ub, bool d);
+        Graph(std::vector<Edge> v, int graph_order, double lb, double ub) : Graph (v, graph_order, lb, ub, false) {};
         Graph(std::vector<Edge> v, int graph_order) : Graph(v, graph_order, 0, DBL_MAX) {};
         Rcpp::NumericMatrix numericmatrix_edgelist();
         int get_size() const;
@@ -45,6 +47,7 @@ class Graph {
 
 };
 
-Graph Graph_from_edge_list(Rcpp::NumericMatrix EdgeList, double lower_bound=0, double upper_bound=DBL_MAX);
+Graph Graph_from_edge_list(Rcpp::NumericMatrix EdgeList, double lower_bound=0, double upper_bound=DBL_MAX, bool directed=false);
 
-#endif /*GRAPH_HPP*/
+
+#endif /*GRAPH_H*/

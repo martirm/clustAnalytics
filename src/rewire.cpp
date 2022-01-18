@@ -61,9 +61,9 @@ void randomize_g(Graph &g, double Q, string weight_sel = "const_var"){
 
 //[[Rcpp::export]]
 NumericMatrix randomize(NumericMatrix EdgeList, double Q, std::string weight_sel = "const_var",
-                        double lower_bound=0, double upper_bound=-1){
+                        double lower_bound=0, double upper_bound=-1, bool directed = false){
     if (upper_bound == -1) upper_bound = DBL_MAX;
-    Graph g = Graph_from_edge_list(EdgeList, lower_bound, upper_bound);
+    Graph g = Graph_from_edge_list(EdgeList, lower_bound, upper_bound, directed);
     randomize_g(g, Q, weight_sel);
     //Rcout << "converting back to edge list" << endl;
     return g.numericmatrix_edgelist();

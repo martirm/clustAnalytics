@@ -132,16 +132,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _clustAnalytics_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
 // resampled_edgelist
 NumericMatrix resampled_edgelist(NumericMatrix el, NumericVector s);
 RcppExport SEXP _clustAnalytics_resampled_edgelist(SEXP elSEXP, SEXP sSEXP) {
@@ -155,8 +145,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // randomize
-NumericMatrix randomize(NumericMatrix EdgeList, double Q, std::string weight_sel, double lower_bound, double upper_bound);
-RcppExport SEXP _clustAnalytics_randomize(SEXP EdgeListSEXP, SEXP QSEXP, SEXP weight_selSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP) {
+NumericMatrix randomize(NumericMatrix EdgeList, double Q, std::string weight_sel, double lower_bound, double upper_bound, bool directed);
+RcppExport SEXP _clustAnalytics_randomize(SEXP EdgeListSEXP, SEXP QSEXP, SEXP weight_selSEXP, SEXP lower_boundSEXP, SEXP upper_boundSEXP, SEXP directedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -165,7 +155,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type weight_sel(weight_selSEXP);
     Rcpp::traits::input_parameter< double >::type lower_bound(lower_boundSEXP);
     Rcpp::traits::input_parameter< double >::type upper_bound(upper_boundSEXP);
-    rcpp_result_gen = Rcpp::wrap(randomize(EdgeList, Q, weight_sel, lower_bound, upper_bound));
+    Rcpp::traits::input_parameter< bool >::type directed(directedSEXP);
+    rcpp_result_gen = Rcpp::wrap(randomize(EdgeList, Q, weight_sel, lower_bound, upper_bound, directed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -265,9 +256,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_clustAnalytics_count_labels", (DL_FUNC) &_clustAnalytics_count_labels, 1},
     {"_clustAnalytics_mutual_information_Cpp", (DL_FUNC) &_clustAnalytics_mutual_information_Cpp, 4},
     {"_clustAnalytics_vector_c_rs", (DL_FUNC) &_clustAnalytics_vector_c_rs, 2},
-    {"_clustAnalytics_rcpp_hello_world", (DL_FUNC) &_clustAnalytics_rcpp_hello_world, 0},
     {"_clustAnalytics_resampled_edgelist", (DL_FUNC) &_clustAnalytics_resampled_edgelist, 2},
-    {"_clustAnalytics_randomize", (DL_FUNC) &_clustAnalytics_randomize, 5},
+    {"_clustAnalytics_randomize", (DL_FUNC) &_clustAnalytics_randomize, 6},
     {"_clustAnalytics_cluster_auxiliary_values_Rcpp", (DL_FUNC) &_clustAnalytics_cluster_auxiliary_values_Rcpp, 2},
     {"_clustAnalytics_density_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_density_ratio_Rcpp, 1},
     {"_clustAnalytics_local_density_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_local_density_ratio_Rcpp, 1},

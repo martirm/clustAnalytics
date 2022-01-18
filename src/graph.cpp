@@ -6,10 +6,11 @@
 using namespace std;
 
 
-Graph::Graph( vector<Edge> v, int graph_order, double lb, double ub){
+Graph::Graph( vector<Edge> v, int graph_order, double lb, double ub, bool d){
     order = graph_order;
     lower_bound = lb;
     upper_bound = ub;
+    directed = d;
     edge_list_m = map<pair<int,int>, double>();
     adjacencies_list = vector<map<int, double> > (order);
     size=v.size();
@@ -26,7 +27,7 @@ Graph::Graph( vector<Edge> v, int graph_order, double lb, double ub){
 
 //wrapper for creating Graph object from a NumericMatrix edgelist
 Graph Graph_from_edge_list(Rcpp::NumericMatrix EdgeList, double lower_bound,
-                           double upper_bound){
+                           double upper_bound, bool directed){
     int max_index = 0;
     int n = EdgeList.nrow();
     vector<Edge> v(n);
@@ -35,7 +36,7 @@ Graph Graph_from_edge_list(Rcpp::NumericMatrix EdgeList, double lower_bound,
         v[i] = {int(EdgeList(i,0))-1, int(EdgeList(i,1))-1, EdgeList(i,2)};
         if (v[i].b > max_index) max_index = v[i].b;
     }
-    return Graph(v, max_index+1, lower_bound, upper_bound);
+    return Graph(v, max_index+1, lower_bound, upper_bound, directed);
 }
 
 int Graph::get_size() const{
@@ -59,7 +60,7 @@ void Graph::update_size(){
 }
 
 double Graph::get_weight(int a, int b) const{
-    if (b<a) swap(a, b);
+    if (directed and b<a) swap(a, b);
     if (b>=order) {
         return -1;
     }
@@ -70,12 +71,12 @@ double Graph::get_weight(int a, int b) const{
 }
 
 bool Graph::adjacent(int a, int b) const{
-    if (b<a) swap(a, b);
+    if (directed and b<a) swap(a, b);
     return edge_list_m.find(make_pair(a, b)) == edge_list_m.end();
 }
 
 void Graph::delete_edge(int a, int b){
-    if (b<a) swap(a, b);
+    if (directed and b<a) swap(a, b);
     pair<int,int> ab = make_pair(a, b);
     edge_list_m.erase(ab);
     adjacencies_list[a].erase(b);
@@ -95,7 +96,7 @@ void Graph::set_weight(int a, int b, double w, bool new_edge){
         delete_edge(a, b);
         return;
     }
-    if (b<a) swap(a, b);
+    if (directed and b<a) swap(a, b);
     pair<int,int> ab = make_pair(a, b);
     edge_list_m[ab] = w;
     adjacencies_list[a][b] = w;
@@ -104,19 +105,6 @@ void Graph::set_weight(int a, int b, double w, bool new_edge){
     update_size();
 }
 
-
-//transfers 'w' amount of weight from edges AC and BD to edges AD and BC
-//UNFINISHED!!!
-//probably won't be needed
-void Graph::transfer_weight(int a, int b, int c, int d, double w){
-    pair<int,int> ac = {a,c}, bd = {b,d}, ad = {b,d}, bc = {b,c};
-    edge_list_m[ac] -= w;
-    edge_list_m[bd] -= w;
-    edge_list_m[ad] += w;
-    edge_list_m[bc] += w;
-
-    adjacencies_list[a][c] -= w;
-}
 
 //samples non adjacent pair of edges
 pair<pair<int,int>, pair<int,int> > Graph::sample_pair_edges(){
