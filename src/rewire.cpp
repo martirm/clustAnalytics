@@ -8,7 +8,7 @@ using namespace Rcpp;
 using namespace std;
 
 
-bool randomization_step(Graph &g, string weight_sel = "const_var"){
+bool randomization_step(Graph &g, string weight_sel = "max_weight"){
     auto p = g.sample_pair_edges();
     int a = p.first.first, c = p.first.second,
         b = p.second.first, d = p.second.second;

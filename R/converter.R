@@ -24,7 +24,7 @@ edgelist_to_igraph <- function(edgelist){
 #' bounds. Set to NULL for no bound. By default, 0 and NULL respectively.
 #' @return The rewired graph.
 #' @export
-rewireCpp <- function(g, Q=100, weight_sel="const_var", lower_bound=0, upper_bound=NULL){
+rewireCpp <- function(g, Q=100, weight_sel="max_weight", lower_bound=0, upper_bound=NULL){
 
     directed <- igraph::is_directed(g)
     vertex_names <- igraph::V(g)$name
