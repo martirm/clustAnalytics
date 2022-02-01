@@ -20,6 +20,7 @@ do.call_tryCatch <- function(f, args){
     return(c)
 }
 
+clust_alg_list <- list(Louvain=cluster_louvain, "label prop"= cluster_label_prop, walktrap=cluster_walktrap)
 #' Evaluates significance of cluster algorithm results on a graph
 #' 
 #' Given a graph and a list of clustering algorithms, computes several scoring
@@ -176,9 +177,6 @@ percentile_matrix <- function(M, l){
     
 }
 
-
-clust_alg_list <- c(cluster_louvain, cluster_label_prop, cluster_walktrap)
-names(clust_alg_list) <- c("Louvain", "label prop", "Walktrap")
 
 #' Evaluates the significance of a graph's clusters
 #' 
