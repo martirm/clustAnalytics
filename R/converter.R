@@ -56,6 +56,7 @@ rewireCpp <- function(g, Q=100, weight_sel="max_weight", lower_bound=0, upper_bo
 #' @param g igraph graph
 #' @param upper_bound upper bound to the edge weights used to compute the integral
 #' @return The weighted clustering coefficient of the graph (a scalar).
+#' @family cluster scoring functions
 #' @export
 weighted_clustering_coefficient <- function(g, upper_bound=NULL){
     if (gorder(g) < 3){
@@ -74,6 +75,7 @@ weighted_clustering_coefficient <- function(g, upper_bound=NULL){
 #' @param g igraph graph
 #' @param upper_bound upper bound to the edge weights used to compute the integral
 #' @return The weighted transitivity of the graph (a scalar).
+#' @family cluster scoring functions
 #' @export
 weighted_transitivity <- function(g, upper_bound=NULL){
     if (gorder(g) < 3){
