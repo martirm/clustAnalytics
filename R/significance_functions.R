@@ -68,6 +68,7 @@ evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef
         return(v)
     } 
     result <- sapply(memberships_list, aux)
+    return(result)
 }
 
 
@@ -195,6 +196,9 @@ percentile_matrix <- function(M, l){
 #' @param ignore_degenerate_cl Logical. If TRUE, when computing the means of the 
 #' scoring functions, samples with only one cluster will be ignored.
 #' See \link[clustAnalytics]{rewireCpp}.
+#' @param w_max Numeric. Upper bound for edge weights. The randomization algorithm will avoid steps that would make 
+#' edge weights fall outside this bound. Should be generally left as default (\code{NULL}), unless the network has 
+#' by nature or by construction a known upper bound.
 #' @param table_style By default returns a table with three columns per algorithm: the original one,
 #' the mean of the corresponding rewired scores (suffix "_r") and it's percentile rank within the
 #' distribution of rewired scores (suffix "_percentile"). If table_style == "string", instead
