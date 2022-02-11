@@ -6,7 +6,8 @@
 \usage{
 evaluate_significance(
   g,
-  alg_list = clust_alg_list,
+  alg_list = list(Louvain = cluster_louvain, `label prop` = cluster_label_prop,
+    walktrap = cluster_walktrap),
   no_clustering_coef = TRUE,
   ground_truth = FALSE,
   gt_clustering = NULL,

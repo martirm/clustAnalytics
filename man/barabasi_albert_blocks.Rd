@@ -45,3 +45,9 @@ The resulting graph, as an igraph object. The vertices have a
 \description{
 Generates a Barabási-Albert graph with community structure
 }
+\examples{
+B <- matrix(c(1, 0.2, 0.2, 1), ncol=2)
+G <- barabasi_albert_blocks(m=4, p=c(0.5, 0.5), B=B, t_max=100, type="Hajek", 
+                            sample_with_replacement = FALSE)
+
+}

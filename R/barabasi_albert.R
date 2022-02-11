@@ -12,6 +12,10 @@
 #' @param G0_labels labels of the initial graph. If NULL, they will all be set to 1.
 #' @param sample_with_replacement If TRUE, allows parallel edges.
 #' @param type Either "Hajek" or "block_first".
+#' 
+#' @examples B <- matrix(c(1, 0.2, 0.2, 1), ncol=2)
+#' G <- barabasi_albert_blocks(m=4, p=c(0.5, 0.5), B=B, t_max=100, type="Hajek", 
+#'                             sample_with_replacement = FALSE)
 #'
 #' @return The resulting graph, as an igraph object. The vertices have a
 #' "label" attribute.
