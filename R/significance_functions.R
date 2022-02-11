@@ -20,7 +20,6 @@ do.call_tryCatch <- function(f, args){
     return(c)
 }
 
-clust_alg_list <- list(Louvain=cluster_louvain, "label prop"= cluster_label_prop, walktrap=cluster_walktrap)
 #' Evaluates significance of cluster algorithm results on a graph
 #' 
 #' Given a graph and a list of clustering algorithms, computes several scoring
@@ -43,8 +42,11 @@ clust_alg_list <- list(Louvain=cluster_louvain, "label prop"= cluster_label_prop
 #' data(karate, package="igraphdata")
 #' evaluate_significance(karate)
 #' @export
-evaluate_significance <- function(g, alg_list=clust_alg_list, no_clustering_coef=TRUE, 
-                                  ground_truth=FALSE, gt_clustering=NULL, w_max=NULL){
+evaluate_significance <- function(g, alg_list=list(Louvain=cluster_louvain, 
+                                                   "label prop"= cluster_label_prop, 
+                                                   walktrap=cluster_walktrap),
+                                  no_clustering_coef=TRUE, ground_truth=FALSE, 
+                                  gt_clustering=NULL, w_max=NULL){
     #given an algorithm list and a graph
     c_list <- lapply(alg_list, do.call, list(g)) #clusters graph g by all algorithms in list
     #c_list <- lapply(alg_list, do.call_tryCatch, list(g)) #clusters graph g by all algorithms in list
@@ -205,11 +207,14 @@ percentile_matrix <- function(M, l){
 #' returns a table with a column per algorithm where each element is of the form "original|rewired(percentile)"
 #' @return A matrix with the results of each scoring function and algorithm. See \code{table_style} for details.
 #' @export
-evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_coef=FALSE, 
-                                    ground_truth=FALSE, gt_clustering=NULL, table_style="default",
-                                    ignore_degenerate_cl=TRUE,
-                                    Q=100, lower_bound=0,
-                                    weight_sel="const_var", 
+evaluate_significance_r <- function(g, alg_list=list(Louvain=cluster_louvain, 
+                                                     "label prop"= cluster_label_prop, 
+                                                     walktrap=cluster_walktrap),
+                                    no_clustering_coef=FALSE, 
+                                    ground_truth=FALSE, gt_clustering=NULL, 
+                                    table_style="default",
+                                    ignore_degenerate_cl=TRUE, Q=100, 
+                                    lower_bound=0, weight_sel="const_var", 
                                     n_reps=5, w_max=NULL){
     ### weight_sel can be either "const_var" or "max_weight"
     ## ignore_degenerate_cl: if TRUE, when computing the means of the scoring functions, samples with
@@ -267,8 +272,10 @@ evaluate_significance_r <- function(g, alg_list=clust_alg_list, no_clustering_co
     return(results_table)
 }
 
-higher_is_better <- c("edges inside", "internal density", "av degree", "FOMD", "clustering coef", "modularity") 
-lower_is_better <- c("expansion", "cut ratio", "conductance", "norm cut", "max ODF", "average ODF", "flake ODF")
+higher_is_better <- c("edges inside", "internal density", "av degree", 
+                      "FOMD", "clustering coef", "modularity") 
+lower_is_better <- c("expansion", "cut ratio", "conductance", "norm cut", 
+                     "max ODF", "average ODF", "flake ODF")
 add_arrow <- function(s){
     if (s %in% higher_is_better)
         return(paste("\U2191", s))
