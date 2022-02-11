@@ -18,3 +18,24 @@ The weighted clustering coefficient of the graph (a scalar).
 Weighted clustering Computed using the definition given by McAssey, M. P. and Bijma, F. in 
 "A clustering coefficient for complete weighted networks" (2015).
 }
+\examples{
+data(karate, package="igraphdata")
+weighted_clustering_coefficient(karate)
+}
+\seealso{
+Other cluster scoring functions: 
+\code{\link{FOMD}()},
+\code{\link{average_degree}()},
+\code{\link{average_odf}()},
+\code{\link{conductance}()},
+\code{\link{coverage}()},
+\code{\link{cut_ratio}()},
+\code{\link{density_ratio}()},
+\code{\link{edges_inside}()},
+\code{\link{expansion}()},
+\code{\link{internal_density}()},
+\code{\link{max_odf}()},
+\code{\link{normalized_cut}()},
+\code{\link{weighted_transitivity}()}
+}
+\concept{cluster scoring functions}

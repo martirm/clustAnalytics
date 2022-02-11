@@ -7,7 +7,7 @@
 rewireCpp(
   g,
   Q = 100,
-  weight_sel = "const_var",
+  weight_sel = "max_weight",
   lower_bound = 0,
   upper_bound = NULL
 )

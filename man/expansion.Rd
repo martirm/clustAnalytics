@@ -36,6 +36,8 @@ Other cluster scoring functions:
 \code{\link{edges_inside}()},
 \code{\link{internal_density}()},
 \code{\link{max_odf}()},
-\code{\link{normalized_cut}()}
+\code{\link{normalized_cut}()},
+\code{\link{weighted_clustering_coefficient}()},
+\code{\link{weighted_transitivity}()}
 }
 \concept{cluster scoring functions}

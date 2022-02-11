@@ -20,4 +20,8 @@ vector with the result of each subgraph
 \description{
 Applies function to each subgraph of a graph
 }
+\examples{
+data(karate, package="igraphdata")
+apply_subgraphs(g=karate, com=V(karate)$Faction, f=gorder)
+}
 \keyword{internal}

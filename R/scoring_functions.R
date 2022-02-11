@@ -231,6 +231,9 @@ weighted_mean_no_NA <- function(v, weights){
 #' @param f Function to apply. Takes a graph as input and returns a scalar.
 #' @return vector with the result of each subgraph
 #' @keywords internal
+#' @examples data(karate, package="igraphdata")
+#' apply_subgraphs(g=karate, com=V(karate)$Faction, f=gorder)
+#' @export
 apply_subgraphs <- function(g, com, f, ...){
     labels <- unique(com)  
     f_aux <- function(i) f(induced_subgraph(graph=g, vids=which(com==i)), ...)

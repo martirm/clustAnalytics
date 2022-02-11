@@ -54,7 +54,9 @@ bound. It should generally be left as 0 to avoid negative weights.}
 
 \item{n_reps}{Number of samples of the rewired graph.}
 
-\item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).}
+\item{w_max}{Numeric. Upper bound for edge weights. The randomization algorithm will avoid steps that would make 
+edge weights fall outside this bound. Should be generally left as default (\code{NULL}), unless the network has 
+by nature or by construction a known upper bound.}
 }
 \value{
 A matrix with the results of each scoring function and algorithm. See \code{table_style} for details.
