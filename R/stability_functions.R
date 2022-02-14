@@ -152,7 +152,7 @@ cluster_statistic <- function(data, sample, memb_original, clust_alg, g, type="g
     else{
         statistics <- c(mcclust::vi.dist(memb_nd, memb_resample)/log(n), 
                         clustAnalytics::reduced_mutual_information(memb_nd, memb_resample, 
-                                                                   normalized=TRUE), 
+                                                                   normalized=TRUE, warning=FALSE), 
                         fossil::rand.index(memb_nd, memb_resample),
                         mclust::adjustedRandIndex(memb_nd, memb_resample),
                         length(unique(memb_resample)))
@@ -205,13 +205,19 @@ statistics_table <- function(b) sapply(b, get_statistics)
 #' ones, for each of the algorithms.
 #' 
 #' @export
-boot_alg_list <- function (alg_list = clust_alg_list, g, R=999, return_data=FALSE, type="global"){
+boot_alg_list <- function (alg_list = list(Louvain=cluster_louvain, 
+                                           "label prop"= cluster_label_prop, 
+                                           walktrap=cluster_walktrap),
+                           g, R=999, return_data=FALSE, type="global"){
     #type can be "global" (VI and Rand) or "cluster-wise" (Jaccard)
     evaluate_boot_g <- function(clust_alg) boot_cluster(clust_alg=clust_alg, g=g, R=R, type=type)
     b <- lapply(alg_list, evaluate_boot_g)
     if(return_data) return(b)
     statistics <- sapply(b,get_statistics)
     rownames(statistics) <- c("VI", "NRMI", "Rand", "AdRand", "n_clusters")
+    warning("The RMI is currently computed with an analytical approximation that can give
+            inaccurate results on some partitions containing many small clusters. 
+            It will be corrected in future versions of the package.")
     return(statistics)
 }
 

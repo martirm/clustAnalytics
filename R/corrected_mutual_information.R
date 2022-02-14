@@ -3,7 +3,7 @@
 #' Reduced Mutual Information
 #' 
 #' Computes the Newman's Reduced Mutual Information (RMI) as defined in 
-#' \insertCite{corrected_MI_Newman2020}{clustAnalytics}
+#' \insertCite{corrected_MI_Newman2020}{clustAnalytics}.
 #' 
 #' The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).
 #' The evaluations of the \eqn{\Gamma} functions can get too large and cause overflow 
@@ -16,7 +16,8 @@
 #' @param c1,c2 membership vectors
 #' @param base base of the logarithms used in the calculations. Changing it only scales the final value. By default set to e=exp(1). 
 #' @param normalized If true, computes the normalized version of the corrected mutual information.
-#' @param alternative_approximation Uses equation 28 instead of 29.
+#' @param method Can be "approximation1" (appropriate for partitions into many very small clusters), 
+#' or "approximation2" (for partitions into few larger clusters).
 #' 
 #' @return The value of Newman's RMI (a scalar).
 #' 
@@ -25,10 +26,15 @@
 #' 
 #' @export
 reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
-                                       alternative_approximation=FALSE){
+                                       method="approximation2", warning=TRUE){
     # alternative_approximation=TRUE uses equation 28 to approximate RMI instead
     # of the approximation in equation 29 (both on Newman's 2020 paper defining 
     # the RMI)
+    
+    if (warning){
+        warning("This function is under development, and now is implemented with an 
+        analytical estimation that can be innaccurate under certain conditions.")
+    }
     
     n <- length(c1)
     if (length(c2) != n){
@@ -43,7 +49,7 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
     R <- length(a)
     S <- length(b)
 
-    if (alternative_approximation){
+    if (method == "approximation1"){
         v_c_rs <- vector_c_rs(c1, c2)
         sum( lfactorial(v_c_rs) ) / n
         choose2 <- function(k) k * (k-1) / 2
@@ -65,7 +71,8 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
             0.5 * (S+mu-2) * sum(log(x, base=base)) +
             0.5 * (lgamma(mu*R) + lgamma(nu*S) - S*(lgamma(nu) + lgamma(R)) - R*(lgamma(mu) + lgamma(S))) / log(base)
         if (log_omega <= 0)
-            warning("error: log_omega<0")
+            warning("error: log_omega < 0. The analytical approximation is probably not appropriate for this partition.
+                    An improved implementation of the function will be provided in future versions of the package.")
     
         MI <- mutual_information_Cpp(c1, c2, a, b)
         if (base != exp(1)) MI <- MI/log(base)
@@ -90,14 +97,8 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
         return(RMI)
     }
     else{
-        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, alternative_approximation=alternative_approximation)
-        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, alternative_approximation=alternative_approximation)
-        
-        #cat("MI=", MI, "LO=", log_omega/n, "RMI_c1=",  RMI_c1, "RMI_c2", RMI_c2, "\n")
-        #cat("RMI=", 2*(MI-log_omega/n)/(RMI_c1 + RMI_c2), "\n")
-        if (2*(RMI)/(RMI_c1 + RMI_c2) > 1){
-            save(c1, c2, file="problematic_news_clusterings.RData")
-        }
+        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, method=method, warning=warning)
+        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, method=method, warning=warning)
         return(2*(RMI)/(RMI_c1 + RMI_c2))
     }
     
