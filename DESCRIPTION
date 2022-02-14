@@ -1,7 +1,7 @@
 Package: clustAnalytics
 Type: Package
 Title: Cluster Evaluation on Graphs
-Version: 0.2
+Version: 0.3
 Date: 2021-02-08
 Author: Martí Renedo Mirambell
 Maintainer: Martí Renedo Mirambell <marti.renedo@gmail.com>

@@ -18,6 +18,7 @@
 #' @param normalized If true, computes the normalized version of the corrected mutual information.
 #' @param method Can be "approximation1" (appropriate for partitions into many very small clusters), 
 #' or "approximation2" (for partitions into few larger clusters).
+#' @param warning set to false to ignore the warning.
 #' 
 #' @return The value of Newman's RMI (a scalar).
 #' 
@@ -32,8 +33,7 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
     # the RMI)
     
     if (warning){
-        warning("This function is under development, and now is implemented with an 
-        analytical estimation that can be innaccurate under certain conditions.")
+        warning("This function is under development, and now is implemented with an analytical estimation that can be innaccurate under certain conditions.\n")
     }
     
     n <- length(c1)
@@ -97,8 +97,8 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
         return(RMI)
     }
     else{
-        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, method=method, warning=warning)
-        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, method=method, warning=warning)
+        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, method=method, warning=FALSE)
+        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, method=method, warning=FALSE)
         return(2*(RMI)/(RMI_c1 + RMI_c2))
     }
     

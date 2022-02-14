@@ -9,7 +9,8 @@ reduced_mutual_information(
   c2,
   base = exp(1),
   normalized = FALSE,
-  alternative_approximation = FALSE
+  method = "approximation2",
+  warning = TRUE
 )
 }
 \arguments{
@@ -19,14 +20,17 @@ reduced_mutual_information(
 
 \item{normalized}{If true, computes the normalized version of the corrected mutual information.}
 
-\item{alternative_approximation}{Uses equation 28 instead of 29.}
+\item{method}{Can be "approximation1" (appropriate for partitions into many very small clusters), 
+or "approximation2" (for partitions into few larger clusters).}
+
+\item{warning}{set to false to ignore the warning.}
 }
 \value{
 The value of Newman's RMI (a scalar).
 }
 \description{
 Computes the Newman's Reduced Mutual Information (RMI) as defined in 
-\insertCite{corrected_MI_Newman2020}{clustAnalytics}
+\insertCite{corrected_MI_Newman2020}{clustAnalytics}.
 }
 \details{
 The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).
