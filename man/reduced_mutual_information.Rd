@@ -33,7 +33,7 @@ Computes the Newman's Reduced Mutual Information (RMI) as defined in
 \insertCite{corrected_MI_Newman2020}{clustAnalytics}.
 }
 \details{
-The implementation is based on equations 23 (25 for the normalized case) and 29 in (reference here).
+The implementation is based on equations 23 (25 for the normalized case) and 29 in \insertCite{corrected_MI_Newman2020}{clustAnalytics}.
 The evaluations of the \eqn{\Gamma} functions can get too large and cause overflow 
 issues in the intermediate steps, so the following term of equation 29:
 \deqn{\frac{1}{2} \log \frac{\Gamma(\mu R) \Gamma(\nu S)} {(\Gamma(\nu)\Gamma(R))^S (\Gamma(\mu)\Gamma(S))^R } }
