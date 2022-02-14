@@ -1,0 +1,29 @@
+---
+title: "Cluster Stability"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Cluster Stability}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(clustAnalytics)
+```
+
+Here we perform a nonparametric bootstrap to the karate club graph and the same selection of algorithms. For each instance, the set of vertices is resampled, the induced graph is obtained by taking the new set of vertices with the induced edges from the original graph, and the clustering algorithms are applied. Then, these results are compared to the induced original clusterings using several metrics: the variation of information (VI), normalized reduced mutual information (NRMI) and both adjusted and regular Rand index (Rand and adRand):
+```{r}
+data(karate, package="igraphdata")
+boot_alg_list(g=karate, return_data=FALSE, R=99,
+              alg_list=list(Louvain=cluster_louvain, 
+                            "label prop"= cluster_label_prop, 
+                            walktrap=cluster_walktrap)) 
+```

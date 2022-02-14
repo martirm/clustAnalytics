@@ -2,7 +2,7 @@
 title: "Stability and Significance Examples"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{test-vignette}
+  %\VignetteIndexEntry{Stability and Significance Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,6 +20,21 @@ library(clustAnalytics)
 ```
 
 
+## Scoring functions
+To compute the scoring functions of a graph and its clusters, we call scoring_functions. Here we try it for the well known Zachary's karate club graph, using the faction memberships as clusters. type=global gives us the scores of each cluster, while type=global gives us the weighted mean of the local scores, plus some additional global scores
+```{r}
+data(karate, package="igraphdata")
+scoring_functions(karate, V(karate)$Faction, type="local")
+scoring_functions(karate, V(karate)$Faction, type="global")
+```
+
+Additionally, each of the scores is available individually as its own function, grouped together in the package as the *cluster scoring functions* family. They are simply called as follows, with the graph and the membership vector as arguments, and return a vector with the scores for each community:
+```{r}
+cut_ratio(karate, V(karate)$Faction)
+```
+
+
+
 ## Significance
 To showcase the randomization process, we apply it to the Zachary's karate club graph, with the default settings (positive weights with no upper bound, which suits this graph):
 ```{r}
@@ -29,17 +44,33 @@ rewired_karate <- rewireCpp(karate, weight_sel = "max_weight")
 E(rewired_karate)
 ```
 
+If the graph is directed, the rewireCpp function automatically detects it and internally runs the implementation for directed graphs. The following example is a food network (where edges indicate predator-prey relationships) from the igraphdata package:
+```{r}
+data(foodwebs, package="igraphdata")
+rewired_ChesLower <- rewireCpp(foodwebs$ChesLower, weight_sel = "max_weight")
+```
+
 Now we compute the scoring functions for the karate club graph. By default the clustering algorithms are Louvain, label propagation and Walktrap, but the function can take any list of clustering algorithms for igraph graphs.
 ```{r}
 # this corresponds to the club each member ended up with after the split, 
 # which we could consider the ground truth clustering for this graph.
-significance_table_karate <- evaluate_significance(karate, ground_truth=TRUE, 
+significance_table_karate <- evaluate_significance(karate, ground_truth=TRUE,
+                                                   alg_list=list(Louvain=cluster_louvain, 
+                                                                 "label prop"= cluster_label_prop, 
+                                                                 walktrap=cluster_walktrap),
                                                    gt_clustering=V(karate)$Faction)
 significance_table_karate
+```
 
-significance_table_karate_r <- evaluate_significance_r(karate, ground_truth=TRUE, 
-                                                   gt_clustering=V(karate)$Faction,
-                                                   n_reps=3)
+With the function `evaluate_significance_r` we compute the scoring functions as above, and we compare the results to those of a distribution of randomized graphs.
+```{r}
+significance_table_karate_r <- evaluate_significance_r(karate, ground_truth=TRUE,
+                                                       alg_list=list(Louvain=cluster_louvain, 
+                                                                 "label prop"= cluster_label_prop, 
+                                                                 walktrap=cluster_walktrap),
+                                                       gt_clustering=V(karate)$Faction,
+                                                       weight_sel="max_weight",
+                                                       n_reps=10)
 ```
 
 Now we generate a graph from a stochastic block model in which we set very strong clusters (the elements in the diagonal of the matrix are much larger than the rest, so the probability of intra-cluster edges is much higher than that of inter-cluster edges).
@@ -60,6 +91,7 @@ And as an example of usage for a complete weighted graphs with weights bounded b
 data(package="clustAnalytics",g_forex)
 significance_table_karate_r <- evaluate_significance_r(karate, ground_truth=TRUE, 
                                                    gt_clustering=V(karate)$Faction,
+                                                   weight_sel = "const_var",
                                                    n_reps=5, w_max=1)
 
 ```

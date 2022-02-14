@@ -1,0 +1,43 @@
+---
+title: "Graph Rewiring Functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Graph Rewiring Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(clustAnalytics)
+```
+
+## Transferred Weight Selection
+In the weighted case, the switching algorithm transfers a certain amount of weight from some edges to others. The package provides two settings, which we will choose according to what type of weighted graph we are working with.
+
+#### Complete graphs with a fixed upper bound
+These graphs have an edge between every pair of vertices, which will usually be the result of applying some function to each pair. For example, networks resulting from computing correlations of time series (where each series corresponds to a vertex, and the edge weights are the correlations between series) fall into this category.
+
+We show an example built from correlations of currency exchange time series \cite{arratia2021clustering}. In this network vertices are pairs of exchange rates, and the edge weights are the correlations of their corresponding time series, scaled to the interval $[0,1]$. In this case, the appropriate setting is the one that keeps the variance of the edge weights constant.
+```{r}
+data(g_forex, package="clustAnalytics")
+rewireCpp(g=g_forex, weight_sel="const_var", lower_bound=0, upper_bound=1)
+```
+
+
+#### More sparse graphs with weights that are non-negative but not necessarily upper bounded
+This describes most commonly found weighted graphs, where the weights quantify some characteristic of the edges. Multigraphs also fit here, if we reinterpret them as weighted graphs where the edge weight is the number of parallel edges between each pair of vertices.
+
+This is the case for the famous karate club graph from Zachary.
+```{r}
+data(karate, package="igraphdata")
+rewired_karate <- rewireCpp(karate, weight_sel="max_weight")
+```
+

@@ -1,0 +1,37 @@
+---
+title: "Graph Scoring Functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Graph Scoring Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(clustAnalytics)
+```
+
+
+
+
+
+The package includes efficient implementations of the clustering coefficient and transitivity for weighted networks introduced by \cite{clustcoeficient}. As they can be applied to weighted graphs in general and not only to their partition into communities, they are simply called with the graph as the only argument:
+```{r}
+data(karate, package="igraphdata")
+weighted_clustering_coefficient(karate)
+```
+
+To be able to obtain the result for every community in the graph, we provide the function *apply_subgraphs*; which given a graph, a membership vector and a scalar function, applies the function to every community and returns the vector of results. In this case it works as follows:
+```{r}
+apply_subgraphs(karate, V(karate)$Faction, weighted_clustering_coefficient)
+```
+
+
