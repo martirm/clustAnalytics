@@ -30,9 +30,10 @@ rewireCpp <- function(g, Q=100, weight_sel="max_weight", lower_bound=0, upper_bo
     vertex_names <- igraph::V(g)$name
     edgelist <- igraph_to_edgelist(g)
     if (is.null(upper_bound))
-        rewired_edgelist <- randomize(edgelist, Q, weight_sel, lower_bound, directed)
+        rewired_edgelist <- randomize(EdgeList=edgelist, Q=Q, weight_sel=weight_sel, lower_bound=lower_bound, directed=directed)
     else
-        rewired_edgelist <- randomize(edgelist, Q, weight_sel, lower_bound, upper_bound, directed)
+        rewired_edgelist <- randomize(EdgeList=edgelist, Q=Q, weight_sel=weight_sel, 
+                                      lower_bound=lower_bound, upper_bound=upper_bound, directed=directed)
     rewired_g <- edgelist_to_igraph(rewired_edgelist)
     
     # isolated vertices could be lost when creating back the new graph from the edge list
