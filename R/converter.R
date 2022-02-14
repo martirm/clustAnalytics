@@ -27,7 +27,7 @@ edgelist_to_igraph <- function(edgelist){
 rewireCpp <- function(g, Q=100, weight_sel="max_weight", lower_bound=0, upper_bound=NULL){
 
     directed <- igraph::is_directed(g)
-    vertex_names <- igraph::V(g)$name
+    #vertex_names <- igraph::V(g)$name
     edgelist <- igraph_to_edgelist(g)
     if (is.null(upper_bound))
         rewired_edgelist <- randomize(EdgeList=edgelist, Q=Q, weight_sel=weight_sel, lower_bound=lower_bound, directed=directed)
@@ -44,8 +44,9 @@ rewireCpp <- function(g, Q=100, weight_sel="max_weight", lower_bound=0, upper_bo
     }
     
     
-    if (!is.null(vertex_names))
-        V(rewired_g)$name <- vertex_names
+    #if (!is.null(vertex_names))
+    #    V(rewired_g)$name <- vertex_names
+    vertex.attributes(rewired_g) <- vertex.attributes(g)
     return ( rewired_g )
 }
 
