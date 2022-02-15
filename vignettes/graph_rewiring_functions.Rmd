@@ -39,5 +39,8 @@ This is the case for the famous karate club graph from Zachary.
 ```{r}
 data(karate, package="igraphdata")
 rewired_karate <- rewireCpp(karate, weight_sel="max_weight")
+par(mfrow=c(1,2), mai=c(0,0.1,0.3,0.1))
+plot(karate, main="karate")
+plot(rewired_karate, main="rewired_karate")
 ```
 
