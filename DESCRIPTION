@@ -2,11 +2,12 @@ Package: clustAnalytics
 Type: Package
 Title: Cluster Evaluation on Graphs
 Version: 0.3
-Date: 2022-02-14
+Date: 2022-02-16
 Author: Martí Renedo Mirambell
 Maintainer: Martí Renedo Mirambell <marti.renedo@gmail.com>
 Description: Evaluates the stability and significance of clusters on 'igraph' graphs.
-    Supports weighted and unweighted graphs.
+    Supports weighted and unweighted graphs. Implements the cluster evaluation methods
+    defined by Arratia A, Renedo M (2021) <https://doi.org/10.7717/peerj-cs.600>.
 License: GPL (>= 3)
 Imports:
     Rcpp (>= 1.0.1),
