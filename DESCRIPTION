@@ -2,7 +2,7 @@ Package: clustAnalytics
 Type: Package
 Title: Cluster Evaluation on Graphs
 Version: 0.3
-Date: 2022-02-16
+Date: 2022-02-17
 Author: Martí Renedo Mirambell
 Maintainer: Martí Renedo Mirambell <marti.renedo@gmail.com>
 Description: Evaluates the stability and significance of clusters on 'igraph' graphs.
