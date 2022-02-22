@@ -75,7 +75,7 @@ int sample_fraction_H_i(IntegerMatrix M, int i, double error=0.1){
         ++H_i;
         double new_ratio = H_i/H_i_plus;
         if (iter%100000 == 0){
-            if (abs(new_ratio - ratio) < error){ //replace with proper conditions depending on desired error
+            if (fabs(new_ratio - ratio) < error){ //replace with proper conditions depending on desired error
                 //std::cout << iter << std::endl << H_i << std::endl << H_i_plus << std::endl;
                 return round(new_ratio);
             }
