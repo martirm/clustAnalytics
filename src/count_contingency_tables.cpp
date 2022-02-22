@@ -117,7 +117,7 @@ int count_contingency_tables(const NumericVector& c1, const NumericVector& c2, d
     
     IntegerVector v_H(nrow-1);
     for (int i=0; i<nrow-1; ++i){
-        v_H[i] = sample_fraction_H_i(M, i, error=error);
+        v_H[i] = sample_fraction_H_i(M, i, error);
         n_contingency_tables *= v_H[i];
     }
     
