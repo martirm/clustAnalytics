@@ -1,6 +1,18 @@
 
-igraph_to_edgelist <- function(g){
-    cbind(as_edgelist(g, names = FALSE), E(g)$weight)
+#' Returns edgelist with weights from a weighted igraph graph
+#' 
+#' This function is just used internally for testing the package
+#' 
+#' @param g igraph graph with weighted edges
+#' @param sort sorts the edge list lexicographically before returning
+#' @return A matrix where the first two columns indicate the incident vertices,
+#' and the third is the weight of the corresponding edge.
+igraph_to_edgelist <- function(g, sort=TRUE){
+    el <- cbind(as_edgelist(g, names = FALSE), E(g)$weight)
+    if (sort){
+        return(kdtools::lex_sort(el))
+    }
+    return(el)
 }
 
 edgelist_to_igraph <- function(edgelist){

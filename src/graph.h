@@ -2,9 +2,11 @@
 #define GRAPH_H
 
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <Rcpp.h>
 #include "svector.h"
+#include "cantor_hash.h"
 
 struct Edge{
     int a;
@@ -19,7 +21,7 @@ class Graph {
         double lower_bound;
         double upper_bound;
         bool directed;
-        std::map<std::pair<int,int>, double> edge_list_m; //keys are pairs of ints indicating the two ends of the edge. Value is a double with its weight
+        std::unordered_map<std::pair<int,int>, double, CantorHash> edge_list_m; //keys are pairs of ints indicating the two ends of the edge. Value is a double with its weight
         std::vector<std::map<int,double> > adjacencies_list; //for every vertex, map of its adjacencies (pairs of vertex index, and edge weight)
         SVector<std::pair<int,int> > sampling_vector; //contains all edges. Used to sample edges uniformly.
 
@@ -42,7 +44,7 @@ class Graph {
         void transfer_weight(int a, int b, int c, int d, double w);
         bool allowed_weight(double w) const; //checks if a given weight is within the allowed bounds for this graph
         std::map<int,double> vertex_adjacencies(int v) const;
-        const std::map<std::pair<int,int>, double>& edge_list_map() const;
+        const std::unordered_map<std::pair<int,int>, double, CantorHash>& edge_list_map() const;
         std::pair<std::pair<int,int>, std::pair<int,int> > sample_pair_edges();
 
 };
