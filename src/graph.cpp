@@ -108,15 +108,15 @@ void Graph::set_weight(int a, int b, double w, bool new_edge){
 }
 
 
-//samples non adjacent pair of edges
+//samples pair of edges
 pair<pair<int,int>, pair<int,int> > Graph::sample_pair_edges(){
     pair<int,int> ac = sampling_vector.rand_el(), bd;
-    bool not_adjacent = false;
-    while (not not_adjacent){
+    bool same = true;
+    while (same){
         bd = sampling_vector.rand_el();
-        if (bd.first != ac.first && bd.first != ac.second &&
-            bd.second != ac.first && bd.second != ac.second)
-            not_adjacent = true;
+        if (bd != ac){
+            same = false;
+        }
     }
     return make_pair(ac, bd);
 }
