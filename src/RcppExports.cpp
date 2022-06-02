@@ -33,65 +33,78 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// walk_step
-bool walk_step(IntegerMatrix& M, int min_row);
-RcppExport SEXP _clustAnalytics_walk_step(SEXP MSEXP, SEXP min_rowSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix& >::type M(MSEXP);
-    Rcpp::traits::input_parameter< int >::type min_row(min_rowSEXP);
-    rcpp_result_gen = Rcpp::wrap(walk_step(M, min_row));
-    return rcpp_result_gen;
-END_RCPP
-}
-// walk_k_steps
-void walk_k_steps(IntegerMatrix& M, int min_row, int k);
-RcppExport SEXP _clustAnalytics_walk_k_steps(SEXP MSEXP, SEXP min_rowSEXP, SEXP kSEXP) {
+// print_Rcpp
+void print_Rcpp(Rcpp::IntegerMatrix M);
+RcppExport SEXP _clustAnalytics_print_Rcpp(SEXP MSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix& >::type M(MSEXP);
-    Rcpp::traits::input_parameter< int >::type min_row(min_rowSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    walk_k_steps(M, min_row, k);
+    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type M(MSEXP);
+    print_Rcpp(M);
     return R_NilValue;
 END_RCPP
 }
-// sample_fraction_H_i
-int sample_fraction_H_i(IntegerMatrix M, int i, double error);
-RcppExport SEXP _clustAnalytics_sample_fraction_H_i(SEXP MSEXP, SEXP iSEXP, SEXP errorSEXP) {
+// walk_step
+bool walk_step(Rcpp::IntegerMatrix& M, int k, int l);
+RcppExport SEXP _clustAnalytics_walk_step(SEXP MSEXP, SEXP kSEXP, SEXP lSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerMatrix >::type M(MSEXP);
-    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< int >::type l(lSEXP);
+    rcpp_result_gen = Rcpp::wrap(walk_step(M, k, l));
+    return rcpp_result_gen;
+END_RCPP
+}
+// estimate_H_fraction
+double estimate_H_fraction(const Rcpp::IntegerMatrix& M, int k, int l, double error);
+RcppExport SEXP _clustAnalytics_estimate_H_fraction(SEXP MSEXP, SEXP kSEXP, SEXP lSEXP, SEXP errorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::IntegerMatrix& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< int >::type l(lSEXP);
     Rcpp::traits::input_parameter< double >::type error(errorSEXP);
-    rcpp_result_gen = Rcpp::wrap(sample_fraction_H_i(M, i, error));
+    rcpp_result_gen = Rcpp::wrap(estimate_H_fraction(M, k, l, error));
+    return rcpp_result_gen;
+END_RCPP
+}
+// estimate_H_fraction_r_rows
+double estimate_H_fraction_r_rows(const Rcpp::IntegerMatrix& M, int r, double error);
+RcppExport SEXP _clustAnalytics_estimate_H_fraction_r_rows(SEXP MSEXP, SEXP rSEXP, SEXP errorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::IntegerMatrix& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    Rcpp::traits::input_parameter< double >::type error(errorSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimate_H_fraction_r_rows(M, r, error));
+    return rcpp_result_gen;
+END_RCPP
+}
+// estimate_H_fractions
+Rcpp::NumericVector estimate_H_fractions(const Rcpp::IntegerMatrix& M, int r, double error);
+RcppExport SEXP _clustAnalytics_estimate_H_fractions(SEXP MSEXP, SEXP rSEXP, SEXP errorSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::IntegerMatrix& >::type M(MSEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    Rcpp::traits::input_parameter< double >::type error(errorSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimate_H_fractions(M, r, error));
     return rcpp_result_gen;
 END_RCPP
 }
 // c_rs_table
-IntegerMatrix c_rs_table(const NumericVector& c1, const NumericVector& c2);
+Rcpp::IntegerMatrix c_rs_table(const Rcpp::NumericVector& c1, const Rcpp::NumericVector& c2);
 RcppExport SEXP _clustAnalytics_c_rs_table(SEXP c1SEXP, SEXP c2SEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type c1(c1SEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type c2(c2SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type c1(c1SEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type c2(c2SEXP);
     rcpp_result_gen = Rcpp::wrap(c_rs_table(c1, c2));
-    return rcpp_result_gen;
-END_RCPP
-}
-// count_contingency_tables
-int count_contingency_tables(const NumericVector& c1, const NumericVector& c2, double error);
-RcppExport SEXP _clustAnalytics_count_contingency_tables(SEXP c1SEXP, SEXP c2SEXP, SEXP errorSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericVector& >::type c1(c1SEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type c2(c2SEXP);
-    Rcpp::traits::input_parameter< double >::type error(errorSEXP);
-    rcpp_result_gen = Rcpp::wrap(count_contingency_tables(c1, c2, error));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -248,11 +261,12 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_clustAnalytics_TPR_coms_Rcpp", (DL_FUNC) &_clustAnalytics_TPR_coms_Rcpp, 2},
     {"_clustAnalytics_triangle_participation_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_triangle_participation_ratio_Rcpp, 1},
-    {"_clustAnalytics_walk_step", (DL_FUNC) &_clustAnalytics_walk_step, 2},
-    {"_clustAnalytics_walk_k_steps", (DL_FUNC) &_clustAnalytics_walk_k_steps, 3},
-    {"_clustAnalytics_sample_fraction_H_i", (DL_FUNC) &_clustAnalytics_sample_fraction_H_i, 3},
+    {"_clustAnalytics_print_Rcpp", (DL_FUNC) &_clustAnalytics_print_Rcpp, 1},
+    {"_clustAnalytics_walk_step", (DL_FUNC) &_clustAnalytics_walk_step, 3},
+    {"_clustAnalytics_estimate_H_fraction", (DL_FUNC) &_clustAnalytics_estimate_H_fraction, 4},
+    {"_clustAnalytics_estimate_H_fraction_r_rows", (DL_FUNC) &_clustAnalytics_estimate_H_fraction_r_rows, 3},
+    {"_clustAnalytics_estimate_H_fractions", (DL_FUNC) &_clustAnalytics_estimate_H_fractions, 3},
     {"_clustAnalytics_c_rs_table", (DL_FUNC) &_clustAnalytics_c_rs_table, 2},
-    {"_clustAnalytics_count_contingency_tables", (DL_FUNC) &_clustAnalytics_count_contingency_tables, 3},
     {"_clustAnalytics_count_labels", (DL_FUNC) &_clustAnalytics_count_labels, 1},
     {"_clustAnalytics_mutual_information_Cpp", (DL_FUNC) &_clustAnalytics_mutual_information_Cpp, 4},
     {"_clustAnalytics_vector_c_rs", (DL_FUNC) &_clustAnalytics_vector_c_rs, 2},

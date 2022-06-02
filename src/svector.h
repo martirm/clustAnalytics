@@ -9,7 +9,7 @@
 template <typename T>
 class SVector{
     /* Allows sampling elements
-     * Implemented as a unordered_map to keep the cost of insertions and deletions constant
+     * Implemented as a unordered_map to keep the cost of insertions and deletions constant (need custom hash for pairs of ints)
      * std::sample function might have linear running time, which would be a problem (look into this)
      */
         std::vector<T> v;

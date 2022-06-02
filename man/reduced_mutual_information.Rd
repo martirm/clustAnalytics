@@ -20,7 +20,8 @@ reduced_mutual_information(
 
 \item{normalized}{If true, computes the normalized version of the corrected mutual information.}
 
-\item{method}{Can be "approximation1" (appropriate for partitions into many very small clusters), 
+\item{method}{Can be "hybrid" (default, combines Monte Carlo with analytical formula), "monte_carlo", 
+approximation1" (appropriate for partitions into many very small clusters), 
 or "approximation2" (for partitions into few larger clusters).}
 
 \item{warning}{set to false to ignore the warning.}

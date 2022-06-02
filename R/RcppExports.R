@@ -9,24 +9,66 @@ triangle_participation_ratio_Rcpp <- function(EdgeList) {
     .Call('_clustAnalytics_triangle_participation_ratio_Rcpp', PACKAGE = 'clustAnalytics', EdgeList)
 }
 
-walk_step <- function(M, min_row) {
-    .Call('_clustAnalytics_walk_step', PACKAGE = 'clustAnalytics', M, min_row)
+print_Rcpp <- function(M) {
+    invisible(.Call('_clustAnalytics_print_Rcpp', PACKAGE = 'clustAnalytics', M))
 }
 
-walk_k_steps <- function(M, min_row, k) {
-    invisible(.Call('_clustAnalytics_walk_k_steps', PACKAGE = 'clustAnalytics', M, min_row, k))
+#' Performs a step of the Markov Chain Monte Carlo method
+#' 
+#' Modifies the matrix while keeping the column and row sums constant, as well as
+#' leaving the positions strictly preceding (k,l) in lexicographical order invariant.
+#' 
+#' @param M matrix
+#' @param k,l Coordinates of the first element that is not invariant 
+#' @return boolean indicating whether the step left the matrix invariant
+walk_step <- function(M, k, l) {
+    .Call('_clustAnalytics_walk_step', PACKAGE = 'clustAnalytics', M, k, l)
 }
 
-sample_fraction_H_i <- function(M, i, error = 0.1) {
-    .Call('_clustAnalytics_sample_fraction_H_i', PACKAGE = 'clustAnalytics', M, i, error)
+#' Estimates |H_i|/|H_{i+1}|
+#' 
+#' Estimates the fraction of elements of H_i that are also in H_{i+1} (where i=(k,l))
+#' @param M matrix
+#' @param k,l Coordinates of the first element that is not invariant 
+#' @param error error for the convergence of the method
+#' @return value of H_i/H_{i+1}
+estimate_H_fraction <- function(M, k, l, error = 0.1) {
+    .Call('_clustAnalytics_estimate_H_fraction', PACKAGE = 'clustAnalytics', M, k, l, error)
 }
 
+#' Estimates |H_0|/|H_r*|
+#' 
+#' This is the total number of contingency tables (of the same margins as M) divided 
+#' by the number that match M until the r-th row (included, 0-indexed). Note that
+#' if r==0, this is always 1 by definition. 
+#' @param M contingency table
+#' @param r row index
+#' @param error error for the convergence of the method
+estimate_H_fraction_r_rows <- function(M, r, error = 0.1) {
+    .Call('_clustAnalytics_estimate_H_fraction_r_rows', PACKAGE = 'clustAnalytics', M, r, error)
+}
+
+#' Estimates |H_i|/|H_{i+1}| for the first r rows
+#' 
+#' The product of all these ratios is is the total number of contingency tables (of the same margins as M) divided 
+#' by the number that match M until the r-th row (included, 0-indexed). 
+#' @param M contingency table
+#' @param r row index
+#' @param error error for the convergence of the method
+#' @return NumericVector containing all the ratios
+estimate_H_fractions <- function(M, r, error = 0.1) {
+    .Call('_clustAnalytics_estimate_H_fractions', PACKAGE = 'clustAnalytics', M, r, error)
+}
+
+#' Contingency table from membership vectors
+#' 
+#' Given two membership vectors, returns the corresponding contingency table.
+#' we assume the labels are >=1 and numbered consecutively. If not consecutive
+#' (some labels are unused) this implementation still works, but will be less
+#' efficient.
+#' @param c1,c2 membership vectors (integer values containing the index of each community)
 c_rs_table <- function(c1, c2) {
     .Call('_clustAnalytics_c_rs_table', PACKAGE = 'clustAnalytics', c1, c2)
-}
-
-count_contingency_tables <- function(c1, c2, error = 0.1) {
-    .Call('_clustAnalytics_count_contingency_tables', PACKAGE = 'clustAnalytics', c1, c2, error)
 }
 
 count_labels <- function(c) {
