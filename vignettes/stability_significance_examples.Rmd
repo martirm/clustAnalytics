@@ -54,7 +54,7 @@ Now we compute the scoring functions for the karate club graph. By default the c
 ```{r}
 # this corresponds to the club each member ended up with after the split, 
 # which we could consider the ground truth clustering for this graph.
-significance_table_karate <- evaluate_significance(karate, ground_truth=TRUE,
+significance_table_karate <- evaluate_significance(karate,
                                                    alg_list=list(Louvain=cluster_louvain, 
                                                                  "label prop"= cluster_label_prop, 
                                                                  walktrap=cluster_walktrap),
@@ -64,7 +64,7 @@ significance_table_karate
 
 With the function `evaluate_significance_r` we compute the scoring functions as above, and we compare the results to those of a distribution of randomized graphs.
 ```{r}
-significance_table_karate_r <- evaluate_significance_r(karate, ground_truth=TRUE,
+significance_table_karate_r <- evaluate_significance_r(karate, 
                                                        alg_list=list(Louvain=cluster_louvain, 
                                                                  "label prop"= cluster_label_prop, 
                                                                  walktrap=cluster_walktrap),
@@ -89,7 +89,7 @@ significance_table_sbm
 And as an example of usage for a complete weighted graphs with weights bounded between 0 and 1, we have a graph built from correlations of currency exchange rate returns, in particular from January 2009 with the 13 most traded currencies. In this case we have to set w_max to 1 to keep the upper bound when rewiring the edges.
 ```{r}
 data(package="clustAnalytics",g_forex)
-significance_table_karate_r <- evaluate_significance_r(karate, ground_truth=TRUE, 
+significance_table_karate_r <- evaluate_significance_r(karate,  
                                                    gt_clustering=V(karate)$Faction,
                                                    weight_sel = "const_var",
                                                    n_reps=5, w_max=1)

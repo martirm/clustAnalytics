@@ -30,10 +30,8 @@ do.call_tryCatch <- function(f, args){
 #' @param w_max Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).
 #' @param no_clustering_coef Logical. If \code{TRUE}, skips the computation of the clustering
 #' coefficient, which is the most computationally costly of the scoring functions.
-#' @param ground_truth Logical. If set to \code{TRUE}, computes the scoring functions for 
-#' a ground truth clustering, which has to be provided as \code{gt_clustering}
 #' @param gt_clustering Vector of integers that correspond to labels of the ground truth clustering. 
-#' Only used if \code{ground_truth} is set to \code{TRUE}.
+#' The scoring functions will be evaluated on it.
 #' @return
 #' A data frame with the values of scoring functions (see \code{\link[clustAnalytics]{scoring_functions}}) 
 #' of the clusters obtained by
@@ -45,15 +43,18 @@ do.call_tryCatch <- function(f, args){
 evaluate_significance <- function(g, alg_list=list(Louvain=cluster_louvain, 
                                                    "label prop"= cluster_label_prop, 
                                                    walktrap=cluster_walktrap),
-                                  no_clustering_coef=TRUE, ground_truth=FALSE, 
-                                  gt_clustering=NULL, w_max=NULL){
+                                  no_clustering_coef=TRUE, gt_clustering=NULL, 
+                                  w_max=NULL){
     #given an algorithm list and a graph
     c_list <- lapply(alg_list, do.call, list(g)) #clusters graph g by all algorithms in list
     #c_list <- lapply(alg_list, do.call_tryCatch, list(g)) #clusters graph g by all algorithms in list
     memberships_list <- lapply(c_list, membership)
+    
+    ground_truth <- (!missing(gt_clustering) & !is.null(gt_clustering))
     if (ground_truth){
-        memberships_list <- c(memberships_list, list(gt_clustering))
-        names(memberships_list)[length(alg_list)+1] <- "ground truth"
+        l <- list(gt_clustering)
+        names(l) <- c("ground truth")
+        memberships_list <- c(memberships_list, l)
     }
     # TO DO:
     # change "scoring_functions" to return and use a matrix/vector all along, not a data frame
@@ -211,7 +212,7 @@ evaluate_significance_r <- function(g, alg_list=list(Louvain=cluster_louvain,
                                                      "label prop"= cluster_label_prop, 
                                                      walktrap=cluster_walktrap),
                                     no_clustering_coef=FALSE, 
-                                    ground_truth=FALSE, gt_clustering=NULL, 
+                                    gt_clustering=NULL, 
                                     table_style="default",
                                     ignore_degenerate_cl=TRUE, Q=100, 
                                     lower_bound=0, weight_sel="const_var", 
@@ -219,12 +220,13 @@ evaluate_significance_r <- function(g, alg_list=list(Louvain=cluster_louvain,
     ### weight_sel can be either "const_var" or "max_weight"
     ## ignore_degenerate_cl: if TRUE, when computing the means of the scoring functions, samples with
     ## only one cluster will be ignored.
+    ground_truth <- (!missing(gt_clustering) & !is.null(gt_clustering))
     upper_bound <- w_max
-    table1 <- evaluate_significance(g, alg_list, no_clustering_coef, ground_truth, gt_clustering, 
+    table1 <- evaluate_significance(g, alg_list, no_clustering_coef, gt_clustering, 
                                     w_max=w_max)
     if (n_reps == 1){
         rewire_g <- rewireCpp(g, Q, lower_bound=lower_bound, upper_bound=upper_bound, weight_sel=weight_sel)
-        table2 <- evaluate_significance(rewire_g, alg_list, no_clustering_coef, ground_truth=FALSE,  
+        table2 <- evaluate_significance(rewire_g, alg_list, no_clustering_coef,   
                                         w_max=w_max)
         table_per <- table1
         table_per[,] <- NA
@@ -239,7 +241,7 @@ evaluate_significance_r <- function(g, alg_list=list(Louvain=cluster_louvain,
                                         simplify=FALSE)
         table_list <- lapply(rewired_graph_list, evaluate_significance, alg_list=alg_list,
                              no_clustering_coef=no_clustering_coef, 
-                             gt_clustering=FALSE)
+                             gt_clustering=NULL)
         
         mean_table <- Reduce('+', table_list)/n_reps
         # this part is causing errors. Unavailable for now
@@ -252,6 +254,7 @@ evaluate_significance_r <- function(g, alg_list=list(Louvain=cluster_louvain,
         
         table_per <- percentile_matrix(table1, table_list)
     }
+    
     if (ground_truth){
         table2 <- rbind(table2, NA)
         rownames(table2) <- rownames(table1)
