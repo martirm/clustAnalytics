@@ -65,6 +65,7 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
         else{
             stop("Choose a valid method (either hybrid, approximation1 or approximation2)")
         }
+        if (base != exp(1)) log_omega <- log_omega/log(base)
         RMI <- MI - log_omega/n
     }
 
@@ -87,8 +88,8 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
         return(RMI)
     }
     else{
-        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, method=method, warning=FALSE)
-        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, method=method, warning=FALSE)
+        RMI_c1 <- reduced_mutual_information(c1, c1, normalized=FALSE, method=method, warning=FALSE, base=base)
+        RMI_c2 <- reduced_mutual_information(c2, c2, normalized=FALSE, method=method, warning=FALSE, base=base)
         return(2*(RMI)/(RMI_c1 + RMI_c2))
     }
 }
