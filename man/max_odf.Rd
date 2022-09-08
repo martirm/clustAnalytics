@@ -45,6 +45,7 @@ Other cluster scoring functions:
 \code{\link{expansion}()},
 \code{\link{internal_density}()},
 \code{\link{normalized_cut}()},
+\code{\link{scoring_functions}()},
 \code{\link{weighted_clustering_coefficient}()},
 \code{\link{weighted_transitivity}()}
 
@@ -60,6 +61,7 @@ Other cluster scoring functions:
 \code{\link{expansion}()},
 \code{\link{internal_density}()},
 \code{\link{normalized_cut}()},
+\code{\link{scoring_functions}()},
 \code{\link{weighted_clustering_coefficient}()},
 \code{\link{weighted_transitivity}()}
 }

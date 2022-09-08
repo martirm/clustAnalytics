@@ -41,6 +41,7 @@ Other cluster scoring functions:
 \code{\link{internal_density}()},
 \code{\link{max_odf}()},
 \code{\link{normalized_cut}()},
+\code{\link{scoring_functions}()},
 \code{\link{weighted_clustering_coefficient}()},
 \code{\link{weighted_transitivity}()}
 }

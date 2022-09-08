@@ -9,7 +9,6 @@ evaluate_significance_r(
   alg_list = list(Louvain = cluster_louvain, `label prop` = cluster_label_prop,
     walktrap = cluster_walktrap),
   no_clustering_coef = FALSE,
-  ground_truth = FALSE,
   gt_clustering = NULL,
   table_style = "default",
   ignore_degenerate_cl = TRUE,
@@ -29,11 +28,8 @@ input and return an object of the \code{communities} class.}
 \item{no_clustering_coef}{Logical. If \code{TRUE}, skips the computation of the clustering
 coefficient, which is the most computationally costly of the scoring functions.}
 
-\item{ground_truth}{Logical. If set to \code{TRUE}, computes the scoring functions for 
-a ground truth clustering, which has to be provided as \code{gt_clustering}}
-
 \item{gt_clustering}{Vector of integers that correspond to labels of the ground truth clustering. 
-Only used if \code{ground_truth} is set to \code{TRUE}.}
+The scoring functions will be evaluated on it.}
 
 \item{table_style}{By default returns a table with three columns per algorithm: the original one,
 the mean of the corresponding rewired scores (suffix "_r") and it's percentile rank within the

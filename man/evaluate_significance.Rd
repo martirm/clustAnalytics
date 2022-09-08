@@ -9,7 +9,6 @@ evaluate_significance(
   alg_list = list(Louvain = cluster_louvain, `label prop` = cluster_label_prop,
     walktrap = cluster_walktrap),
   no_clustering_coef = TRUE,
-  ground_truth = FALSE,
   gt_clustering = NULL,
   w_max = NULL
 )
@@ -23,11 +22,8 @@ input and return an object of the \code{communities} class.}
 \item{no_clustering_coef}{Logical. If \code{TRUE}, skips the computation of the clustering
 coefficient, which is the most computationally costly of the scoring functions.}
 
-\item{ground_truth}{Logical. If set to \code{TRUE}, computes the scoring functions for 
-a ground truth clustering, which has to be provided as \code{gt_clustering}}
-
 \item{gt_clustering}{Vector of integers that correspond to labels of the ground truth clustering. 
-Only used if \code{ground_truth} is set to \code{TRUE}.}
+The scoring functions will be evaluated on it.}
 
 \item{w_max}{Numeric. Upper bound for edge weights. Should be generally left as default (\code{NULL}).}
 }

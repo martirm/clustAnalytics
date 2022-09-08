@@ -54,6 +54,8 @@ out_degree_fractions <- function(g, com, edgelist){
 #' @return If \code{type=="local"}, returns a dataframe with a row for each
 #' community, and a column for each score. If \code{type=="global"}, returns a
 #' single row with the weighted average scores.
+#' 
+#' @family cluster scoring functions
 #'
 #' @examples
 #' data(karate, package="igraphdata")
