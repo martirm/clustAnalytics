@@ -27,7 +27,7 @@
 #' \insertRef{corrected_MI_Newman2020}{clustAnalytics}
 #'
 #' @export
-reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
+reduced_mutual_information <- function(c1, c2, base=2, normalized=FALSE,
                                        method="approximation2", warning=TRUE){
 
     n <- length(c1)
@@ -36,8 +36,6 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
         return()
     }
 
-    #a <- as.vector(table(c1))
-    #b <- as.vector(table(c2))
     a <- count_labels(c1)
     b <- count_labels(c2)
     R <- length(a)
@@ -100,6 +98,7 @@ reduced_mutual_information <- function(c1, c2, base=exp(1), normalized=FALSE,
 #' This approximation is only good for dense tables.
 #' @param c1,c2 membership vectors
 #' @param base base of the logarithm (e by default)
+#' @keywords internal
 log_omega_estimation <- function(c1, c2, base=exp(1)){
     n <- length(c1)
     if (length(c2) != n){
@@ -144,6 +143,7 @@ log_omega_estimation <- function(c1, c2, base=exp(1)){
 #' @param n_rows number of rows
 #' @param error for the convergence of the method
 #' @return vector with all the |H_i|/|H_(i+1)| fractions
+#' @keywords internal
 H_fractions_rows <- function(M, n_rows, error=0.01){
     estimate_H_fractions(M, n_rows, error)
 }
