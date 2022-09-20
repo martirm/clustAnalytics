@@ -15,3 +15,4 @@ log_omega_estimation(c1, c2, base = exp(1))
 Where omega(a,b) is the number of contingency tables with a, b as row and column sums.
 This approximation is only good for dense tables.
 }
+\keyword{internal}

@@ -20,3 +20,4 @@ NumericVector containing all the ratios
 The product of all these ratios is is the total number of contingency tables (of the same margins as M) divided 
 by the number that match M until the r-th row (included, 0-indexed).
 }
+\keyword{internal}

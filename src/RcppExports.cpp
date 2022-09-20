@@ -56,20 +56,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// estimate_H_fraction
-double estimate_H_fraction(const Rcpp::IntegerMatrix& M, int k, int l, double error);
-RcppExport SEXP _clustAnalytics_estimate_H_fraction(SEXP MSEXP, SEXP kSEXP, SEXP lSEXP, SEXP errorSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::IntegerMatrix& >::type M(MSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    Rcpp::traits::input_parameter< int >::type l(lSEXP);
-    Rcpp::traits::input_parameter< double >::type error(errorSEXP);
-    rcpp_result_gen = Rcpp::wrap(estimate_H_fraction(M, k, l, error));
-    return rcpp_result_gen;
-END_RCPP
-}
 // estimate_H_fraction_r_rows
 double estimate_H_fraction_r_rows(const Rcpp::IntegerMatrix& M, int r, double error);
 RcppExport SEXP _clustAnalytics_estimate_H_fraction_r_rows(SEXP MSEXP, SEXP rSEXP, SEXP errorSEXP) {
@@ -263,7 +249,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_clustAnalytics_triangle_participation_ratio_Rcpp", (DL_FUNC) &_clustAnalytics_triangle_participation_ratio_Rcpp, 1},
     {"_clustAnalytics_print_Rcpp", (DL_FUNC) &_clustAnalytics_print_Rcpp, 1},
     {"_clustAnalytics_walk_step", (DL_FUNC) &_clustAnalytics_walk_step, 3},
-    {"_clustAnalytics_estimate_H_fraction", (DL_FUNC) &_clustAnalytics_estimate_H_fraction, 4},
     {"_clustAnalytics_estimate_H_fraction_r_rows", (DL_FUNC) &_clustAnalytics_estimate_H_fraction_r_rows, 3},
     {"_clustAnalytics_estimate_H_fractions", (DL_FUNC) &_clustAnalytics_estimate_H_fractions, 3},
     {"_clustAnalytics_c_rs_table", (DL_FUNC) &_clustAnalytics_c_rs_table, 2},

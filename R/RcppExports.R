@@ -13,6 +13,15 @@ print_Rcpp <- function(M) {
     invisible(.Call('_clustAnalytics_print_Rcpp', PACKAGE = 'clustAnalytics', M))
 }
 
+#' Estimates |H_i|/|H_{i+1}|
+#' 
+#' Estimates the fraction of elements of H_i that are also in H_{i+1} (where i=(k,l))
+#' @param M matrix
+#' @param k,l Coordinates of the first element that is not invariant 
+#' @param error error for the convergence of the method
+#' @return value of H_i/H_{i+1}
+NULL
+
 #' Performs a step of the Markov Chain Monte Carlo method
 #' 
 #' Modifies the matrix while keeping the column and row sums constant, as well as
@@ -21,19 +30,9 @@ print_Rcpp <- function(M) {
 #' @param M matrix
 #' @param k,l Coordinates of the first element that is not invariant 
 #' @return boolean indicating whether the step left the matrix invariant
+#' @keywords internal
 walk_step <- function(M, k, l) {
     .Call('_clustAnalytics_walk_step', PACKAGE = 'clustAnalytics', M, k, l)
-}
-
-#' Estimates |H_i|/|H_{i+1}|
-#' 
-#' Estimates the fraction of elements of H_i that are also in H_{i+1} (where i=(k,l))
-#' @param M matrix
-#' @param k,l Coordinates of the first element that is not invariant 
-#' @param error error for the convergence of the method
-#' @return value of H_i/H_{i+1}
-estimate_H_fraction <- function(M, k, l, error = 0.1) {
-    .Call('_clustAnalytics_estimate_H_fraction', PACKAGE = 'clustAnalytics', M, k, l, error)
 }
 
 #' Estimates |H_0|/|H_r*|
@@ -56,6 +55,7 @@ estimate_H_fraction_r_rows <- function(M, r, error = 0.1) {
 #' @param r row index
 #' @param error error for the convergence of the method
 #' @return NumericVector containing all the ratios
+#' @keywords internal
 estimate_H_fractions <- function(M, r, error = 0.1) {
     .Call('_clustAnalytics_estimate_H_fractions', PACKAGE = 'clustAnalytics', M, r, error)
 }
@@ -67,6 +67,7 @@ estimate_H_fractions <- function(M, r, error = 0.1) {
 #' (some labels are unused) this implementation still works, but will be less
 #' efficient.
 #' @param c1,c2 membership vectors (integer values containing the index of each community)
+#' @keywords internal
 c_rs_table <- function(c1, c2) {
     .Call('_clustAnalytics_c_rs_table', PACKAGE = 'clustAnalytics', c1, c2)
 }

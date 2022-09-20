@@ -19,3 +19,4 @@ vector with all the |H_i|/|H_(i+1)| fractions
 \description{
 Estimates |H_i|/|H_(i+1)| for the first n_rows rows
 }
+\keyword{internal}

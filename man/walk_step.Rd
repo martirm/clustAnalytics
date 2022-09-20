@@ -18,3 +18,4 @@ boolean indicating whether the step left the matrix invariant
 Modifies the matrix while keeping the column and row sums constant, as well as
 leaving the positions strictly preceding (k,l) in lexicographical order invariant.
 }
+\keyword{internal}

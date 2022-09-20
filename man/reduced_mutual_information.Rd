@@ -7,7 +7,7 @@
 reduced_mutual_information(
   c1,
   c2,
-  base = exp(1),
+  base = 2,
   normalized = FALSE,
   method = "approximation2",
   warning = TRUE

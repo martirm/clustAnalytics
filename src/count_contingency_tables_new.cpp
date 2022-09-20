@@ -15,6 +15,7 @@
 //' @param M matrix
 //' @param k,l Coordinates of the first element that is not invariant 
 //' @return boolean indicating whether the step left the matrix invariant
+//' @keywords internal
 // [[Rcpp::export]]  
 bool walk_step(Rcpp::IntegerMatrix &M, int k, int l){
     //note that p1, p2, k, l are already 0-indexed
@@ -69,7 +70,6 @@ void walk_n_steps(Rcpp::IntegerMatrix& M, int k, int l, int n){
 //' @param k,l Coordinates of the first element that is not invariant 
 //' @param error error for the convergence of the method
 //' @return value of H_i/H_{i+1}
-// [[Rcpp::export]]  
 double estimate_H_fraction(const Rcpp::IntegerMatrix& M, int k, int l, double error=0.1){
     
     // boundary conditions (these fractions are 1 by definition of H)
@@ -138,6 +138,7 @@ double estimate_H_fraction_r_rows(const Rcpp::IntegerMatrix& M, int r, double er
 //' @param r row index
 //' @param error error for the convergence of the method
 //' @return NumericVector containing all the ratios
+//' @keywords internal
 // [[Rcpp::export]]  
 Rcpp::NumericVector estimate_H_fractions(const Rcpp::IntegerMatrix& M, int r, double error=0.1){
     if (r > M.nrow()){
@@ -162,6 +163,7 @@ Rcpp::NumericVector estimate_H_fractions(const Rcpp::IntegerMatrix& M, int r, do
 //' (some labels are unused) this implementation still works, but will be less
 //' efficient.
 //' @param c1,c2 membership vectors (integer values containing the index of each community)
+//' @keywords internal
 // [[Rcpp::export]]    
 Rcpp::IntegerMatrix c_rs_table(const Rcpp::NumericVector& c1, const Rcpp::NumericVector& c2){
     

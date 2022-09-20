@@ -15,3 +15,4 @@ we assume the labels are >=1 and numbered consecutively. If not consecutive
 (some labels are unused) this implementation still works, but will be less
 efficient.
 }
+\keyword{internal}
