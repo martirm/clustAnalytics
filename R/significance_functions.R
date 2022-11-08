@@ -7,12 +7,10 @@ do.call_tryCatch <- function(f, args){
         return (f(g))
     }, 
     error=function(c){
-        print("error")
         message(c)
         return(make_clusters(g, replicate(gorder(g), 1)))
     },
     warning=function(c){
-        print("warning")
         message(c)
         return(make_clusters(g, replicate(gorder(g), 1)))
     }
@@ -43,7 +41,7 @@ do.call_tryCatch <- function(f, args){
 evaluate_significance <- function(g, alg_list=list(Louvain=cluster_louvain, 
                                                    "label prop"= cluster_label_prop, 
                                                    walktrap=cluster_walktrap),
-                                  no_clustering_coef=TRUE, gt_clustering=NULL, 
+                                  no_clustering_coef=FALSE, gt_clustering=NULL, 
                                   w_max=NULL){
     #given an algorithm list and a graph
     c_list <- lapply(alg_list, do.call, list(g)) #clusters graph g by all algorithms in list

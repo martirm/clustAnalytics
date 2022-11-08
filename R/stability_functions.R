@@ -139,7 +139,7 @@ cluster_statistic <- function(data, sample, memb_original, clust_alg, g, type="g
     #c_resample <- clust_alg(g_resample)
     c_resample <- tryCatch({clust_alg(g_resample)},
                            error=function(e){
-                               print("clustering error (algorithm not converging?)")
+                               warning("clustering error (algorithm not converging?)")
                                return(NULL)
                            })
     if (is.null(c_resample)) return(c(NaN, NaN, NaN, NaN, NaN))

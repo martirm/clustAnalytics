@@ -69,17 +69,11 @@ reduced_mutual_information <- function(c1, c2, base=2, normalized=FALSE,
 
     
     if (is.na(MI) | !is.finite(MI)){
-        print(MI)
-        print("Error with MI")
-        print(c1)
-        print(c2)
+        warning ("Error with MI. Value: ", MI, call. = TRUE)
     }
     
     if (is.na(log_omega) | !is.finite(log_omega)){
-        print(log_omega)
-        print("Error with log_omega")
-        print(c1)
-        print(c2)
+        warning ("Error with log_omega. Value: ", log_omega, call. = TRUE)
     }
     
     if (!normalized){
@@ -129,10 +123,7 @@ log_omega_estimation <- function(c1, c2, base=exp(1)){
                 An improved implementation of the function will be provided in future versions of the package.")
     
     if (is.na(log_omega) | !is.finite(log_omega)){
-        print(log_omega)
-        print("Error with log_omega")
-        print(c1)
-        print(c2)
+        warning ("Error with log_omega. Value: ", log_omega, call. = TRUE)
     }
     return (log_omega)
 }
