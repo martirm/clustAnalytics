@@ -10,7 +10,7 @@
 igraph_to_edgelist <- function(g, sort=TRUE){
     el <- cbind(as_edgelist(g, names = FALSE), E(g)$weight)
     if (sort){
-        return(kdtools::lex_sort(el))
+        return(el[order(el[,1], el[,2]), ])
     }
     return(el)
 }
