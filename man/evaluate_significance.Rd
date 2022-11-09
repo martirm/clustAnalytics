@@ -8,7 +8,7 @@ evaluate_significance(
   g,
   alg_list = list(Louvain = cluster_louvain, `label prop` = cluster_label_prop,
     walktrap = cluster_walktrap),
-  no_clustering_coef = TRUE,
+  no_clustering_coef = FALSE,
   gt_clustering = NULL,
   w_max = NULL
 )
