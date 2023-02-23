@@ -136,7 +136,10 @@ clustering_coef_subgraph <- function(G, s, w_max=w_max){
 #' of the graph, and contains the index of the community it belongs to.
 #' @return A vector containing the triangle participation ratio of each community.
 triangle_participation_ratio_communities <- function(g, com){
-    TPR_coms_Rcpp(triangles(delete_vertex_attr(g, "name")), com)
+    if ("name" %in% vertex_attr_names(g)){
+        g <- delete_vertex_attr(g, "name")
+    }
+    TPR_coms_Rcpp(triangles(g), com)
 }
 
 triangle_participation_ratio <- function(G, s=NULL){
