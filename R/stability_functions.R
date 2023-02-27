@@ -142,8 +142,8 @@ cluster_statistic <- function(data, sample, memb_original, clust_alg, g, type="g
                                warning("clustering error (algorithm not converging?)")
                                return(NULL)
                            })
-    if (is.null(c_resample)) return(c(NaN, NaN, NaN, NaN, NaN))
-    memb_resample <- membership(c_resample)
+    if (is.null(c_resample)) return(c(NaN, NaN, NaN, NaN, NaN, NaN))
+    memb_resample <- as.vector(membership(c_resample))
     if (type=="cluster-wise"){
         clusters <- sort(unique(memb_original))
         #clusters <- c(1,2,3) DELETE
@@ -151,12 +151,13 @@ cluster_statistic <- function(data, sample, memb_original, clust_alg, g, type="g
     }
     else{
         statistics <- c(mcclust::vi.dist(memb_nd, memb_resample)/log(n), 
+                        aricode::AMI(memb_nd, memb_resample),
                         clustAnalytics::reduced_mutual_information(memb_nd, memb_resample, 
                                                                    normalized=TRUE, warning=FALSE), 
                         fossil::rand.index(memb_nd, memb_resample),
                         mclust::adjustedRandIndex(memb_nd, memb_resample),
                         length(unique(memb_resample)))
-        names(statistics) <- c("VI", "NRMI", "Rand", "AdRand", "n_clusters")
+        names(statistics) <- c("VI", "AMI","NRMI", "Rand", "AdRand", "n_clusters")
         return(statistics)
     }
 }
@@ -214,7 +215,7 @@ boot_alg_list <- function (alg_list = list(Louvain=cluster_louvain,
     b <- lapply(alg_list, evaluate_boot_g)
     if(return_data) return(b)
     statistics <- sapply(b,get_statistics)
-    rownames(statistics) <- c("VI", "NRMI", "Rand", "AdRand", "n_clusters")
+    rownames(statistics) <- c("VI", "AMI", "NRMI", "Rand", "AdRand", "n_clusters")
     warning("The RMI is currently computed with an analytical approximation that can give
             inaccurate results on some partitions containing many small clusters. 
             It will be corrected in future versions of the package.")
