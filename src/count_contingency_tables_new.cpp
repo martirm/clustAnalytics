@@ -63,13 +63,13 @@ void walk_n_steps(Rcpp::IntegerMatrix& M, int k, int l, int n){
     }
 }
 
-//' Estimates |H_i|/|H_{i+1}|
-//' 
-//' Estimates the fraction of elements of H_i that are also in H_{i+1} (where i=(k,l))
-//' @param M matrix
-//' @param k,l Coordinates of the first element that is not invariant 
-//' @param error error for the convergence of the method
-//' @return value of H_i/H_{i+1}
+// Estimates |H_i|/|H_{i+1}|
+// 
+// Estimates the fraction of elements of H_i that are also in H_{i+1} (where i=(k,l))
+// @param M matrix
+// @param k,l Coordinates of the first element that is not invariant 
+// @param error error for the convergence of the method
+// @return value of H_i/H_{i+1}
 double estimate_H_fraction(const Rcpp::IntegerMatrix& M, int k, int l, double error=0.1){
     
     // boundary conditions (these fractions are 1 by definition of H)

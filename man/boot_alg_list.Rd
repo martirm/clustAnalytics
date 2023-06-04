@@ -5,8 +5,8 @@
 \title{Performs nonparametric bootstrap to a graph and a list of clustering algorithms}
 \usage{
 boot_alg_list(
-  alg_list = list(Louvain = cluster_louvain, `label prop` = cluster_label_prop,
-    walktrap = cluster_walktrap),
+  alg_list = list(Louvain = cluster_louvain, `label prop` = cluster_label_prop, walktrap
+    = cluster_walktrap),
   g,
   R = 999,
   return_data = FALSE,

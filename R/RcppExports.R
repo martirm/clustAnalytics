@@ -13,15 +13,6 @@ print_Rcpp <- function(M) {
     invisible(.Call('_clustAnalytics_print_Rcpp', PACKAGE = 'clustAnalytics', M))
 }
 
-#' Estimates |H_i|/|H_{i+1}|
-#' 
-#' Estimates the fraction of elements of H_i that are also in H_{i+1} (where i=(k,l))
-#' @param M matrix
-#' @param k,l Coordinates of the first element that is not invariant 
-#' @param error error for the convergence of the method
-#' @return value of H_i/H_{i+1}
-NULL
-
 #' Performs a step of the Markov Chain Monte Carlo method
 #' 
 #' Modifies the matrix while keeping the column and row sums constant, as well as
