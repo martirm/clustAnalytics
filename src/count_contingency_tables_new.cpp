@@ -130,7 +130,7 @@ double estimate_H_fraction_r_rows(const Rcpp::IntegerMatrix& M, int r, double er
     return fraction;
 }
 
-//' Estimates |H_i|/|H_{i+1}| for the first r rows
+//' Estimates |H_i|/|H_\{i+1\}| for the first r rows
 //' 
 //' The product of all these ratios is is the total number of contingency tables (of the same margins as M) divided 
 //' by the number that match M until the r-th row (included, 0-indexed). 

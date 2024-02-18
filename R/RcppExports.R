@@ -38,7 +38,7 @@ estimate_H_fraction_r_rows <- function(M, r, error = 0.1) {
     .Call('_clustAnalytics_estimate_H_fraction_r_rows', PACKAGE = 'clustAnalytics', M, r, error)
 }
 
-#' Estimates |H_i|/|H_{i+1}| for the first r rows
+#' Estimates |H_i|/|H_\{i+1\}| for the first r rows
 #' 
 #' The product of all these ratios is is the total number of contingency tables (of the same margins as M) divided 
 #' by the number that match M until the r-th row (included, 0-indexed). 

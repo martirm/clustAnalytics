@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{estimate_H_fractions}
 \alias{estimate_H_fractions}
-\title{Estimates |H_i|/|H_{i+1}| for the first r rows}
+\title{Estimates |H_i|/|H_\{i+1\}| for the first r rows}
 \usage{
 estimate_H_fractions(M, r, error = 0.1)
 }

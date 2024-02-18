@@ -12,7 +12,7 @@ auxiliary_functions(g, com, edgelist)
 \item{com}{Community membership vector. Each element corresponds to a vertex
 of the graph, and contains the index of the community it belongs to.}
 
-\item{edelist}{alternatively, the edgelist of the graph}
+\item{edgelist}{alternatively, the edgelist of the graph}
 }
 \description{
 Given a weighted graph and a partition into communities, returns the
