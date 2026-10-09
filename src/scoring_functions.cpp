@@ -133,7 +133,7 @@ NumericVector FOMD_Rcpp(const NumericMatrix& EdgeList, const IntegerVector& memb
         median = (median + degree[n/2 - 1]) / 2.0;
     }
 
-    NumericVector FOMD(n_com, 0.0), com_size(n, 0.0);
+    NumericVector FOMD(n_com, 0.0), com_size(n_com, 0.0);
     for (int i=0; i<n; ++i){
         int com = memb[i] - 1; // 0-based index
         ++com_size[com];
